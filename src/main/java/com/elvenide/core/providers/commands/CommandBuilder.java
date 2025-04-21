@@ -232,6 +232,8 @@ public class CommandBuilder {
             String closeBracket = subArg.required ? ">" : "]";
             argUsages.append(openBracket)
                     .append(subArg.label)
+                    .append(": ")
+                    .append(subArg.getTypeName())
                     .append(closeBracket)
                     .append(" ");
         }

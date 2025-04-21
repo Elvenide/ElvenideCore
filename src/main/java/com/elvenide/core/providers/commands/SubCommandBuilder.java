@@ -216,7 +216,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addPlayer(String label, Consumer<SubArgumentBuilder> consumer) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
         consumer.accept(builder);
         return add(builder);
     }
@@ -228,7 +228,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addPlayers(String label, Consumer<SubArgumentBuilder> consumer) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
         consumer.accept(builder);
         return add(builder);
     }
@@ -240,7 +240,9 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addMaterial(String label, Consumer<SubArgumentBuilder> consumer) {
-        return addItem(label, consumer);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
+        consumer.accept(builder);
+        return add(builder);
     }
 
     /**
@@ -250,7 +252,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addItem(String label, Consumer<SubArgumentBuilder> consumer) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);
         consumer.accept(builder);
         return add(builder);
     }
@@ -393,7 +395,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addPlayer(String label) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
         return add(builder);
     }
 
@@ -403,7 +405,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addPlayers(String label) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
         return add(builder);
     }
 
@@ -413,7 +415,8 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addMaterial(String label) {
-        return addItem(label);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
+        return add(builder);
     }
 
     /**
@@ -422,7 +425,7 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addItem(String label) {
-        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack());
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);
         return add(builder);
     }
 
