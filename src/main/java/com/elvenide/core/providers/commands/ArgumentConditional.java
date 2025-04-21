@@ -95,7 +95,7 @@ public class ArgumentConditional {
          * @param shouldDisplayUsage Whether to send command usage info to the sender
          * @return This
          * @since 0.0.7
-         * @deprecated Use {@link #orEnd(String)} instead. The <code>shouldDisplayUsage</code>
+         * @deprecated Use {@link #orEnd(String, Object...)} instead. The <code>shouldDisplayUsage</code>
          * parameter is internally always handled as <code>true</code>.
          */
         @Deprecated(forRemoval = true, since = "0.0.14")
@@ -109,12 +109,13 @@ public class ArgumentConditional {
         /**
          * If the condition is false, throws an error and sends the error message to the sender.
          * @param errorMessage Error message
+         * @param placeholders Optional placeholders for error message
          * @return This
          * @since 0.0.14
          */
-        public ArgumentThen orEnd(String errorMessage) throws InvalidArgumentException {
+        public ArgumentThen orEnd(String errorMessage, Object... placeholders) throws InvalidArgumentException {
             if (conditional.operational && !conditional.isTrue)
-                throw new InvalidArgumentException("%s", errorMessage);
+                throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
 
             return this;
         }
