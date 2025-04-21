@@ -84,7 +84,7 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.6
      */
-    public ArgumentConditional ifEqual(@NotNull String name, @NotNull String value) {
+    public <T> ArgumentConditional ifEqual(@NotNull String name, @NotNull T value) {
         return new ArgumentConditional(this, isEqual(name, value), true);
     }
 
