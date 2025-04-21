@@ -74,7 +74,7 @@ public class SubArgumentContext {
      * @since 0.0.6
      */
     public ArgumentConditional ifProvided(@NotNull String name) {
-        return new ArgumentConditional(this, isProvided(name), true);
+        return ifTrue(isProvided(name));
     }
 
     /**
@@ -85,7 +85,17 @@ public class SubArgumentContext {
      * @since 0.0.6
      */
     public <T> ArgumentConditional ifEqual(@NotNull String name, @NotNull T value) {
-        return new ArgumentConditional(this, isEqual(name, value), true);
+        return ifTrue(isEqual(name, value));
+    }
+
+    /**
+     * Creates a chainable conditional that can execute code if a condition is true.
+     * @param condition Condition
+     * @return ArgumentConditional
+     * @since 0.0.14
+     */
+    public ArgumentConditional ifTrue(boolean condition) {
+        return new ArgumentConditional(this, condition, true);
     }
 
     public boolean getBool(@NotNull String name, boolean def) {
