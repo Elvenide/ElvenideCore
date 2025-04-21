@@ -128,7 +128,9 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addFloat(String label, Consumer<SubArgumentBuilder> consumer) {
-        return addDouble(label, consumer);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg());
+        consumer.accept(builder);
+        return add(builder);
     }
 
     /**
@@ -140,7 +142,9 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addFloat(String label, float min, float max, Consumer<SubArgumentBuilder> consumer) {
-        return addDouble(label, min, max, consumer);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg(min, max));
+        consumer.accept(builder);
+        return add(builder);
     }
 
     /**
@@ -315,7 +319,8 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addFloat(String label) {
-        return addDouble(label);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg());
+        return add(builder);
     }
 
     /**
@@ -326,7 +331,8 @@ public class SubCommandBuilder {
      * @return This
      */
     public SubCommandBuilder addFloat(String label, float min, float max) {
-        return addDouble(label, min, max);
+        SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg(min, max));
+        return add(builder);
     }
 
     /**
