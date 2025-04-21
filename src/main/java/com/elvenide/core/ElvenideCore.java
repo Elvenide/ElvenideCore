@@ -1,6 +1,7 @@
 package com.elvenide.core;
 
 import com.elvenide.core.providers.*;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -50,4 +51,11 @@ public final class ElvenideCore {
      * @since 0.0.8
      */
     public static final CommandProvider commands = new CommandProvider(INSTANCE);
+
+    /**
+     * Easily manage your plugin's NamespacedKeys.
+     * {@link KeyProvider#init(JavaPlugin) Requires initialization.}
+     * @since 0.0.14
+     */
+    public static final KeyProvider keys = new KeyProvider(INSTANCE);
 }
