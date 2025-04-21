@@ -3,7 +3,8 @@ ElvenideCore is a powerful library for PaperMC plugins, primarily used in many o
 It is not a standalone plugin, and must be shaded into your own plugin.
 
 ## Versions
-- [`0.0.13`](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.13) for Paper 1.21.4 (latest)
+- [`0.0.14`](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.14) for Paper 1.21.4 (latest)
+- [`0.0.13`](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.13) for Paper 1.21.4
 
 ## Get Started
 
@@ -20,7 +21,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.github.Elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.13</version>
+    <version>0.0.14</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -73,5 +74,6 @@ The following features are available for you to mess around with:
 - `ElvenideCore.lang` - Define your plugin's messaging in a central location (e.g. through a `lang.yml`), then use those messages in any MiniMessage text using `<elang>`.
 - `ElvenideCore.perms` - Some useful utilities for permission checking.
 - `ElvenideCore.commands` - Easily create powerful commands that take advantage of Minecraft's brigadier command API, while avoiding the redundancy and non-object-oriented approach of the brigadier API.
+- `ElvenideCore.keys` - Easily manage your plugin's NamespacedKeys.
 
 More in-depth documentation will be provided in the future. Most features are documented via JavaDoc in the code (obtainable in IntelliJ IDEA via `Maven > Download Sources and/or Documentation`).
