@@ -53,6 +53,15 @@ public class SubArgumentBuilder {
         this.suggester = context -> staticList;
     }
 
+    /**
+     * Allows you to build a static tab-completion list for this argument.
+     * @param staticArray String suggestions
+     * @since 0.0.14
+     */
+    public void suggests(String... staticArray) {
+        this.suggester = context -> List.of(staticArray);
+    }
+
     String getTypeName() {
         if (type instanceof BoolArgumentType) return "true/false";
         if (type instanceof IntegerArgumentType) return "integer";
