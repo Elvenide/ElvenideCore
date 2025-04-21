@@ -7,12 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-
 public class KeyProvider extends Provider {
 
     private JavaPlugin plugin = null;
-    private final HashMap<String, NamespacedKey> keys = new HashMap<>();
 
     public KeyProvider(@Nullable ElvenideCore core) {
         super(core);
@@ -37,42 +34,20 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * Adds a NamespacedKey with the given key string.
-     * @param key The key
-     * @since 0.0.14
-     */
-    public void add(@NotNull String key) {
-        ensureInitialized();
-        keys.put(key, new NamespacedKey(plugin, key));
-    }
-
-    /**
-     * Adds a NamespacedKey with a key string generated from the given enum.
-     * <p>
-     * Note: the generated key string is dependent on the name of the enum and its declaring class.
-     * Changing the name of an enum or declaring class will produce a different key.
-     * @param key The enum
-     * @since 0.0.14
-     */
-    public void add(@NotNull Enum<?> key) {
-        add(generateKeyStringFromEnum(key));
-    }
-
-    /**
      * Gets the NamespacedKey with the given key string.
      * @param key The key string
      * @return The NamespacedKey
      */
     public @NotNull NamespacedKey get(@NotNull String key) {
         ensureInitialized();
-        if (!keys.containsKey(key))
-            throw new IllegalArgumentException("Unknown key: " + key);
-
-        return keys.get(key);
+        return new NamespacedKey(plugin, key);
     }
 
     /**
      * Gets the NamespacedKey with a key string generated from the given enum.
+     * <p>
+     * Note: The generated key string is dependent on the name of the enum and its declaring class.
+     * Changing the name of an enum or declaring class will produce a different key.
      * @param key The enum
      * @return The NamespacedKey
      */
