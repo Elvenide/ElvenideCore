@@ -95,6 +95,15 @@ public class SubCommandContext {
     }
 
     /**
+     * Performs a command as console.
+     * @param command Command (no leading slash)
+     * @since 0.0.14
+     */
+    public void performConsoleCommand(String command) {
+        executor().getServer().dispatchCommand(executor().getServer().getConsoleSender(), command);
+    }
+
+    /**
      * Sends command help information to the sender (and not the executor).
      */
     public void sendCommandUsage() {
