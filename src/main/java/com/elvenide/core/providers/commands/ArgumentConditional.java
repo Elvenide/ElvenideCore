@@ -31,7 +31,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
-    public ArgumentConditional andIfEqual(@NotNull String argName, @NotNull String value) {
+    public <T> ArgumentConditional andIfEqual(@NotNull String argName, @NotNull T value) {
         return andIfTrue(args.isEqual(argName, value));
     }
 
@@ -95,10 +95,27 @@ public class ArgumentConditional {
          * @param shouldDisplayUsage Whether to send command usage info to the sender
          * @return This
          * @since 0.0.7
+         * @deprecated Use {@link #orEnd(String, Object...)} instead. The <code>shouldDisplayUsage</code>
+         * parameter is internally always handled as <code>true</code>.
          */
-        public ArgumentThen orEnd(String errorMessage, boolean shouldDisplayUsage) throws InvalidArgumentException {
+        @Deprecated(forRemoval = true, since = "0.0.14")
+        public ArgumentThen orEnd(@NotNull String errorMessage, boolean shouldDisplayUsage) throws InvalidArgumentException {
             if (conditional.operational && !conditional.isTrue)
                 throw new InvalidArgumentException("%s", errorMessage);
+
+            return this;
+        }
+
+        /**
+         * If the condition is false, throws an error and sends the error message to the sender.
+         * @param errorMessage Error message
+         * @param placeholders Optional placeholders for error message
+         * @return This
+         * @since 0.0.14
+         */
+        public ArgumentThen orEnd(@NotNull String errorMessage, Object... placeholders) throws InvalidArgumentException {
+            if (conditional.operational && !conditional.isTrue)
+                throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
 
             return this;
         }
@@ -110,7 +127,7 @@ public class ArgumentConditional {
          * @return This
          * @since 0.0.8
          */
-        public ArgumentConditional orIfProvided(String argName) {
+        public ArgumentConditional orIfProvided(@NotNull String argName) {
             return orIfTrue(conditional.args.isProvided(argName));
         }
 
@@ -122,7 +139,7 @@ public class ArgumentConditional {
          * @return This
          * @since 0.0.8
          */
-        public ArgumentConditional orIfEqual(String argName, String value) {
+        public <T> ArgumentConditional orIfEqual(@NotNull String argName, @NotNull T value) {
             return orIfTrue(conditional.args.isEqual(argName, value));
         }
 

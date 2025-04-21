@@ -126,21 +126,21 @@ public class LangProvider extends Provider {
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String MISSING_ARGUMENT = setMissingArgument("Missing argument: '%s'");
+        public final String MISSING_ARGUMENT = setMissingArgument("Missing argument: '%s'. Hover to see command syntax.");
 
         /**
          * Error message shown when an argument has an invalid datatype.
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String INVALID_TYPE = setInvalidType("Invalid value provided for argument: '%s'");
+        public final String INVALID_TYPE = setInvalidType("Invalid value provided for argument: '%s'. Hover to see command syntax.");
 
         /**
          * Error message shown when an argument specifies an invalid player.
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'");
+        public final String INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax.");
     }
 
     static Tag createElangTag(final ArgumentQueue args, final Context ignored) {
