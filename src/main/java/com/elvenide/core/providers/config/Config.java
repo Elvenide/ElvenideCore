@@ -43,8 +43,12 @@ public class Config extends YamlConfiguration {
 
         try {
             load(file);
-        } catch (IOException | InvalidConfigurationException ignored) {
+        }
+        catch (IOException ignored) {
             throw new RuntimeException("Failed to load config file: " + file.getAbsolutePath());
+        }
+        catch (InvalidConfigurationException e) {
+            throw new RuntimeException(e);
         }
     }
 
