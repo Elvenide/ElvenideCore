@@ -132,23 +132,6 @@ public class ArgumentConditional {
     /**
      * If the condition is false, throws an error and sends the error message to the sender.
      * @param errorMessage Error message
-     * @param shouldDisplayUsage Whether to send command usage info to the sender
-     * @return This
-     * @since 0.0.7
-     * @deprecated Use {@link #orEnd(String, Object...)} instead. The <code>shouldDisplayUsage</code>
-     * parameter is internally always handled as <code>true</code>.
-     */
-    @Deprecated(forRemoval = true, since = "0.0.14")
-    public ArgumentConditional orEnd(@NotNull String errorMessage, boolean shouldDisplayUsage) throws InvalidArgumentException {
-        if (operational && !isTrue)
-            throw new InvalidArgumentException("%s", errorMessage);
-
-        return this;
-    }
-
-    /**
-     * If the condition is false, throws an error and sends the error message to the sender.
-     * @param errorMessage Error message
      * @param placeholders Optional placeholders for error message
      * @return This
      * @throws InvalidArgumentException If the condition is false
