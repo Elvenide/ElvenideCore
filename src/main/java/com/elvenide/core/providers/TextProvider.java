@@ -6,6 +6,7 @@ import com.elvenide.core.providers.text.BrightColorsPackage;
 import com.elvenide.core.providers.text.ColorAliasesPackage;
 import com.elvenide.core.providers.text.MoreColorsPackage;
 import com.elvenide.core.providers.text.TextPackageSupplier;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.Context;
@@ -175,6 +176,17 @@ public class TextProvider extends Provider {
                 preParsing(text, optionalPlaceholders),
                 customColorResolver.build()
         );
+    }
+
+    /**
+     * Convenience method to send a message using {@link #deserialize(String, Object...)} to a player, group,
+     * console, or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param text String text
+     * @param optionalPlaceholders Optional placeholders
+     */
+    public final void send(Audience audience, String text, Object... optionalPlaceholders) {
+        audience.sendMessage(ElvenideCore.text.deserialize(text, optionalPlaceholders));
     }
 
     /**
