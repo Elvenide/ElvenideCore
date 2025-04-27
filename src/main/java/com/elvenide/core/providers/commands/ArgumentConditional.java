@@ -1,5 +1,7 @@
 package com.elvenide.core.providers.commands;
 
+import com.elvenide.core.ElvenideCore;
+import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
 public class ArgumentConditional {
@@ -53,110 +55,187 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.6
      */
-    public ArgumentThen then(Runnable runnable) {
-        return new ArgumentThen(this).then(runnable);
+    public ArgumentConditional then(Runnable runnable) {
+        if (operational && isTrue)
+            runnable.run();
+        return this;
     }
 
-    public static class ArgumentThen {
+    /**
+     * If the condition is true, throws an error and sends the error message to the sender.
+     * @param errorMessage Error message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @throws InvalidArgumentException If the condition is true
+     * @since 0.0.15
+     */
+    public ArgumentConditional thenEnd(String errorMessage, Object... placeholders) throws InvalidArgumentException {
+        if (operational && isTrue)
+            throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
 
-        private final ArgumentConditional conditional;
-        private ArgumentThen(ArgumentConditional conditional) {
-            this.conditional = conditional;
-        }
+        return this;
+    }
 
-        /**
-         * Code that will only execute if the condition is true.
-         * @param runnable Runnable
-         * @return This
-         * @since 0.0.6
-         */
-        public ArgumentThen then(Runnable runnable) {
-            if (conditional.operational && conditional.isTrue)
-                runnable.run();
-            return this;
-        }
+    /**
+     * If the condition is true, sends the message to the command executor or sender.
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional thenReply(String message, Object... placeholders) {
+        if (operational && isTrue)
+            args.sub.reply(message, placeholders);
+        return this;
+    }
 
-        /**
-         * Code that will only execute if the condition is false.
-         * @param runnable Runnable
-         * @return This
-         * @since 0.0.7
-         */
-        public ArgumentThen orElse(Runnable runnable) {
-            if (conditional.operational && !conditional.isTrue)
-                runnable.run();
+    /**
+     * If the condition is true, sends the message to the command sender.
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional thenReplyToSender(String message, Object... placeholders) {
+        if (operational && isTrue)
+            args.sub.replyToSender(message, placeholders);
+        return this;
+    }
 
-            return this;
-        }
+    /**
+     * If the condition is true, sends the message to the target audience.
+     * @param target The audience
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional thenSend(Audience target, String message, Object... placeholders) {
+        if (operational && isTrue)
+            ElvenideCore.text.send(target, message, placeholders);
+        return this;
+    }
 
-        /**
-         * If the condition is false, throws an error and sends the error message to the sender.
-         * @param errorMessage Error message
-         * @param shouldDisplayUsage Whether to send command usage info to the sender
-         * @return This
-         * @since 0.0.7
-         * @deprecated Use {@link #orEnd(String, Object...)} instead. The <code>shouldDisplayUsage</code>
-         * parameter is internally always handled as <code>true</code>.
-         */
-        @Deprecated(forRemoval = true, since = "0.0.14")
-        public ArgumentThen orEnd(@NotNull String errorMessage, boolean shouldDisplayUsage) throws InvalidArgumentException {
-            if (conditional.operational && !conditional.isTrue)
-                throw new InvalidArgumentException("%s", errorMessage);
+    /**
+     * Code that will only execute if the condition is false.
+     * @param runnable Runnable
+     * @return This
+     * @since 0.0.7
+     */
+    public ArgumentConditional orElse(Runnable runnable) {
+        if (operational && !isTrue)
+            runnable.run();
 
-            return this;
-        }
+        return this;
+    }
 
-        /**
-         * If the condition is false, throws an error and sends the error message to the sender.
-         * @param errorMessage Error message
-         * @param placeholders Optional placeholders for error message
-         * @return This
-         * @since 0.0.14
-         */
-        public ArgumentThen orEnd(@NotNull String errorMessage, Object... placeholders) throws InvalidArgumentException {
-            if (conditional.operational && !conditional.isTrue)
-                throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
+    /**
+     * If the condition is false, throws an error and sends the error message to the sender.
+     * @param errorMessage Error message
+     * @param shouldDisplayUsage Whether to send command usage info to the sender
+     * @return This
+     * @since 0.0.7
+     * @deprecated Use {@link #orEnd(String, Object...)} instead. The <code>shouldDisplayUsage</code>
+     * parameter is internally always handled as <code>true</code>.
+     */
+    @Deprecated(forRemoval = true, since = "0.0.14")
+    public ArgumentConditional orEnd(@NotNull String errorMessage, boolean shouldDisplayUsage) throws InvalidArgumentException {
+        if (operational && !isTrue)
+            throw new InvalidArgumentException("%s", errorMessage);
 
-            return this;
-        }
+        return this;
+    }
 
-        /**
-         * Creates a new conditional that will only execute if the previous condition was false
-         * and the new argument was provided.
-         * @param argName Name of the new argument
-         * @return This
-         * @since 0.0.8
-         */
-        public ArgumentConditional orIfProvided(@NotNull String argName) {
-            return orIfTrue(conditional.args.isProvided(argName));
-        }
+    /**
+     * If the condition is false, throws an error and sends the error message to the sender.
+     * @param errorMessage Error message
+     * @param placeholders Optional placeholders for error message
+     * @return This
+     * @throws InvalidArgumentException If the condition is false
+     * @since 0.0.14
+     */
+    public ArgumentConditional orEnd(@NotNull String errorMessage, Object... placeholders) throws InvalidArgumentException {
+        if (operational && !isTrue)
+            throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
 
-        /**
-         * Creates a new conditional that will only execute if the previous condition was false
-         * and the new argument has a specific value.
-         * @param argName Name of the new argument
-         * @param value Expected value
-         * @return This
-         * @since 0.0.8
-         */
-        public <T> ArgumentConditional orIfEqual(@NotNull String argName, @NotNull T value) {
-            return orIfTrue(conditional.args.isEqual(argName, value));
-        }
+        return this;
+    }
 
-        /**
-         * Creates a new conditional that will only execute if the previous condition was false
-         * and the new condition is true.
-         * @param condition New condition
-         * @return This
-         * @since 0.0.9
-         */
-        public ArgumentConditional orIfTrue(boolean condition) {
-            if (conditional.operational && !conditional.isTrue)
-                return new ArgumentConditional(conditional.args, condition, true);
+    /**
+     * If the condition is false, sends the message to the command executor or sender.
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional orReply(String message, Object... placeholders) {
+        if (operational && !isTrue)
+            args.sub.reply(message, placeholders);
+        return this;
+    }
 
-            return new ArgumentConditional(conditional.args, false, false);
-        }
+    /**
+     * If the condition is false, sends the message to the command sender.
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional orReplyToSender(String message, Object... placeholders) {
+        if (operational && !isTrue)
+            args.sub.replyToSender(message, placeholders);
+        return this;
+    }
 
+    /**
+     * If the condition is false, sends the message to the target audience.
+     * @param target The audience
+     * @param message String message
+     * @param placeholders Optional placeholders
+     * @return This
+     * @since 0.0.15
+     */
+    public ArgumentConditional orSend(Audience target, String message, Object... placeholders) {
+        if (operational && !isTrue)
+            ElvenideCore.text.send(target, message, placeholders);
+        return this;
+    }
+
+    /**
+     * Creates a new conditional that will only execute if the previous condition was false
+     * and the new argument was provided.
+     * @param argName Name of the new argument
+     * @return This
+     * @since 0.0.8
+     */
+    public ArgumentConditional orIfProvided(@NotNull String argName) {
+        return orIfTrue(args.isProvided(argName));
+    }
+
+    /**
+     * Creates a new conditional that will only execute if the previous condition was false
+     * and the new argument has a specific value.
+     * @param argName Name of the new argument
+     * @param value Expected value
+     * @return This
+     * @since 0.0.8
+     */
+    public <T> ArgumentConditional orIfEqual(@NotNull String argName, @NotNull T value) {
+        return orIfTrue(args.isEqual(argName, value));
+    }
+
+    /**
+     * Creates a new conditional that will only execute if the previous condition was false
+     * and the new condition is true.
+     * @param condition New condition
+     * @return This
+     * @since 0.0.9
+     */
+    public ArgumentConditional orIfTrue(boolean condition) {
+        if (operational && !isTrue)
+            return new ArgumentConditional(args, condition, true);
+
+        return new ArgumentConditional(args, false, false);
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SubArgumentContext {
 
-    private final SubCommandContext sub;
+    final SubCommandContext sub;
 
     SubArgumentContext(SubCommandContext sub) {
         this.sub = sub;
