@@ -17,12 +17,15 @@ import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 public class TextProvider extends Provider {
     private static MiniMessage miniMessage;
@@ -142,6 +145,7 @@ public class TextProvider extends Provider {
 
     /**
      * Serializes a MiniMessage Component to a String in MiniMessage format.
+     * Automatically escapes any tags present within the component.
      * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
@@ -155,6 +159,17 @@ public class TextProvider extends Provider {
      */
     public final @NotNull String serialize(Component component) {
         return mm().serialize(component);
+    }
+
+    /**
+     * Serializes a MiniMessage Component to a String in MiniMessage format.
+     * Does not escape any tags present within the component.
+     * @param component The component
+     * @return Serialized text
+     * @since 0.0.15
+     */
+    public final @NotNull String serializeWithoutEscaping(Component component) {
+        return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
     /**
@@ -179,14 +194,46 @@ public class TextProvider extends Provider {
     }
 
     /**
+     * Deserializes a String with support for placeholders provided by a third-party plugin.
+     * <p>
+     * Example:
+     * <code>
+     *     deserialize("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
+     * </code>
+     * @param text The String text
+     * @param player The optional player
+     * @param placeholderResolver The placeholder resolver
+     * @return Deserialized MiniMessage component
+     * @see #deserialize(String, Object...)
+     * @since 0.0.15
+     */
+    public final @NotNull Component deserialize(String text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        text = placeholderResolver.apply(player, text);
+        return deserialize(text);
+    }
+
+    /**
      * Convenience method to send a message using {@link #deserialize(String, Object...)} to a player, group,
      * console, or the entire server.
      * @param audience The audience (e.g. player)
      * @param text String text
      * @param optionalPlaceholders Optional placeholders
+     * @since 0.0.15
      */
     public final void send(Audience audience, String text, Object... optionalPlaceholders) {
-        audience.sendMessage(ElvenideCore.text.deserialize(text, optionalPlaceholders));
+        audience.sendMessage(deserialize(text, optionalPlaceholders));
+    }
+
+    /**
+     * Convenience method to send a message using {@link #deserialize(String, Object...)} to a player
+     * with support for a third-party placeholder plugin.
+     * @param player The player
+     * @param text String text
+     * @param placeholderResolver The placeholder resolver
+     * @since 0.0.15
+     */
+    public final void send(Player player, String text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        player.sendMessage(deserialize(text, player, placeholderResolver));
     }
 
     /**
