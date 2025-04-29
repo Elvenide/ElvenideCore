@@ -9,12 +9,10 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class CommandProvider extends Provider {
-    private final ElvenideCore core;
 
     @ApiStatus.Internal
     public CommandProvider(@Nullable ElvenideCore core) {
         super(core);
-        this.core = core;
     }
 
     /**

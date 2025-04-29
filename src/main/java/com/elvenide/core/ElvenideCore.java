@@ -1,5 +1,6 @@
 package com.elvenide.core;
 
+import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -12,12 +13,26 @@ public final class ElvenideCore {
     private static int counter = 0;
 
     @ApiStatus.Internal
+    public JavaPlugin plugin;
+
+    @ApiStatus.Internal
     private ElvenideCore() { increment(); }
     private static final ElvenideCore INSTANCE = new ElvenideCore();
     private void increment() {
         if (counter > 0)
             throw new IllegalStateException("ElvenideCore is already initialized");
         counter++;
+    }
+
+    /**
+     * Sets the plugin that is using ElvenideCore.
+     * <p>
+     * Required for some features, unless your plugin extends the {@link CorePlugin} class
+     * (which automatically calls this method).
+     * @param plugin Plugin
+     */
+    public static void setPlugin(JavaPlugin plugin) {
+        INSTANCE.plugin = plugin;
     }
 
     /**
@@ -54,7 +69,11 @@ public final class ElvenideCore {
 
     /**
      * Easily manage your plugin's NamespacedKeys.
-     * {@link KeyProvider#init(JavaPlugin) Requires initialization.}
+     * To function, this feature requires ONE of the following:
+     * <ul>
+     *     <li>Use of plugin extending {@link CorePlugin} (automatic initialization)</li>
+     *     <li>{@link #setPlugin(JavaPlugin) Manual initialization}</li>
+     * </ul>
      * @since 0.0.14
      */
     public static final KeyProvider keys = new KeyProvider(INSTANCE);
