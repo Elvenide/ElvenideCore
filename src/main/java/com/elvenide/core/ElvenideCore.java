@@ -58,4 +58,10 @@ public final class ElvenideCore {
      * @since 0.0.14
      */
     public static final KeyProvider keys = new KeyProvider(INSTANCE);
+
+    /**
+     * Easily create and manipulate items.
+     * @since 0.0.15
+     */
+    public static final ItemProvider items = new ItemProvider(INSTANCE);
 }

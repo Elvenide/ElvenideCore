@@ -4,6 +4,7 @@ import com.elvenide.core.ElvenideCore;
 import com.elvenide.core.Provider;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,7 @@ public class KeyProvider extends Provider {
 
     private JavaPlugin plugin = null;
 
+    @ApiStatus.Internal
     public KeyProvider(@Nullable ElvenideCore core) {
         super(core);
     }
