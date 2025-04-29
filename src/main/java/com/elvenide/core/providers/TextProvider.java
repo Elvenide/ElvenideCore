@@ -17,7 +17,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +42,14 @@ public class TextProvider extends Provider {
         super(core);
     }
 
-    private static MiniMessage mm() {
+    /**
+     * ElvenideCore's custom MiniMessage instance, with support for custom tags/colors.
+     * <p>
+     * Note: Intended for internal use, and as such is not stable API and should not be used unless absolutely necessary.
+     * @return MiniMessage
+     */
+    @ApiStatus.Experimental
+    public static MiniMessage resolver() {
         if (miniMessage != null)
             return miniMessage;
 
@@ -158,7 +164,7 @@ public class TextProvider extends Provider {
      * @return Serialized text
      */
     public final @NotNull String serialize(Component component) {
-        return mm().serialize(component);
+        return resolver().serialize(component);
     }
 
     /**
@@ -187,7 +193,7 @@ public class TextProvider extends Provider {
      * @return Deserialized MiniMessage component
      */
     public final @NotNull Component deserialize(String text, Object... optionalPlaceholders) {
-        return mm().deserialize(
+        return resolver().deserialize(
                 preParsing(text, optionalPlaceholders),
                 customColorResolver.build()
         );

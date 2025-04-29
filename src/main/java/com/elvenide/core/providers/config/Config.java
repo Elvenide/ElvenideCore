@@ -8,10 +8,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Objects;
 
-public class Config extends YamlConfiguration {
+public class Config extends YamlConfiguration implements AbstractSection {
 
     private final File file;
     public Config(@Nullable ConfigProvider system, File file) {
@@ -93,23 +93,40 @@ public class Config extends YamlConfiguration {
     }
 
     /**
-     * Gets a URI from the config.
-     * @param key String key
-     * @return URI
+     * @since 0.0.15
      */
-    public @Nullable URI getURI(@NotNull String key) {
-        if (!contains(key))
+    @Override
+    public @Nullable AbstractSection section(@NotNull String key) {
+        if (!isConfigurationSection(key))
             return null;
-
-        String value = getString(key);
-        if (value == null)
-            return null;
-
-        try {
-            return new URI(value);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException("Failed to parse URI: " + value, e);
-        }
+        return new ConfigSection(Objects.requireNonNull(getConfigurationSection(key)), this, this);
     }
 
+    /**
+     * @since 0.0.15
+     */
+    @Override
+    public @NotNull AbstractSection addSection(@NotNull String key, @NotNull Map<?, ?> map) {
+        return new ConfigSection(createSection(key, map), this, this);
+    }
+
+    /**
+     * Returns <code>null</code>, as a Config does not have a parent.
+     * @return Null
+     * @since 0.0.15
+     */
+    @Override
+    public @Nullable AbstractSection parent() {
+        return null;
+    }
+
+    /**
+     * Gets this Config instance.
+     * @return This
+     * @since 0.0.15
+     */
+    @Override
+    public @NotNull Config root() {
+        return this;
+    }
 }
