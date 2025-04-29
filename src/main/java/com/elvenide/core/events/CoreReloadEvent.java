@@ -1,0 +1,44 @@
+package com.elvenide.core.events;
+
+import com.elvenide.core.plugin.CorePlugin;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Event automatically fired when a {@link CorePlugin} is loaded or reloaded.
+ */
+public class CoreReloadEvent extends Event {
+
+    private static final HandlerList handlers = new HandlerList();
+    private final CorePlugin plugin;
+
+    public CoreReloadEvent(CorePlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    /**
+     * Gets the current plugin instance.
+     * @return The current plugin
+     */
+    public CorePlugin plugin() {
+        return plugin;
+    }
+
+    /**
+     * Gets the current plugin instance, cast to the given class.
+     * @return The current plugin
+     */
+    public <T extends CorePlugin> T plugin(Class<T> clazz) {
+        return clazz.cast(plugin);
+    }
+
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static @NotNull HandlerList getHandlerList() {
+        return handlers;
+    }
+}

@@ -13,12 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class ItemProvider extends Provider {
 
-    private final ElvenideCore core;
-
     @ApiStatus.Internal
     public ItemProvider(@Nullable ElvenideCore core) {
         super(core);
-        this.core = core;
     }
 
     /**

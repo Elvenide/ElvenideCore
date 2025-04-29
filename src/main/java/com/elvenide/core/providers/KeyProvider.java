@@ -2,6 +2,7 @@ package com.elvenide.core.providers;
 
 import com.elvenide.core.ElvenideCore;
 import com.elvenide.core.Provider;
+import com.elvenide.core.plugin.CorePlugin;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -10,16 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class KeyProvider extends Provider {
 
-    private JavaPlugin plugin = null;
-
     @ApiStatus.Internal
     public KeyProvider(@Nullable ElvenideCore core) {
         super(core);
-    }
-
-    private void ensureInitialized() throws IllegalStateException {
-        if (plugin == null)
-            throw new IllegalStateException("ElvenideCore.keys has not been initialized.");
     }
 
     private String generateKeyStringFromEnum(@NotNull Enum<?> key) {
@@ -27,12 +21,16 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * Initializes the NamespacedKey provider with your plugin.
-     * Should be used in your plugin's <code>onLoad</code> or <code>onEnable</code> method.
+     * This method is obsolete and will be removed in a future version.
+     * <p>
+     * As of v0.0.15, creating a plugin that extends {@link CorePlugin} automatically initializes the key provider and
+     * is the recommended alternative to this method.
      * @param plugin Your plugin
+     * @deprecated Use {@link CorePlugin} or {@link ElvenideCore#setPlugin(JavaPlugin)} instead
      */
+    @Deprecated(forRemoval = true, since = "0.0.15")
     public void init(@NotNull JavaPlugin plugin) {
-        this.plugin = plugin;
+        ElvenideCore.setPlugin(plugin);
     }
 
     /**
@@ -42,7 +40,7 @@ public class KeyProvider extends Provider {
      */
     public @NotNull NamespacedKey get(@NotNull String key) {
         ensureInitialized();
-        return new NamespacedKey(plugin, key);
+        return new NamespacedKey(core.plugin, key);
     }
 
     /**
