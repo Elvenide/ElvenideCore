@@ -69,6 +69,7 @@ public final class ElvenideCore {
 
     /**
      * Easily manage your plugin's NamespacedKeys.
+     * <p>
      * To function, this feature requires ONE of the following:
      * <ul>
      *     <li>Use of plugin extending {@link CorePlugin} (automatic initialization)</li>
