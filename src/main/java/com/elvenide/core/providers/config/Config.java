@@ -64,35 +64,6 @@ public class Config extends YamlConfiguration implements AbstractSection {
     }
 
     /**
-     * Sets a value and immediately saves the config.
-     * Best used when you only need to set a single value before saving.
-     * @param key String key
-     * @param value Value
-     */
-    public void setAndSave(@NotNull String key, @Nullable Object value) {
-        set(key, value);
-        save();
-    }
-
-    /**
-     * Removes a value from the config.
-     * Simply a clearer alias for <code>set(key, null)</code>.
-     * @param key String key
-     */
-    public void remove(@NotNull String key) {
-        set(key, null);
-    }
-
-    /**
-     * Removes a value and immediately saves the config.
-     * @param key String key
-     */
-    public void removeAndSave(@NotNull String key) {
-        remove(key);
-        save();
-    }
-
-    /**
      * @since 0.0.15
      */
     @Override
