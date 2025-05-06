@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.commands;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.Location;
@@ -71,7 +71,7 @@ public class SubCommandContext {
      * @return Boolean
      */
     public boolean hasPermission(String permission) {
-        return ElvenideCore.perms.has(executor(), permission);
+        return Core.perms.has(executor(), permission);
     }
 
     /**
@@ -88,7 +88,7 @@ public class SubCommandContext {
      * @param optionalPlaceholders Optional placeholders
      */
     public void reply(String message, Object... optionalPlaceholders) {
-        executor().sendMessage(ElvenideCore.text.deserialize(message, optionalPlaceholders));
+        executor().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
 
     /**
@@ -97,7 +97,7 @@ public class SubCommandContext {
      * @param optionalPlaceholders Optional placeholders
      */
     public void replyToSender(String message, Object... optionalPlaceholders) {
-        ctx.getSource().getSender().sendMessage(ElvenideCore.text.deserialize(message, optionalPlaceholders));
+        ctx.getSource().getSender().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
 
     /**

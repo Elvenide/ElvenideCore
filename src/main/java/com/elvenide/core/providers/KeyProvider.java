@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.plugin.CorePlugin;
 import org.bukkit.NamespacedKey;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class KeyProvider extends Provider {
 
     @ApiStatus.Internal
-    public KeyProvider(@Nullable ElvenideCore core) {
+    public KeyProvider(@Nullable Core core) {
         super(core);
     }
 
@@ -26,11 +26,11 @@ public class KeyProvider extends Provider {
      * As of v0.0.15, creating a plugin that extends {@link CorePlugin} automatically initializes the key provider and
      * is the recommended alternative to this method.
      * @param plugin Your plugin
-     * @deprecated Use {@link CorePlugin} or {@link ElvenideCore#setPlugin(JavaPlugin)} instead
+     * @deprecated Use {@link CorePlugin} or {@link Core#setPlugin(JavaPlugin)} instead
      */
     @Deprecated(forRemoval = true, since = "0.0.15")
     public void init(@NotNull JavaPlugin plugin) {
-        ElvenideCore.setPlugin(plugin);
+        Core.setPlugin(plugin);
     }
 
     /**

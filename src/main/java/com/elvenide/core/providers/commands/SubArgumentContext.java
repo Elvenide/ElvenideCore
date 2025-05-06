@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.commands;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ public class SubArgumentContext {
     private <T> T getRaw(String name, Class<T> type) {
         if (!isProvided(name)) {
             if (arg(name).required)
-                throw new InvalidArgumentException(ElvenideCore.lang.common.MISSING_ARGUMENT, name);
+                throw new InvalidArgumentException(Core.lang.common.MISSING_ARGUMENT, name);
             else
                 return null;
         }
@@ -34,7 +34,7 @@ public class SubArgumentContext {
             return sub.ctx.getArgument(name, type);
         }
         catch (IllegalArgumentException ignored) {
-            throw new InvalidArgumentException(ElvenideCore.lang.common.INVALID_TYPE, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_TYPE, name);
         }
     }
 
@@ -155,7 +155,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(ElvenideCore.lang.common.INVALID_PLAYER, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER, name);
         }
     }
 
@@ -236,7 +236,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(ElvenideCore.lang.common.INVALID_PLAYER, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER, name);
         }
     }
 

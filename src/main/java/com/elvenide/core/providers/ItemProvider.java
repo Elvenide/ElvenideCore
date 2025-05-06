@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.providers.item.ItemBuilder;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class ItemProvider extends Provider {
 
     @ApiStatus.Internal
-    public ItemProvider(@Nullable ElvenideCore core) {
+    public ItemProvider(@Nullable Core core) {
         super(core);
     }
 
@@ -74,7 +74,7 @@ public class ItemProvider extends Provider {
 
     /**
      * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @param type Data type
@@ -86,12 +86,12 @@ public class ItemProvider extends Provider {
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().get(ElvenideCore.keys.get(key), type);
+        return item.getItemMeta().getPersistentDataContainer().get(Core.keys.get(key), type);
     }
 
     /**
      * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @param type Data type
@@ -104,12 +104,12 @@ public class ItemProvider extends Provider {
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().getOrDefault(ElvenideCore.keys.get(key), type, def);
+        return item.getItemMeta().getPersistentDataContainer().getOrDefault(Core.keys.get(key), type, def);
     }
 
     /**
      * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @param type Data type
@@ -121,12 +121,12 @@ public class ItemProvider extends Provider {
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().get(ElvenideCore.keys.get(key), type);
+        return item.getItemMeta().getPersistentDataContainer().get(Core.keys.get(key), type);
     }
 
     /**
      * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @param type Data type
@@ -139,7 +139,7 @@ public class ItemProvider extends Provider {
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().getOrDefault(ElvenideCore.keys.get(key), type, def);
+        return item.getItemMeta().getPersistentDataContainer().getOrDefault(Core.keys.get(key), type, def);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ItemProvider extends Provider {
 
     /**
      * Checks if an item has persistent data added by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @return Whether the item has your data
@@ -166,12 +166,12 @@ public class ItemProvider extends Provider {
     public boolean hasData(ItemStack item, String key) {
         if (!item.hasItemMeta())
             return false;
-        return item.getItemMeta().getPersistentDataContainer().has(ElvenideCore.keys.get(key));
+        return item.getItemMeta().getPersistentDataContainer().has(Core.keys.get(key));
     }
 
     /**
      * Checks if an item has persistent data added by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param item Item
      * @param key Data key
      * @return Whether the item has your data
@@ -180,7 +180,7 @@ public class ItemProvider extends Provider {
     public boolean hasData(ItemStack item, Enum<?> key) {
         if (!item.hasItemMeta())
             return false;
-        return item.getItemMeta().getPersistentDataContainer().has(ElvenideCore.keys.get(key));
+        return item.getItemMeta().getPersistentDataContainer().has(Core.keys.get(key));
     }
 
 }

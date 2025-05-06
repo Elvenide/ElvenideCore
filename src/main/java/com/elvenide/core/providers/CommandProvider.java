@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.commands.CommandBuilder;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class CommandProvider extends Provider {
 
     @ApiStatus.Internal
-    public CommandProvider(@Nullable ElvenideCore core) {
+    public CommandProvider(@Nullable Core core) {
         super(core);
     }
 
@@ -39,7 +39,7 @@ public class CommandProvider extends Provider {
     /**
      * Registers all commands created by {@link #create(String)}.
      * <p>
-     * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link ElvenideCore#setPlugin(JavaPlugin) manual initialization}
+     * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link Core#setPlugin(JavaPlugin) manual initialization}
      * before using the register method.
      * <p>
      * <b>If you ARE using {@link CorePlugin}</b>: you do not need to use the register method, as commands are registered automatically.
@@ -57,7 +57,7 @@ public class CommandProvider extends Provider {
      * @since 0.0.9
      */
     public void setHeader(String header) {
-        ElvenideCore.lang.common.setCommandHeader(header);
+        Core.lang.common.setCommandHeader(header);
     }
 
 }
