@@ -84,4 +84,10 @@ public final class ElvenideCore {
      * @since 0.0.15
      */
     public static final ItemProvider items = new ItemProvider(INSTANCE);
+
+    /**
+     * Schedule tasks to run delayed or periodically.
+     * @since 0.0.15
+     */
+    public static final TaskProvider tasks = new TaskProvider(INSTANCE);
 }
