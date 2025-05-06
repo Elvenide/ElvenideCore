@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -348,55 +349,31 @@ public class ConfigSection implements AbstractSection {
         section.setInlineComments(path, comments);
     }
 
-    @Deprecated(since = "0.0.15")
     @Override
-    public @Nullable Configuration getRoot() {
-        return section.getRoot();
-    }
-
-    @Deprecated(since = "0.0.15")
-    @Override
-    public @Nullable ConfigurationSection getParent() {
-        return section.getParent();
-    }
-
-    @Deprecated(since = "0.0.15")
-    @Override
-    public @NotNull ConfigurationSection createSection(@NotNull String path) {
-        return section.createSection(path);
-    }
-
-    @Deprecated(since = "0.0.15")
-    @Override
-    public @NotNull ConfigurationSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
-        return section.createSection(path, map);
-    }
-
-    @Deprecated(since = "0.0.15")
-    @Override
-    public @Nullable ConfigurationSection getConfigurationSection(@NotNull String path) {
-        return section.getConfigurationSection(path);
+    public @NotNull Config getRoot() {
+        return root;
     }
 
     @Override
-    public AbstractSection section(@NotNull String key) {
-        if (isConfigurationSection(key))
-            return new ConfigSection(Objects.requireNonNull(section.getConfigurationSection(key)), this, root);
-        return null;
-    }
-
-    @Override
-    public @NotNull AbstractSection addSection(@NotNull String key, @NotNull Map<?, ?> map) {
-        return new ConfigSection(section.createSection(key, map), this, root);
-    }
-
-    @Override
-    public @Nullable AbstractSection parent() {
+    public @Nullable AbstractSection getParent() {
         return parent;
     }
 
     @Override
-    public @NotNull Config root() {
-        return root;
+    public @NotNull AbstractSection createSection(@NotNull String path) {
+        return new ConfigSection(section.createSection(path), this, root);
+    }
+
+    @Override
+    public @NotNull AbstractSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
+        return new ConfigSection(section.createSection(path, map), this, root);
+    }
+
+    @ApiStatus.Experimental
+    @Override
+    public @Nullable AbstractSection getConfigurationSection(@NotNull String path) {
+        if (isConfigurationSection(path))
+            return new ConfigSection(Objects.requireNonNull(section.getConfigurationSection(path)), this, root);
+        return null;
     }
 }
