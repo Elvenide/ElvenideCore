@@ -2,6 +2,7 @@ package com.elvenide.core.providers;
 
 import com.elvenide.core.ElvenideCore;
 import com.elvenide.core.Provider;
+import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.commands.CommandBuilder;
 import com.elvenide.core.providers.commands.CommandRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,12 +26,28 @@ public class CommandProvider extends Provider {
     }
 
     /**
-     * Registers all commands create with <code>create()</code>.
+     * Registers all commands created by {@link #create(String)}.
      * @param plugin Your plugin
      * @see #create(String)
+     * @deprecated Use {@link #register()} with initialization instead.
      */
+    @Deprecated(since = "0.0.15", forRemoval = true)
     public void register(JavaPlugin plugin) {
         CommandRegistry.register(core, plugin);
+    }
+
+    /**
+     * Registers all commands created by {@link #create(String)}.
+     * <p>
+     * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link ElvenideCore#setPlugin(JavaPlugin) manual initialization}
+     * before using the register method.
+     * <p>
+     * <b>If you ARE using {@link CorePlugin}</b>: you do not need to use the register method, as commands are registered automatically.
+     * @see #create(String)
+     * @since 0.0.15
+     */
+    public void register() {
+        CommandRegistry.register(core, core.plugin);
     }
 
     /**

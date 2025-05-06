@@ -37,6 +37,7 @@ public abstract class CorePlugin extends JavaPlugin {
     public final void onEnable() {
         this.onEnabled();
         reload();
+        ElvenideCore.commands.register();
     }
 
     /// Only for internal use. Use {@link #onDisabled()} instead.
