@@ -1,8 +1,6 @@
 package com.elvenide.core.providers.config;
 
 import com.elvenide.core.providers.ConfigProvider;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.ApiStatus;
