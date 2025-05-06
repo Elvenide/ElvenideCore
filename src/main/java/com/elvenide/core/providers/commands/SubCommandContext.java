@@ -21,7 +21,13 @@ public class SubCommandContext {
     /// The parsed arguments of the subcommand.
     public final SubArgumentContext args;
 
-    /// Custom lambda-usable variable management.
+    /**
+     * Custom lambda-usable variable management.
+     * <p>
+     * Deprecated in favor of Java's built-in atomic objects, which are just as easy to use while providing extra features.
+     * @deprecated Use atomic objects instead (e.g. {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger})
+     */
+    @Deprecated(since = "0.0.15", forRemoval = true)
     public final Variables vars = new Variables();
 
     SubCommandContext(CommandContext<CommandSourceStack> ctx, SubCommandBuilder subCommandData, CommandBuilder root, int specifiedArgs) {
@@ -110,6 +116,8 @@ public class SubCommandContext {
         replyToSender(root.getUsage(null));
     }
 
+    /// See {@link SubCommandContext#vars} for deprecation reason.
+    @Deprecated(since = "0.0.15", forRemoval = true)
     public static class Variables {
 
         private static final HashMap<Class<?>, Class<?>> PRIMITIVES = new HashMap<>();
@@ -129,10 +137,14 @@ public class SubCommandContext {
 
         private Variables() {}
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public <T> void set(String key, T value) {
             vars.put(key, value);
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         @SuppressWarnings("unchecked")
         public <T> T get(String key, Class<T> type) {
             final Object result = vars.get(key);
@@ -141,6 +153,8 @@ public class SubCommandContext {
             return null;
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         @SuppressWarnings("unchecked")
         public <T> T get(String key, T def) {
             final Object result = vars.getOrDefault(key, def);
@@ -149,22 +163,32 @@ public class SubCommandContext {
             return def;
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public void add(String key, int value) {
             set(key, get(key, 0) + value);
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public void add(String key, double value) {
             set(key, get(key, 0D) + value);
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public void add(String key, long value) {
             set(key, get(key, 0L) + value);
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public void add(String key, float value) {
             set(key, get(key, 0F) + value);
         }
 
+        /// See {@link SubCommandContext#vars} for deprecation reason.
+        @Deprecated(since = "0.0.15", forRemoval = true)
         public void add(String key, String value) {
             set(key, get(key, "") + value);
         }
