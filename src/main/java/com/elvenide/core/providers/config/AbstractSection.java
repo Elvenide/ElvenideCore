@@ -259,6 +259,39 @@ public interface AbstractSection extends ConfigurationSection {
     }
 
     /**
+     * Sets a value and immediately saves the config.
+     * Best used when you only need to set a single value before saving.
+     * @param key String key
+     * @param value Value
+     * @since 0.0.15
+     */
+    default void setAndSave(@NotNull String key, @Nullable Object value) {
+        set(key, value);
+        root().save();
+    }
+
+    /**
+     * Removes a value from the config.
+     * Simply a clearer alias for <code>set(key, null)</code>.
+     * @param key String key
+     * @since 0.0.15
+     */
+    default void remove(@NotNull String key) {
+        set(key, null);
+    }
+
+    /**
+     * Removes a value and immediately saves the config.
+     * Best used when you only need to remove a single value before saving.
+     * @param key String key
+     * @since 0.0.15
+     */
+    default void removeAndSave(@NotNull String key) {
+        remove(key);
+        root().save();
+    }
+
+    /**
      * This method is deprecated in favor of ElvenideCore alternatives.
      * Use {@link #root()} instead.
      * @return Configuration
