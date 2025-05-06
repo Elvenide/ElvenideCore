@@ -101,6 +101,17 @@ public class SubCommandContext {
     }
 
     /**
+     * Ends the command with an error message.
+     * <p>
+     * Prevents execution of any command code after the method call, and immediately sends the error message to the sender.
+     * @param errorMessage Error message
+     * @param optionalPlaceholders Optional placeholders
+     */
+    public void end(String errorMessage, Object... optionalPlaceholders) {
+        throw new InvalidArgumentException("%s", errorMessage.formatted(optionalPlaceholders));
+    }
+
+    /**
      * Performs a command as console.
      * @param command Command (no leading slash)
      * @since 0.0.14
