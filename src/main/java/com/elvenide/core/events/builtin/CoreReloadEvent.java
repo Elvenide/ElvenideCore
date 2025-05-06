@@ -1,5 +1,6 @@
-package com.elvenide.core.events;
+package com.elvenide.core.events.builtin;
 
+import com.elvenide.core.events.CoreEvent;
 import com.elvenide.core.plugin.CorePlugin;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -7,8 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Event automatically fired when a {@link CorePlugin} is loaded or reloaded.
+ * <p>
+ * Supports both {@link org.bukkit.event.Listener Bukkit} and {@link com.elvenide.core.events.CoreListener ElvenideCore} listeners.
  */
-public class CoreReloadEvent extends Event {
+public class CoreReloadEvent extends Event implements CoreEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final CorePlugin plugin;
