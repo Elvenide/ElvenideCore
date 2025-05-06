@@ -9,6 +9,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -267,7 +268,7 @@ public interface AbstractSection extends ConfigurationSection {
      */
     default void setAndSave(@NotNull String key, @Nullable Object value) {
         set(key, value);
-        root().save();
+        getRoot().save();
     }
 
     /**
@@ -288,98 +289,61 @@ public interface AbstractSection extends ConfigurationSection {
      */
     default void removeAndSave(@NotNull String key) {
         remove(key);
-        root().save();
+        getRoot().save();
     }
-
-    /**
-     * This method is deprecated in favor of ElvenideCore alternatives.
-     * Use {@link #root()} instead.
-     * @return Configuration
-     * @deprecated Use {@link #root()} instead.
-     */
-    @Deprecated(since = "0.0.15")
-    @Override
-    @Nullable Configuration getRoot();
-
-    /**
-     * This method is deprecated in favor of ElvenideCore alternatives.
-     * Use {@link #parent()} instead.
-     * @return ConfigurationSection
-     * @deprecated Use {@link #parent()} instead.
-     */
-    @Deprecated(since = "0.0.15")
-    @Override
-    @Nullable ConfigurationSection getParent();
-
-    /**
-     * This method is deprecated in favor of ElvenideCore alternatives.
-     * Use {@link #addSection(String)} instead.
-     * @return ConfigurationSection
-     * @deprecated Use {@link #addSection(String)}  instead.
-     */
-    @Deprecated(since = "0.0.15")
-    @Override
-    @NotNull ConfigurationSection createSection(@NotNull String path);
-
-    /**
-     * This method is deprecated in favor of ElvenideCore alternatives.
-     * Use {@link #addSection(String, Map)} instead.
-     * @return ConfigurationSection
-     * @deprecated Use {@link #addSection(String, Map)} instead.
-     */
-    @Deprecated(since = "0.0.15")
-    @Override
-    @NotNull ConfigurationSection createSection(@NotNull String path, @NotNull Map<?, ?> map);
-
-    /**
-     * This method is deprecated in favor of ElvenideCore alternatives.
-     * Use {@link #section(String)} instead.
-     * @return ConfigurationSection
-     * @deprecated Use {@link #section(String)} instead.
-     */
-    @Deprecated(since = "0.0.15")
-    @Override
-    @Nullable ConfigurationSection getConfigurationSection(@NotNull String path);
-
-    /**
-     * Gets a ConfigSection from the config.
-     * @param key String key
-     * @return ConfigSection (as AbstractSection)
-     * @since 0.0.15
-     */
-    @Nullable AbstractSection section(@NotNull String key);
-
-    /**
-     * Creates and adds a ConfigSection to the config.
-     * @param key String key
-     * @return Created ConfigSection (as AbstractSection)
-     * @since 0.0.15
-     */
-    default @NotNull AbstractSection addSection(@NotNull String key) {
-        return addSection(key, Map.of());
-    }
-
-    /**
-     * Creates and adds a ConfigSection to the config, with the given values.
-     * @param key String key
-     * @return Created ConfigSection (as AbstractSection)
-     * @since 0.0.15
-     */
-    @NotNull AbstractSection addSection(@NotNull String key, @NotNull Map<?, ?> map);
-
-    /**
-     * Gets the parent ConfigSection or Config of this section.
-     * If this section is a Config, this will return null.
-     * @return ConfigSection (as AbstractSection)
-     * @since 0.0.15
-     */
-    @Nullable AbstractSection parent();
 
     /**
      * Gets the root Config that this section is from.
      * @return Config
-     * @since 0.0.15
      */
-    @NotNull Config root();
+    @Override
+    @NotNull Config getRoot();
+
+    /**
+     * Gets the parent ConfigSection or Config of this section.
+     * If this section is a Config, this will return null.
+     * @return ConfigSection
+     */
+    @Override
+    @Nullable AbstractSection getParent();
+
+    /**
+     * Creates and adds a ConfigSection to the config.
+     * @param path Path to the ConfigSection
+     * @return ConfigurationSection
+     */
+    @Override
+    @NotNull AbstractSection createSection(@NotNull String path);
+
+    /**
+     * Creates and adds a ConfigSection to the config, with the given values.
+     * @param path Path to the ConfigSection
+     * @param map Map of keys and values to set
+     * @return ConfigurationSection
+     */
+    @Override
+    @NotNull AbstractSection createSection(@NotNull String path, @NotNull Map<?, ?> map);
+
+    /**
+     * Gets a ConfigSection from the config.
+     * <p>
+     * It is recommended to use {@link #getSection(String)} instead, for consistency and reduced verbosity.
+     * @param path Path to the ConfigSection
+     * @return ConfigSection, or <code>null</code> if not found
+     */
+    @ApiStatus.Experimental
+    @Override
+    @Nullable AbstractSection getConfigurationSection(@NotNull String path);
+
+    /**
+     * Gets a ConfigSection from the config.
+     * <p>
+     * Shorter alias for {@link #getConfigurationSection(String)}.
+     * @param path Path to the ConfigSection
+     * @return ConfigurationSection, or <code>null</code> if not found
+     */
+    default @Nullable AbstractSection getSection(@NotNull String path) {
+        return getConfigurationSection(path);
+    }
 
 }

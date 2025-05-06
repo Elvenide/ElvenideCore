@@ -1,8 +1,12 @@
 package com.elvenide.core.providers.config;
 
 import com.elvenide.core.providers.ConfigProvider;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,41 +67,32 @@ public class Config extends YamlConfiguration implements AbstractSection {
         }
     }
 
-    /**
-     * @since 0.0.15
-     */
     @Override
-    public @Nullable AbstractSection section(@NotNull String key) {
-        if (!isConfigurationSection(key))
-            return null;
-        return new ConfigSection(Objects.requireNonNull(getConfigurationSection(key)), this, this);
+    public @NotNull Config getRoot() {
+        return this;
     }
 
-    /**
-     * @since 0.0.15
-     */
+    @Contract("-> null")
     @Override
-    public @NotNull AbstractSection addSection(@NotNull String key, @NotNull Map<?, ?> map) {
-        return new ConfigSection(createSection(key, map), this, this);
-    }
-
-    /**
-     * Returns <code>null</code>, as a Config does not have a parent.
-     * @return Null
-     * @since 0.0.15
-     */
-    @Override
-    public @Nullable AbstractSection parent() {
+    public @Nullable AbstractSection getParent() {
         return null;
     }
 
-    /**
-     * Gets this Config instance.
-     * @return This
-     * @since 0.0.15
-     */
     @Override
-    public @NotNull Config root() {
-        return this;
+    public @NotNull AbstractSection createSection(@NotNull String path) {
+        return new ConfigSection(super.createSection(path), this, this);
+    }
+
+    @Override
+    public @NotNull AbstractSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
+        return new ConfigSection(super.createSection(path, map), this, this);
+    }
+
+    @ApiStatus.Experimental
+    @Override
+    public @Nullable AbstractSection getConfigurationSection(@NotNull String path) {
+        if (isConfigurationSection(path))
+            return new ConfigSection(Objects.requireNonNull(super.getConfigurationSection(path)), this, this);
+        return null;
     }
 }
