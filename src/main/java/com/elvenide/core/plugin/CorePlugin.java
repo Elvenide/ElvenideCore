@@ -1,7 +1,8 @@
 package com.elvenide.core.plugin;
 
 import com.elvenide.core.Core;
-import com.elvenide.core.events.CoreReloadEvent;
+import com.elvenide.core.events.CoreListener;
+import com.elvenide.core.events.builtin.CoreReloadEvent;
 import com.elvenide.core.providers.config.ConfigSupplier;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,7 +85,9 @@ public abstract class CorePlugin extends JavaPlugin {
     }
 
     /**
-     * Registers one or more event listeners.
+     * Registers one or more Bukkit event listeners.
+     * <p>
+     * Note: Does not register {@link CoreListener CoreListener}s; use {@link CoreListener#register()} to do so.
      * @param listeners Listeners
      * @since 0.0.15
      */
@@ -110,7 +113,9 @@ public abstract class CorePlugin extends JavaPlugin {
             supplier.reload();
 
         // Emit reload event
-        new CoreReloadEvent(instance).callEvent();
+        CoreReloadEvent event = new CoreReloadEvent(instance);
+        event.callEvent(); // Emit Bukkit event
+        event.callCoreEvent(); // Emit ElvenideCore event
     }
 
 }
