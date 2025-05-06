@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.item;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import io.papermc.paper.datacomponent.DataComponentBuilder;
 import io.papermc.paper.datacomponent.DataComponentType;
 import net.kyori.adventure.text.Component;
@@ -30,7 +30,7 @@ public class ItemBuilder {
     private final ItemStack item;
 
     @ApiStatus.Internal
-    public ItemBuilder(ElvenideCore instance, @Nullable Material material) {
+    public ItemBuilder(Core instance, @Nullable Material material) {
         if (instance == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
@@ -41,7 +41,7 @@ public class ItemBuilder {
     }
 
     @ApiStatus.Internal
-    public ItemBuilder(ElvenideCore instance, @NotNull ItemStack item) {
+    public ItemBuilder(Core instance, @NotNull ItemStack item) {
         if (instance == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
@@ -208,7 +208,7 @@ public class ItemBuilder {
 
     /**
      * Sets a persistent data value with the given key on the item.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param key Key (String)
      * @param type Persistent data type
      * @param value Value
@@ -216,12 +216,12 @@ public class ItemBuilder {
      * @since 0.0.15
      */
     public <P, C> ItemBuilder data(String key, PersistentDataType<P, C> type, C value) {
-        return data(ElvenideCore.keys.get(key), type, value);
+        return data(Core.keys.get(key), type, value);
     }
 
     /**
      * Sets a persistent data value with the given key on the item.
-     * Automatically converts the key to a NamespacedKey using {@link ElvenideCore#keys}.
+     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
      * @param key Key (Enum)
      * @param type Persistent data type
      * @param value Value
@@ -229,7 +229,7 @@ public class ItemBuilder {
      * @since 0.0.15
      */
     public <P, C> ItemBuilder data(Enum<?> key, PersistentDataType<P, C> type, C value) {
-        return data(ElvenideCore.keys.get(key), type, value);
+        return data(Core.keys.get(key), type, value);
     }
 
     /**
@@ -264,13 +264,13 @@ public class ItemBuilder {
     private TextComponent nonItalicWithItalicSupport(String text, Object[] placeholders) {
         return Component.text("")
             .decoration(TextDecoration.ITALIC, false)
-            .append(ElvenideCore.text.deserialize(text, placeholders));
+            .append(Core.text.deserialize(text, placeholders));
     }
 
     private TextComponent nonItalicWithItalicSupport(String text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         return Component.text("")
             .decoration(TextDecoration.ITALIC, false)
-            .append(ElvenideCore.text.deserialize(text, placeholderResolver));
+            .append(Core.text.deserialize(text, placeholderResolver));
     }
 
     /**

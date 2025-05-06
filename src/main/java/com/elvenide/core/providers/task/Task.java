@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.task;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.ApiStatus;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 public class Task {
 
-    private final ElvenideCore core;
+    private final Core core;
     private BukkitRunnable runnable = null;
     private long executions = 0;
     private long ticksPassed = 0;
@@ -21,7 +21,7 @@ public class Task {
     };
 
     @ApiStatus.Internal
-    public Task(ElvenideCore core) {
+    public Task(Core core) {
         super();
 
         if (core == null)
@@ -79,7 +79,7 @@ public class Task {
     @ApiStatus.Internal
     private synchronized void setup() {
         if (core.plugin == null)
-            throw new IllegalStateException("Your plugin is using ElvenideCore features that require initialization, please do so via ElvenideCore.setPlugin()");
+            throw new IllegalStateException("Your plugin is using ElvenideCore features that require initialization, please do so via Core.setPlugin()");
 
         if (runnable != null)
             runnable.cancel();

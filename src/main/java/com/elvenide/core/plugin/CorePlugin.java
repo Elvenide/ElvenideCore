@@ -1,6 +1,6 @@
 package com.elvenide.core.plugin;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.events.CoreReloadEvent;
 import com.elvenide.core.providers.config.ConfigSupplier;
 import org.bukkit.event.Listener;
@@ -26,7 +26,7 @@ public abstract class CorePlugin extends JavaPlugin {
     @Override
     public final void onLoad() {
         instance = this;
-        ElvenideCore.setPlugin(this);
+        Core.setPlugin(this);
         this.onLoaded();
     }
 
@@ -37,7 +37,7 @@ public abstract class CorePlugin extends JavaPlugin {
     public final void onEnable() {
         this.onEnabled();
         reload();
-        ElvenideCore.commands.register();
+        Core.commands.register();
     }
 
     /// Only for internal use. Use {@link #onDisabled()} instead.

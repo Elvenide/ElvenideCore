@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.commands;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
@@ -112,7 +112,7 @@ public class ArgumentConditional {
      */
     public ArgumentConditional thenSend(Audience target, String message, Object... placeholders) {
         if (operational && isTrue)
-            ElvenideCore.text.send(target, message, placeholders);
+            Core.text.send(target, message, placeholders);
         return this;
     }
 
@@ -180,7 +180,7 @@ public class ArgumentConditional {
      */
     public ArgumentConditional orSend(Audience target, String message, Object... placeholders) {
         if (operational && !isTrue)
-            ElvenideCore.text.send(target, message, placeholders);
+            Core.text.send(target, message, placeholders);
         return this;
     }
 

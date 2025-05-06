@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.commands;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -144,12 +144,12 @@ public class CommandBuilder {
 
     private int validatedExecutor(HashedSubNodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
-            ctx.reply(ElvenideCore.lang.common.NOT_PLAYER);
+            ctx.reply(Core.lang.common.NOT_PLAYER);
             return Command.SINGLE_SUCCESS;
         }
 
         if (ctx.subCommandData.permission != null && !ctx.hasPermission(ctx.subCommandData.permission)) {
-            ctx.reply(ElvenideCore.lang.common.NO_PERMISSION);
+            ctx.reply(Core.lang.common.NO_PERMISSION);
             return Command.SINGLE_SUCCESS;
         }
 
@@ -158,7 +158,7 @@ public class CommandBuilder {
         }
         catch (InvalidArgumentException e) {
             ctx.replyToSender("<hover:show_text:\"%s\">%s</hover>",
-                ElvenideCore.lang.common.COMMAND_USAGE_PREFIX + getUsage(commandWrapper),
+                Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(commandWrapper),
                 "<red>" + e.getMessage()
             );
         }
@@ -174,12 +174,12 @@ public class CommandBuilder {
         SubCommandContext ctx = new SubCommandContext(rawCtx, new SubCommandBuilder(), this, 0);
 
         // Send command header
-        ctx.reply(ElvenideCore.lang.common.COMMAND_HEADER);
+        ctx.reply(Core.lang.common.COMMAND_HEADER);
 
         // Send all subcommand usages if no subnode is specified
         if (wrapper == null) {
             ctx.reply(description);
-            ctx.reply(ElvenideCore.lang.common.COMMAND_USAGE_PREFIX + getUsage(null));
+            ctx.reply(Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(null));
         }
 
         // Otherwise, send only the specified subnode's usage
@@ -188,7 +188,7 @@ public class CommandBuilder {
                 wrapper.asSubCommand().setup(ctx.subCommandData);
                 ctx.reply(ctx.subCommandData.description);
             }
-            ctx.reply(ElvenideCore.lang.common.COMMAND_USAGE_PREFIX + getUsage(wrapper));
+            ctx.reply(Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(wrapper));
         }
 
         return Command.SINGLE_SUCCESS;
@@ -283,7 +283,7 @@ public class CommandBuilder {
                         .stream()
                         .filter(entry -> entry.toLowerCase().startsWith(builder.getRemainingLowerCase()))
                         .forEach(entry -> builder.suggest(entry, MessageComponentSerializer.message().serialize(
-                                ElvenideCore.text.deserialize("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
+                                Core.text.deserialize("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
                         )));
                 return builder.buildFuture();
             });

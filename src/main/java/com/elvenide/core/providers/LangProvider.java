@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.providers.lang.LangKeySupplier;
 import com.elvenide.core.providers.lang.LangPattern;
@@ -22,7 +22,7 @@ public class LangProvider extends Provider {
     public CommonLangKeys common;
 
     @ApiStatus.Internal
-    public LangProvider(@Nullable ElvenideCore core) {
+    public LangProvider(@Nullable Core core) {
         super(core);
     }
 

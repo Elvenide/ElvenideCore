@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PermissionProvider extends Provider {
     @ApiStatus.Internal
-    public PermissionProvider(@Nullable ElvenideCore core) {
+    public PermissionProvider(@Nullable Core core) {
         super(core);
     }
 

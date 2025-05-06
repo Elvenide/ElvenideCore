@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.config.Config;
@@ -16,7 +16,7 @@ public class ConfigProvider extends Provider {
     private final HashMap<String, Config> configs = new HashMap<>();
 
     @ApiStatus.Internal
-    public ConfigProvider(@Nullable ElvenideCore core) {
+    public ConfigProvider(@Nullable Core core) {
         super(core);
     }
 
@@ -44,7 +44,7 @@ public class ConfigProvider extends Provider {
      * <b>Before using this</b>, you must do ONE of the following:
      * <ul>
      *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>
-     *     <li>{@link ElvenideCore#setPlugin(JavaPlugin) Manual initialization}</li>
+     *     <li>{@link Core#setPlugin(JavaPlugin) Manual initialization}</li>
      * </ul>
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
      * @return The config
@@ -68,7 +68,7 @@ public class ConfigProvider extends Provider {
      * <b>Before using this</b>, you must do ONE of the following:
      * <ul>
      *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>
-     *     <li>{@link ElvenideCore#setPlugin(JavaPlugin) Manual initialization}</li>
+     *     <li>{@link Core#setPlugin(JavaPlugin) Manual initialization}</li>
      * </ul>
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
      */

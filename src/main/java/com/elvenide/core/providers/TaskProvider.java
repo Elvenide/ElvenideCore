@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.providers.task.Task;
 import org.jetbrains.annotations.ApiStatus;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TaskProvider extends Provider {
     @ApiStatus.Internal
-    public TaskProvider(@Nullable ElvenideCore core) {
+    public TaskProvider(@Nullable Core core) {
         super(core);
     }
 

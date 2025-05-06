@@ -1,6 +1,6 @@
 package com.elvenide.core.providers;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.providers.text.BrightColorsPackage;
 import com.elvenide.core.providers.text.ColorAliasesPackage;
@@ -38,7 +38,7 @@ public class TextProvider extends Provider {
     public final CommonTextPackages packages = new CommonTextPackages();
 
     @ApiStatus.Internal
-    public TextProvider(@Nullable ElvenideCore core) {
+    public TextProvider(@Nullable Core core) {
         super(core);
     }
 
@@ -322,7 +322,7 @@ public class TextProvider extends Provider {
          * @param textPackage The package
          */
         public void installExternal(TextPackageSupplier textPackage) {
-            textPackage.build(ElvenideCore.text);
+            textPackage.build(Core.text);
         }
     }
 
