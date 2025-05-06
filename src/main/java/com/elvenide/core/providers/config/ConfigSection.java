@@ -3,7 +3,6 @@ package com.elvenide.core.providers.config;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -17,17 +16,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class ConfigSection implements AbstractSection {
-
-    protected final @NotNull ConfigurationSection section;
-    protected final @NotNull Config root;
-    protected final @Nullable AbstractSection parent;
-
-    protected ConfigSection(@NotNull ConfigurationSection section, @Nullable AbstractSection parent, @NotNull Config root) {
-        this.section = section;
-        this.root = root;
-        this.parent = parent;
-    }
+record ConfigSection(@NotNull ConfigurationSection section, @Nullable AbstractSection parent,
+                     @NotNull Config root) implements AbstractSection {
 
     @Override
     public @NotNull Set<String> getKeys(boolean deep) {
