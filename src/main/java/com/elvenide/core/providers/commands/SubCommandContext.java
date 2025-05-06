@@ -106,6 +106,7 @@ public class SubCommandContext {
      * Prevents execution of any command code after the method call, and immediately sends the error message to the sender.
      * @param errorMessage Error message
      * @param optionalPlaceholders Optional placeholders
+     * @since 0.0.15
      */
     public void end(String errorMessage, Object... optionalPlaceholders) {
         throw new InvalidArgumentException("%s", errorMessage.formatted(optionalPlaceholders));
