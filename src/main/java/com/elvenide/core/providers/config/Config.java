@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-public class Config extends YamlConfiguration implements AbstractSection {
+public class Config extends YamlConfiguration implements ConfigSection {
 
     private final File file;
     public Config(@Nullable ConfigProvider system, File file) {
@@ -72,25 +72,25 @@ public class Config extends YamlConfiguration implements AbstractSection {
 
     @Contract("-> null")
     @Override
-    public @Nullable AbstractSection getParent() {
+    public @Nullable ConfigSection getParent() {
         return null;
     }
 
     @Override
-    public @NotNull AbstractSection createSection(@NotNull String path) {
-        return new ConfigSection(super.createSection(path), this, this);
+    public @NotNull ConfigSection createSection(@NotNull String path) {
+        return new ConfigSectionImpl(super.createSection(path), this, this);
     }
 
     @Override
-    public @NotNull AbstractSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
-        return new ConfigSection(super.createSection(path, map), this, this);
+    public @NotNull ConfigSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
+        return new ConfigSectionImpl(super.createSection(path, map), this, this);
     }
 
     @ApiStatus.Experimental
     @Override
-    public @Nullable AbstractSection getConfigurationSection(@NotNull String path) {
+    public @Nullable ConfigSection getConfigurationSection(@NotNull String path) {
         if (isConfigurationSection(path))
-            return new ConfigSection(Objects.requireNonNull(super.getConfigurationSection(path)), this, this);
+            return new ConfigSectionImpl(Objects.requireNonNull(super.getConfigurationSection(path)), this, this);
         return null;
     }
 }
