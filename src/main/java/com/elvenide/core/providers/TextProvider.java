@@ -25,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextProvider extends Provider {
     private static MiniMessage miniMessage;
@@ -100,12 +102,15 @@ public class TextProvider extends Provider {
 
     /// @since 0.0.13
     private static String preParsing(String text, Object[] placeholders) {
+        // Auto-convert <gradient> to <egradient>
         if (autoConvertGradientToEgradient)
             text = text.replaceAll("<gradient:", "<egradient:");
 
-        if (text.contains("%"))
-            text = text.formatted(placeholders);
+        // Format placeholders
+        if (placeholders.length > 0)
+            text = Core.text.format(text, placeholders);
 
+        // Convert legacy colors
         return convertLegacyToMiniMessage(text);
     }
 
@@ -147,6 +152,65 @@ public class TextProvider extends Provider {
         }
 
         return Tag.selfClosingInserting(PlainTextComponentSerializer.plainText().deserialize(value.toString()));
+    }
+
+    /**
+     * Formats text with any number of placeholders.<br/>
+     * Supports all Java format placeholders (e.g. %s, %d).<br/>
+     * Supports custom placeholders (e.g. {}).
+     * <p>
+     * Example (returns "Hello, world!"):<br/>
+     * <code>
+     *     format("%s, {}!", "Hello", "world");
+     * </code>
+     * @param text The text to format
+     * @param placeholders The placeholders to insert in the text
+     * @return The formatted text
+     * @since 0.0.15
+     */
+    public final @NotNull String format(String text, Object... placeholders) {
+        // Return text if there are no placeholders
+        if (placeholders.length == 0)
+            return text;
+
+        // Find java and custom placeholders
+        Pattern pattern = Pattern.compile("%([0-9]+[$]|<)*[-#+ 0,(]*[0-9]*([.][0-9]+)?[nbBhHsScCfdoxXeEgGaA]|%[tT][a-zA-Z]|\\{}");
+        Matcher matcher = pattern.matcher(text);
+
+        int i = 0;
+        char[] output = text.toCharArray();
+        while (matcher.find()) {
+            String placeholder = matcher.group();
+
+            // Keep java placeholders
+            if (!placeholder.equals("{}")) {
+                i++;
+                continue;
+            }
+
+            // Convert custom placeholders to java placeholders
+
+            if (i > placeholders.length)
+                break;
+
+            char formatLetter = 's';
+            if (placeholders[i] instanceof Integer || placeholders[i] instanceof Long)
+                formatLetter = 'd';
+            else if (placeholders[i] instanceof Float || placeholders[i] instanceof Double)
+                formatLetter = 'f';
+            else if (placeholders[i] instanceof Boolean)
+                formatLetter = 'b';
+            else if (placeholders[i] instanceof Character)
+                formatLetter = 'c';
+            else if (!(placeholders[i] instanceof String))
+                placeholders[i] = String.valueOf(placeholders[i]);
+
+            output[matcher.start() + 1] = formatLetter;
+            i++;
+        }
+
+        // Format text using java placeholder system
+        return String.valueOf(output).formatted(placeholders);
     }
 
     /**
