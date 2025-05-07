@@ -1,17 +1,16 @@
 package com.elvenide.core.events;
 
-import org.bukkit.event.Listener;
+import com.elvenide.core.Core;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Represents a listener that can handle CoreEvent events,
- * including both built-in ElvenideCore events and your own custom events.
+ * For internal use only.
  * <p>
- * Individual methods in the class implementing this interface should be annotated
- * with {@link CoreEventHandler @CoreEventHandler} to allow them to receive events, similar to Bukkit's {@link Listener}.
+ * For use in your plugin, use {@link Core.Listener} instead.
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
+@ApiStatus.Internal
 public interface CoreListener {
 
     /**

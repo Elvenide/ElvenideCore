@@ -1,5 +1,9 @@
 package com.elvenide.core;
 
+import com.elvenide.core.events.CoreCancellable;
+import com.elvenide.core.events.CoreEvent;
+import com.elvenide.core.events.CoreEventHandler;
+import com.elvenide.core.events.CoreListener;
 import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -91,4 +95,43 @@ public class Core {
      * @since 0.0.15
      */
     public static final TaskProvider tasks = new TaskProvider(INSTANCE);
+
+    /**
+     * ElvenideCore's powerful extension of the {@link JavaPlugin} class.
+     * @author <a href="https://elvenide.com">Elvenide</a>
+     * @since 0.0.15
+     */
+    public static abstract class Plugin extends CorePlugin {}
+
+    /**
+     * Represents a custom ElvenideCore event that can be handled by registered {@link CoreListener CoreListener}s.
+     * <p>
+     * This interface is a powerful alternative to the Bukkit event system for custom events, as it:
+     * <ul>
+     *     <li>Eliminates 99% of event boilerplate code</li>
+     *     <li>Allows use of <code>record</code> classes to further reduce verbosity</li>
+     *     <li>Follows familiar, Bukkit-like format</li>
+     * </ul>
+     * @author <a href="https://elvenide.com">Elvenide</a>
+     * @since 0.0.15
+     */
+    public interface Event extends CoreEvent {}
+
+    /**
+     * Represents a {@link CoreEvent} that can be cancelled.
+     * @since 0.0.15
+     * @author <a href="https://elvenide.com">Elvenide</a>
+     */
+    public interface CancellableEvent extends CoreEvent, CoreCancellable {}
+
+    /**
+     * Represents a listener that can handle CoreEvent events,
+     * including both built-in ElvenideCore events and your own custom events.
+     * <p>
+     * Individual methods in the class implementing this interface should be annotated
+     * with {@link CoreEventHandler @CoreEventHandler} to allow them to receive events, similar to Bukkit's {@link org.bukkit.event.Listener}.
+     * @author <a href="https://elvenide.com">Elvenide</a>
+     * @since 0.0.15
+     */
+    public interface Listener extends CoreListener {}
 }
