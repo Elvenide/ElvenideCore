@@ -152,6 +152,6 @@ public class LangProvider extends Provider {
             placeholders.add(args.pop().value());
         }
 
-        return Tag.preProcessParsed(Core.text.format(value, (Object[]) placeholders.toArray(String[]::new)));
+        return Tag.preProcessParsed(TextProvider.preParsing(value, placeholders.toArray(String[]::new)));
     }
 }
