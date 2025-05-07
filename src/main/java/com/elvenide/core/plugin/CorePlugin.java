@@ -12,10 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * ElvenideCore's powerful extension of the {@link JavaPlugin} class.
+ * For internal use only.
+ * <p>
+ * For use in your plugin, use {@link Core.Plugin} instead.
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
+@ApiStatus.Internal
 public abstract class CorePlugin extends JavaPlugin {
 
     private static CorePlugin instance = null;

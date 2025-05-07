@@ -2,19 +2,16 @@ package com.elvenide.core.events;
 
 import com.elvenide.core.Core;
 import net.kyori.adventure.audience.Audience;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Represents a custom ElvenideCore event that can be handled by registered {@link CoreListener CoreListener}s.
+ * For internal use only.
  * <p>
- * This interface is a powerful alternative to the Bukkit event system for custom events, as it:
- * <ul>
- *     <li>Eliminates 99% of event boilerplate code</li>
- *     <li>Allows use of <code>record</code> classes to further reduce verbosity</li>
- *     <li>Follows familiar, Bukkit-like format</li>
- * </ul>
+ * For use in your plugin, use {@link Core.Event} instead.
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
+@ApiStatus.Internal
 public interface CoreEvent {
 
     /**
