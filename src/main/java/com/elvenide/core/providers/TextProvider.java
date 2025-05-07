@@ -101,7 +101,7 @@ public class TextProvider extends Provider {
     }
 
     /// @since 0.0.13
-    private static String preParsing(String text, Object[] placeholders) {
+    static String preParsing(String text, Object[] placeholders) {
         // Auto-convert <gradient> to <egradient>
         if (autoConvertGradientToEgradient)
             text = text.replaceAll("<gradient:", "<egradient:");
