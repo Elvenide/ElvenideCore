@@ -320,12 +320,18 @@ public class CommandBuilder {
             if (!argBuilder.subArgs.isEmpty()) {
                 // Add args with executor to current node
                 current.then(getArgumentTree(new LinkedList<>(argBuilder.subArgs), wrapper, argBuilder, 1));
+                assert argBuilder.subArgs.peekFirst() != null;
 
-                // Add help executor to current subcommand node
-                current.executes(context -> helpExecutor(context, wrapper));
+                // If first arg is required, add help executor to current subcommand node
+                if (argBuilder.subArgs.peekFirst().required)
+                    current.executes(context -> helpExecutor(context, wrapper));
+
+                // Otherwise if first arg is optional, add validated executor on current subcommand node
+                else
+                    current.executes(context -> validatedExecutor(wrapper, new SubCommandContext(context, argBuilder, this, 0)));
             }
 
-            // Otherwise, add executor on current leaf node
+            // Otherwise, add validated executor on current leaf node
             else
                 current.executes(context -> validatedExecutor(wrapper, new SubCommandContext(context, argBuilder, this, 0)));
         }
