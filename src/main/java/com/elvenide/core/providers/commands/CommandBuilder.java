@@ -230,12 +230,20 @@ public class CommandBuilder {
         for (SubArgumentBuilder subArg : argBuilder.subArgs) {
             String openBracket = subArg.required ? "<" : "[";
             String closeBracket = subArg.required ? ">" : "]";
+            String type = subArg.getTypeName();
+
+            // Open bracket + argument name
             argUsages.append(openBracket)
-                    .append(subArg.label)
-                    .append(": ")
-                    .append(subArg.getTypeName())
-                    .append(closeBracket)
-                    .append(" ");
+                .append(subArg.label);
+
+            // + argument type (unless equal to argument name)
+            if (!type.equalsIgnoreCase(subArg.label))
+                argUsages.append(": ")
+                    .append(subArg.getTypeName());
+
+            // + close bracket
+            argUsages.append(closeBracket)
+                .append(" ");
         }
 
         prefix += argUsages.toString().strip();
