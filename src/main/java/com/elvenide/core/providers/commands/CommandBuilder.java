@@ -92,7 +92,7 @@ public class CommandBuilder {
     private CommandBuilder addSubNode(@NotNull SubNode subNode) {
         HashedSubNodeWrapper wrapper = new HashedSubNodeWrapper(subNode);
         root.then(getNodeTree(wrapper));
-        parseUsageTree(wrapper, "/" + name + " ");
+        parseUsageTree(wrapper, "/" + Core.lang.common.COMMAND_HELP_COLOR.formatted(name) + " ");
         return this;
     }
 
@@ -210,7 +210,7 @@ public class CommandBuilder {
 
     private List<String> parseUsageGroup(SubGroup group, String prefix) {
         ArrayList<String> usages = new ArrayList<>();
-        prefix += group.label() + " ";
+        prefix += Core.lang.common.SUBGROUP_HELP_COLOR.formatted(group.label()) + " ";
 
         // Parse all children's usage and concatenate into one string
         for (HashedSubNodeWrapper child : group.hashedSubNodes()) {
@@ -222,27 +222,13 @@ public class CommandBuilder {
 
     private String parseUsageCommand(SubCommand command, String prefix) {
         StringBuilder argUsages = new StringBuilder();
-        prefix += command.label() + " ";
+        prefix += Core.lang.common.SUBCOMMAND_HELP_COLOR.formatted(command.label()) + " ";
 
         // Add all arguments
         SubCommandBuilder argBuilder = new SubCommandBuilder();
         command.setup(argBuilder);
         for (SubArgumentBuilder subArg : argBuilder.subArgs) {
-            String openBracket = subArg.required ? "<" : "[";
-            String closeBracket = subArg.required ? ">" : "]";
-            String type = subArg.getTypeName();
-
-            // Open bracket + argument name
-            argUsages.append(openBracket)
-                .append(subArg.label);
-
-            // + argument type (unless equal to argument name)
-            if (!type.equalsIgnoreCase(subArg.label))
-                argUsages.append(": ")
-                    .append(subArg.getTypeName());
-
-            // + close bracket
-            argUsages.append(closeBracket)
+            argUsages.append(subArg.formatted())
                 .append(" ");
         }
 
