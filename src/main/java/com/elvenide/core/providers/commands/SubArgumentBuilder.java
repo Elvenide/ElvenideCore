@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.commands;
 
+import com.elvenide.core.Core;
 import com.mojang.brigadier.arguments.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,6 +61,54 @@ public class SubArgumentBuilder {
      */
     public void suggests(String... staticArray) {
         this.suggester = context -> List.of(staticArray);
+    }
+
+    boolean isBool() {
+        return type instanceof BoolArgumentType;
+    }
+
+    boolean isNumeric() {
+        return type instanceof IntegerArgumentType || type instanceof LongArgumentType || type instanceof FloatArgumentType || type instanceof DoubleArgumentType;
+    }
+
+    boolean isPlayer() {
+        return specialType == 1 || specialType == 2;
+    }
+
+    boolean isItem() {
+        return specialType == 3 || specialType == 4;
+    }
+
+    String formatted() {
+        String output = "";
+
+        String openBracket = required ? "<" : "[";
+        String closeBracket = required ? ">" : "]";
+        String type = getTypeName();
+
+        // Open bracket + argument name
+        output += openBracket + label;
+
+        // + argument type (unless equal to argument name)
+        if (!type.equalsIgnoreCase(label))
+            output += ": " + type;
+
+        // + close bracket
+        output += closeBracket;
+
+        if (isBool())
+            return Core.lang.common.BOOL_ARGUMENT_HELP_COLOR.formatted(output);
+
+        if (isNumeric())
+            return Core.lang.common.NUMBER_ARGUMENT_HELP_COLOR.formatted(output);
+
+        if (isPlayer())
+            return Core.lang.common.PLAYER_ARGUMENT_HELP_COLOR.formatted(output);
+
+        if (isItem())
+            return Core.lang.common.ITEM_ARGUMENT_HELP_COLOR.formatted(output);
+
+        return Core.lang.common.STRING_ARGUMENT_HELP_COLOR.formatted(output);
     }
 
     String getTypeName() {
