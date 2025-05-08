@@ -23,7 +23,7 @@ public interface LangKeySupplier {
      * @return The lang tag, with placeholders
      * @since 0.0.13
      */
-    default String create(@LangPattern String key, String defValue, @LangPlaceholderPattern String firstPlaceholder, String... otherPlaceholders) {
+    default LangKey create(@LangPattern String key, String defValue, @LangPlaceholderPattern String firstPlaceholder, String... otherPlaceholders) {
         Core.lang.set(key, defValue);
         String placeholders = ":\"" + esc(firstPlaceholder) + "\"" + Arrays.stream(otherPlaceholders).map(p -> ":\"" + esc(p) + "\"").reduce("", String::concat);
         return Core.lang.tag(key + placeholders);
@@ -36,7 +36,7 @@ public interface LangKeySupplier {
      * @return The lang tag
      * @since 0.0.8
      */
-    default String create(@LangPattern String key, String defValue) {
+    default LangKey create(@LangPattern String key, String defValue) {
         Core.lang.set(key, defValue);
         return Core.lang.tag(key);
     }

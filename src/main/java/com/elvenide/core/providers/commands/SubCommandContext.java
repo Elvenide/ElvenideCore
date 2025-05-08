@@ -87,7 +87,7 @@ public class SubCommandContext {
      * @param message String in MiniMessage format
      * @param optionalPlaceholders Optional placeholders
      */
-    public void reply(String message, Object... optionalPlaceholders) {
+    public void reply(Object message, Object... optionalPlaceholders) {
         executor().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
 
@@ -96,7 +96,7 @@ public class SubCommandContext {
      * @param message String in MiniMessage format
      * @param optionalPlaceholders Optional placeholders
      */
-    public void replyToSender(String message, Object... optionalPlaceholders) {
+    public void replyToSender(Object message, Object... optionalPlaceholders) {
         ctx.getSource().getSender().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
 
@@ -108,8 +108,8 @@ public class SubCommandContext {
      * @param optionalPlaceholders Optional placeholders
      * @since 0.0.15
      */
-    public void end(String errorMessage, Object... optionalPlaceholders) {
-        throw new InvalidArgumentException("%s", errorMessage.formatted(optionalPlaceholders));
+    public void end(Object errorMessage, Object... optionalPlaceholders) {
+        throw new InvalidArgumentException("%s", Core.text.format(errorMessage, optionalPlaceholders));
     }
 
     /**
