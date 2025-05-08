@@ -69,9 +69,9 @@ public class ArgumentConditional {
      * @throws InvalidArgumentException If the condition is true
      * @since 0.0.15
      */
-    public ArgumentConditional thenEnd(String errorMessage, Object... placeholders) throws InvalidArgumentException {
+    public ArgumentConditional thenEnd(Object errorMessage, Object... placeholders) throws InvalidArgumentException {
         if (operational && isTrue)
-            throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
+            throw new InvalidArgumentException("%s", Core.text.format(errorMessage, placeholders));
 
         return this;
     }
@@ -83,7 +83,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional thenReply(String message, Object... placeholders) {
+    public ArgumentConditional thenReply(Object message, Object... placeholders) {
         if (operational && isTrue)
             args.sub.reply(message, placeholders);
         return this;
@@ -96,7 +96,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional thenReplyToSender(String message, Object... placeholders) {
+    public ArgumentConditional thenReplyToSender(Object message, Object... placeholders) {
         if (operational && isTrue)
             args.sub.replyToSender(message, placeholders);
         return this;
@@ -110,7 +110,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional thenSend(Audience target, String message, Object... placeholders) {
+    public ArgumentConditional thenSend(Audience target, Object message, Object... placeholders) {
         if (operational && isTrue)
             Core.text.send(target, message, placeholders);
         return this;
@@ -137,9 +137,9 @@ public class ArgumentConditional {
      * @throws InvalidArgumentException If the condition is false
      * @since 0.0.14
      */
-    public ArgumentConditional orEnd(@NotNull String errorMessage, Object... placeholders) throws InvalidArgumentException {
+    public ArgumentConditional orEnd(Object errorMessage, Object... placeholders) throws InvalidArgumentException {
         if (operational && !isTrue)
-            throw new InvalidArgumentException("%s", errorMessage.formatted(placeholders));
+            throw new InvalidArgumentException("%s", Core.text.format(errorMessage, placeholders));
 
         return this;
     }
@@ -151,7 +151,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional orReply(String message, Object... placeholders) {
+    public ArgumentConditional orReply(Object message, Object... placeholders) {
         if (operational && !isTrue)
             args.sub.reply(message, placeholders);
         return this;
@@ -164,7 +164,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional orReplyToSender(String message, Object... placeholders) {
+    public ArgumentConditional orReplyToSender(Object message, Object... placeholders) {
         if (operational && !isTrue)
             args.sub.replyToSender(message, placeholders);
         return this;
@@ -178,7 +178,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
-    public ArgumentConditional orSend(Audience target, String message, Object... placeholders) {
+    public ArgumentConditional orSend(Audience target, Object message, Object... placeholders) {
         if (operational && !isTrue)
             Core.text.send(target, message, placeholders);
         return this;

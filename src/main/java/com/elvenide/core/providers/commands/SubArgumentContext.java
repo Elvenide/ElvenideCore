@@ -25,7 +25,7 @@ public class SubArgumentContext {
     private <T> T getRaw(String name, Class<T> type) {
         if (!isProvided(name)) {
             if (arg(name).required)
-                throw new InvalidArgumentException(Core.lang.common.MISSING_ARGUMENT, name);
+                throw new InvalidArgumentException(Core.lang.common.MISSING_ARGUMENT.toString(), name);
             else
                 return null;
         }
@@ -34,7 +34,7 @@ public class SubArgumentContext {
             return sub.ctx.getArgument(name, type);
         }
         catch (IllegalArgumentException ignored) {
-            throw new InvalidArgumentException(Core.lang.common.INVALID_TYPE, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_TYPE.toString(), name);
         }
     }
 

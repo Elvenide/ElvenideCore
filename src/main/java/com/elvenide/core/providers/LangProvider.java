@@ -2,6 +2,7 @@ package com.elvenide.core.providers;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.providers.lang.LangKey;
 import com.elvenide.core.providers.lang.LangKeySupplier;
 import com.elvenide.core.providers.lang.LangPattern;
 import net.kyori.adventure.text.minimessage.Context;
@@ -27,13 +28,13 @@ public class LangProvider extends Provider {
     }
 
     /**
-     * Gets the String representation of the MiniMessage tag for a lang key.
+     * Gets the String-like representation of the MiniMessage tag for a lang key.
      * @param key The key
      * @return The tag
-     * @since 0.0.8
+     * @since 0.0.15
      */
-    public String tag(@LangPattern String key) {
-        return "<elang:" + key + ">";
+    public LangKey tag(@LangPattern String key) {
+        return new LangKey("<elang:" + key + ">");
     }
 
     /**
@@ -77,70 +78,150 @@ public class LangProvider extends Provider {
         public CommonLangKeys() {}
 
         /// @see #NOT_PLAYER
-        public String setNotPlayer(String value) { return create("not_player", value); }
+        public LangKey setNotPlayer(String value) { return create("not_player", value); }
 
         /// @see #NO_PERMISSION
-        public String setNoPermission(String value) { return create("no_permission", value); }
+        public LangKey setNoPermission(String value) { return create("no_permission", value); }
 
         /// @see #COMMAND_HEADER
-        public String setCommandHeader(String value) { return create("command_header", value); }
+        public LangKey setCommandHeader(String value) { return create("command_header", value); }
 
         /// @see #COMMAND_USAGE_PREFIX
-        public String setCommandUsagePrefix(String value) { return create("command_usage_prefix", value); }
+        public LangKey setCommandUsagePrefix(String value) { return create("command_usage_prefix", value); }
 
         /// @see #MISSING_ARGUMENT
-        public String setMissingArgument(String value) { return create("missing_arg", value, "%s"); }
+        public LangKey setMissingArgument(String value) { return create("missing_arg", value, "%s"); }
 
         /// @see #INVALID_TYPE
-        public String setInvalidType(String value) { return create("invalid_arg_type", value, "%s"); }
+        public LangKey setInvalidType(String value) { return create("invalid_arg_type", value, "%s"); }
 
         /// @see #INVALID_PLAYER
-        public String setInvalidPlayer(String value) { return create("invalid_arg_player", value, "%s"); }
+        public LangKey setInvalidPlayer(String value) { return create("invalid_arg_player", value, "%s"); }
+
+        /// @see #SUBGROUP_HELP_COLOR
+        public LangKey setSubGroupHelpColor(String value) {  return create("subgroup_help_color", value, "{}"); }
+
+        /// @see #SUBCOMMAND_HELP_COLOR
+        public LangKey setSubCommandHelpColor(String value) {  return create("subcommand_help_color", value, "{}"); }
+
+        /// @see #COMMAND_HELP_COLOR
+        public LangKey setCommandHelpColor(String value) {  return create("command_help_color", value, "{}"); }
+
+        /// @see #BOOL_ARGUMENT_HELP_COLOR
+        public LangKey setBoolArgumentHelpColor(String value) {  return create("bool_argument_help_color", value, "{}"); }
+
+        /// @see #STRING_ARGUMENT_HELP_COLOR
+        public LangKey setStringArgumentHelpColor(String value) {  return create("string_argument_help_color", value, "{}"); }
+
+        /// @see #NUMBER_ARGUMENT_HELP_COLOR
+        public LangKey setNumberArgumentHelpColor(String value) {  return create("number_argument_help_color", value, "{}"); }
+
+        /// @see #PLAYER_ARGUMENT_HELP_COLOR
+        public LangKey setPlayerArgumentHelpColor(String value) {  return create("player_argument_help_color", value, "{}"); }
+
+        /// @see #ITEM_ARGUMENT_HELP_COLOR
+        public LangKey setItemArgumentHelpColor(String value) {  return create("item_argument_help_color", value, "{}"); }
 
         /**
          * Error message shown to non-player command senders trying to use player-only commands.
          * @since 0.0.8
          */
-        public final String NOT_PLAYER = setNotPlayer("<red>You must be a player to use this.");
+        public final LangKey NOT_PLAYER = setNotPlayer("<red>You must be a player to use this.");
 
         /**
          * Error message shown to command senders trying to use commands they do not have permission for.
          * @since 0.0.8
          */
-        public final String NO_PERMISSION = setNoPermission("<red>You do not have permission to use this.");
+        public final LangKey NO_PERMISSION = setNoPermission("<red>You do not have permission to use this.");
 
         /**
          * The command header, displayed above command usage information.
          * @since 0.0.8
          */
-        public final String COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>ElvenideCore-Based Plugin");
+        public final LangKey COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>ElvenideCore-Based Plugin");
 
         /**
          * The command usage prefix, displayed at the start of command usage information lines.
          * @since 0.0.10
          */
-        public final String COMMAND_USAGE_PREFIX = setCommandUsagePrefix("<gray>");
+        public final LangKey COMMAND_USAGE_PREFIX = setCommandUsagePrefix("<gray>");
 
         /**
          * Error message shown when a required argument is missing.
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String MISSING_ARGUMENT = setMissingArgument("Missing argument: '%s'. Hover to see command syntax.");
+        public final LangKey MISSING_ARGUMENT = setMissingArgument("Missing argument: '%s'. Hover to see command syntax.");
 
         /**
          * Error message shown when an argument has an invalid datatype.
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String INVALID_TYPE = setInvalidType("Invalid value provided for argument: '%s'. Hover to see command syntax.");
+        public final LangKey INVALID_TYPE = setInvalidType("Invalid value provided for argument: '%s'. Hover to see command syntax.");
 
         /**
          * Error message shown when an argument specifies an invalid player.
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
-        public final String INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax.");
+        public final LangKey INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax.");
+
+        /**
+         * The color of subgroups in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey SUBGROUP_HELP_COLOR = setSubGroupHelpColor("<gray>{}</gray>");
+
+        /**
+         * The color of subcommands in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey SUBCOMMAND_HELP_COLOR = setSubCommandHelpColor("<gray>{}</gray>");
+
+        /**
+         * The color of commands in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey COMMAND_HELP_COLOR = setCommandHelpColor("<gray>{}</gray>");
+
+        /**
+         * The color of boolean arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey BOOL_ARGUMENT_HELP_COLOR = setBoolArgumentHelpColor("<gold>{}</gold>");
+
+        /**
+         * The color of string and unknown arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey STRING_ARGUMENT_HELP_COLOR = setStringArgumentHelpColor("<dark_green>{}</dark_green>");
+
+        /**
+         * The color of numeric arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey NUMBER_ARGUMENT_HELP_COLOR = setNumberArgumentHelpColor("<dark_aqua>{}</dark_aqua>");
+
+        /**
+         * The color of player arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey PLAYER_ARGUMENT_HELP_COLOR = setPlayerArgumentHelpColor("<dark_purple>{}</dark_purple>");
+
+        /**
+         * The color of item arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        public final LangKey ITEM_ARGUMENT_HELP_COLOR = setItemArgumentHelpColor("<blue>{}</blue>");
     }
 
     static Tag createElangTag(final ArgumentQueue args, final Context ignored) {

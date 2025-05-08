@@ -187,12 +187,14 @@ public class TextProvider extends Provider {
      * <code>
      *     format("%s, {}!", "Hello", "world");
      * </code>
-     * @param text The text to format
+     * @param rawText The text to format
      * @param placeholders The placeholders to insert in the text
      * @return The formatted text
      * @since 0.0.15
      */
-    public final @NotNull String format(String text, Object... placeholders) {
+    public final @NotNull String format(Object rawText, Object... placeholders) {
+        String text = String.valueOf(rawText);
+
         // Return text if there are no placeholders
         if (placeholders.length == 0)
             return text;
@@ -282,9 +284,9 @@ public class TextProvider extends Provider {
      * @param optionalPlaceholders Optional placeholders
      * @return Deserialized MiniMessage component
      */
-    public final @NotNull Component deserialize(String text, Object... optionalPlaceholders) {
+    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
         return resolver().deserialize(
-                preParsing(text, optionalPlaceholders),
+                preParsing(String.valueOf(text), optionalPlaceholders),
                 customColorResolver.build()
         );
     }
@@ -300,40 +302,40 @@ public class TextProvider extends Provider {
      * @param player The optional player
      * @param placeholderResolver The placeholder resolver
      * @return Deserialized MiniMessage component
-     * @see #deserialize(String, Object...)
+     * @see #deserialize(Object, Object...)
      * @since 0.0.15
      */
-    public final @NotNull Component deserialize(String text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        text = placeholderResolver.apply(player, text);
+    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        text = placeholderResolver.apply(player, String.valueOf(text));
         return deserialize(text);
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(String, Object...)} to a player, group,
+     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player, group,
      * console, or the entire server.
      * @param audience The audience (e.g. player)
      * @param text String text
      * @param optionalPlaceholders Optional placeholders
      * @since 0.0.15
      */
-    public final void send(Audience audience, String text, Object... optionalPlaceholders) {
+    public final void send(Audience audience, Object text, Object... optionalPlaceholders) {
         audience.sendMessage(deserialize(text, optionalPlaceholders));
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(String, Object...)} to a player
+     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player
      * with support for a third-party placeholder plugin.
      * @param player The player
      * @param text String text
      * @param placeholderResolver The placeholder resolver
      * @since 0.0.15
      */
-    public final void send(Player player, String text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+    public final void send(Player player, Object text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         player.sendMessage(deserialize(text, player, placeholderResolver));
     }
 
     /**
-     * Adds a custom color tag parseable by {@link #deserialize(String, Object...)}.
+     * Adds a custom color tag parseable by {@link #deserialize(Object, Object...)}.
      * <p>
      * For example:<br/>
      * <code>addColorTag("bright_red", "#ff0000")</code> will add
