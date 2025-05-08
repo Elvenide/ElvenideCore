@@ -155,7 +155,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER.toString(), name);
         }
     }
 
@@ -236,7 +236,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER, name);
+            throw new InvalidArgumentException(Core.lang.common.INVALID_PLAYER.toString(), name);
         }
     }
 
