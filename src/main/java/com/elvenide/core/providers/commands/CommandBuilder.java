@@ -174,6 +174,7 @@ public class CommandBuilder {
         SubCommandContext ctx = new SubCommandContext(rawCtx, new SubCommandBuilder(), this, 0);
 
         // Send command header
+        ctx.reply(" ");
         ctx.reply(Core.lang.common.COMMAND_HEADER);
 
         // Send all subcommand usages if no subnode is specified
