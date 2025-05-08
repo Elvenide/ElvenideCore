@@ -36,6 +36,9 @@ public class TextProvider extends Provider {
     /// Flag that handles whether &lt;gradient&gt; tags should be auto-converted to &lt;egradient&gt;
     public static boolean autoConvertGradientToEgradient = true;
 
+    /// Flag that handles whether &lt;shadow&gt; tags should be auto-converted to &lt;eshadow&gt;
+    public static boolean autoConvertShadowToEshadow = true;
+
     /// A set of built-in text packages that add additional custom tags to MiniMessage
     public final CommonTextPackages packages = new CommonTextPackages();
 
@@ -61,6 +64,7 @@ public class TextProvider extends Provider {
                         .tag("elang", LangProvider::createElangTag)
                         .tag("egradient", TextProvider::createEgradientTag)
                         .tag("escape", TextProvider::createEscapeTag)
+                        .tag("eshadow", TextProvider::createEshadowTag)
                 )
                 .build();
         return miniMessage;
@@ -105,6 +109,10 @@ public class TextProvider extends Provider {
         // Auto-convert <gradient> to <egradient>
         if (autoConvertGradientToEgradient)
             text = text.replaceAll("<gradient:", "<egradient:");
+
+        // Auto-convert <shadow> to <eshadow>
+        if (autoConvertShadowToEshadow)
+            text = text.replaceAll("<shadow:", "<eshadow:");
 
         // Format placeholders
         if (placeholders.length > 0)
@@ -152,6 +160,22 @@ public class TextProvider extends Provider {
         }
 
         return Tag.selfClosingInserting(PlainTextComponentSerializer.plainText().deserialize(value.toString()));
+    }
+
+    /// @since 0.0.15
+    private static Tag createEshadowTag(final ArgumentQueue args, final Context ignored) {
+        final String color = args.popOr("The <eshadow> tag requires a color argument.").value();
+
+        StringBuilder value = new StringBuilder("<shadow:")
+            .append(customColors.getOrDefault(color, color));
+
+        if (args.hasNext()) {
+            String opacity = args.pop().value();
+            value.append(":").append(opacity);
+        }
+        value.append(">");
+
+        return Tag.preProcessParsed(value.toString());
     }
 
     /**
@@ -223,6 +247,7 @@ public class TextProvider extends Provider {
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
+     *     <li><code>&lt;eshadow:{color}:[opacity]&gt;</code> tags that support your custom colors</li>
      * </ul>
      * @param component The component
      * @return Serialized text
@@ -251,6 +276,7 @@ public class TextProvider extends Provider {
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
+     *     <li><code>&lt;eshadow:{color}:[opacity]&gt;</code> tags that support your custom colors</li>
      * </ul>
      * @param text The String text
      * @param optionalPlaceholders Optional placeholders
