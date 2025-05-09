@@ -98,29 +98,29 @@ public class LangProvider extends Provider {
         /// @see #INVALID_PLAYER
         public LangKey setInvalidPlayer(String value) { return create("invalid_arg_player", value, "%s"); }
 
-        /// @see #SUBGROUP_HELP_COLOR
+        /// @see #SUBGROUP_HELP_FORMATTING
         public LangKey setSubGroupHelpColor(String value) {  return create("subgroup_help_color", value, "{}"); }
 
-        /// @see #SUBCOMMAND_HELP_COLOR
+        /// @see #SUBCOMMAND_HELP_FORMATTING
         public LangKey setSubCommandHelpColor(String value) {  return create("subcommand_help_color", value, "{}"); }
 
-        /// @see #COMMAND_HELP_COLOR
-        public LangKey setCommandHelpColor(String value) {  return create("command_help_color", value, "{}"); }
-
-        /// @see #BOOL_ARGUMENT_HELP_COLOR
+        /// @see #BOOL_ARGUMENT_HELP_FORMATTING
         public LangKey setBoolArgumentHelpColor(String value) {  return create("bool_argument_help_color", value, "{}"); }
 
-        /// @see #STRING_ARGUMENT_HELP_COLOR
+        /// @see #STRING_ARGUMENT_HELP_FORMATTING
         public LangKey setStringArgumentHelpColor(String value) {  return create("string_argument_help_color", value, "{}"); }
 
-        /// @see #NUMBER_ARGUMENT_HELP_COLOR
+        /// @see #NUMBER_ARGUMENT_HELP_FORMATTING
         public LangKey setNumberArgumentHelpColor(String value) {  return create("number_argument_help_color", value, "{}"); }
 
-        /// @see #PLAYER_ARGUMENT_HELP_COLOR
+        /// @see #PLAYER_ARGUMENT_HELP_FORMATTING
         public LangKey setPlayerArgumentHelpColor(String value) {  return create("player_argument_help_color", value, "{}"); }
 
-        /// @see #ITEM_ARGUMENT_HELP_COLOR
+        /// @see #ITEM_ARGUMENT_HELP_FORMATTING
         public LangKey setItemArgumentHelpColor(String value) {  return create("item_argument_help_color", value, "{}"); }
+
+        /// @see #COMMANDS_HIDDEN_BY_PERMS
+        public LangKey setCommandsHiddenByPerms(String value) { return create("commands_hidden_by_perms", value, "{}"); }
 
         /**
          * Error message shown to non-player command senders trying to use player-only commands.
@@ -141,7 +141,8 @@ public class LangProvider extends Provider {
         public final LangKey COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>ElvenideCore-Based Plugin");
 
         /**
-         * The command usage prefix, displayed at the start of command usage information lines.
+         * The command usage prefix, displayed at the start of each command help line.
+         * Can be used to color the slash (/) in the command usage display.
          * @since 0.0.10
          */
         public final LangKey COMMAND_USAGE_PREFIX = setCommandUsagePrefix("<gray>");
@@ -168,60 +169,60 @@ public class LangProvider extends Provider {
         public final LangKey INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax.");
 
         /**
-         * The color of subgroups in the command help message.
+         * The formatting of subgroups and base-level commands in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey SUBGROUP_HELP_COLOR = setSubGroupHelpColor("<gray>{}</gray>");
+        public final LangKey SUBGROUP_HELP_FORMATTING = setSubGroupHelpColor("<gray>{}</gray>");
 
         /**
-         * The color of subcommands in the command help message.
+         * The formatting of subcommands in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey SUBCOMMAND_HELP_COLOR = setSubCommandHelpColor("<gray>{}</gray>");
+        public final LangKey SUBCOMMAND_HELP_FORMATTING = setSubCommandHelpColor("<gray>{}</gray>");
 
         /**
-         * The color of commands in the command help message.
+         * The formatting of boolean arguments in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey COMMAND_HELP_COLOR = setCommandHelpColor("<gray>{}</gray>");
+        public final LangKey BOOL_ARGUMENT_HELP_FORMATTING = setBoolArgumentHelpColor("<gold>{}</gold>");
 
         /**
-         * The color of boolean arguments in the command help message.
+         * The formatting of string and unknown arguments in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey BOOL_ARGUMENT_HELP_COLOR = setBoolArgumentHelpColor("<gold>{}</gold>");
+        public final LangKey STRING_ARGUMENT_HELP_FORMATTING = setStringArgumentHelpColor("<dark_green>{}</dark_green>");
 
         /**
-         * The color of string and unknown arguments in the command help message.
+         * The formatting of numeric arguments in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey STRING_ARGUMENT_HELP_COLOR = setStringArgumentHelpColor("<dark_green>{}</dark_green>");
+        public final LangKey NUMBER_ARGUMENT_HELP_FORMATTING = setNumberArgumentHelpColor("<dark_aqua>{}</dark_aqua>");
 
         /**
-         * The color of numeric arguments in the command help message.
+         * The formatting of player arguments in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey NUMBER_ARGUMENT_HELP_COLOR = setNumberArgumentHelpColor("<dark_aqua>{}</dark_aqua>");
+        public final LangKey PLAYER_ARGUMENT_HELP_FORMATTING = setPlayerArgumentHelpColor("<dark_purple>{}</dark_purple>");
 
         /**
-         * The color of player arguments in the command help message.
+         * The formatting of item arguments in the command help message.
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey PLAYER_ARGUMENT_HELP_COLOR = setPlayerArgumentHelpColor("<dark_purple>{}</dark_purple>");
+        public final LangKey ITEM_ARGUMENT_HELP_FORMATTING = setItemArgumentHelpColor("<blue>{}</blue>");
 
         /**
-         * The color of item arguments in the command help message.
-         * Has a single String placeholder ({}).
+         * Message shown when commands are hidden in the help message due to missing permissions.
+         * Has a single Integer placeholder ({}).
          * @since 0.0.15
          */
-        public final LangKey ITEM_ARGUMENT_HELP_COLOR = setItemArgumentHelpColor("<blue>{}</blue>");
+        public final LangKey COMMANDS_HIDDEN_BY_PERMS = setCommandsHiddenByPerms("<dark_gray>{} commands were hidden due to lack of permissions.");
     }
 
     static Tag createElangTag(final ArgumentQueue args, final Context ignored) {

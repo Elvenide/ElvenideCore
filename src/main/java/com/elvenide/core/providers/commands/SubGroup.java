@@ -3,20 +3,19 @@ package com.elvenide.core.providers.commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
-import java.util.List;
 
 abstract class SubGroup implements SubNode {
 
-    private final LinkedList<HashedSubNodeWrapper> hashedSubNodeWrappers = new LinkedList<>();
+    private final LinkedList<NodeWrapper> nodeWrappers = new LinkedList<>();
 
-    SubGroup(@NotNull List<SubNode> subNodes) {
-        for (SubNode child : subNodes) {
-            hashedSubNodeWrappers.add(new HashedSubNodeWrapper(child));
-        }
+    SubGroup() {}
+
+    void addSubNode(@NotNull NodeWrapper subWrapper) {
+        nodeWrappers.add(subWrapper);
     }
 
-    public LinkedList<HashedSubNodeWrapper> hashedSubNodes() {
-        return hashedSubNodeWrappers;
+    public LinkedList<NodeWrapper> getChildNodes() {
+        return nodeWrappers;
     }
 
 }

@@ -125,7 +125,7 @@ public class SubCommandContext {
      * Sends command help information to the sender (and not the executor).
      */
     public void sendCommandUsage() {
-        replyToSender(root.getUsage(null));
+        replyToSender(root.commandNode.generateUsage(ctx.getSource().getSender()));
     }
 
     /// See {@link SubCommandContext#vars} for deprecation reason.
