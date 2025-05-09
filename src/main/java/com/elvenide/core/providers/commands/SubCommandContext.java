@@ -7,7 +7,10 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
@@ -25,7 +28,7 @@ public class SubCommandContext {
      * Custom lambda-usable variable management.
      * <p>
      * Deprecated in favor of Java's built-in atomic objects, which are just as easy to use while providing extra features.
-     * @deprecated Use atomic objects instead (e.g. {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger})
+     * @deprecated Use atomic objects instead (e.g. {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger}, {@link java.util.concurrent.atomic.AtomicReference AtomicReference})
      */
     @Deprecated(since = "0.0.15", forRemoval = true)
     public final Variables vars = new Variables();
@@ -123,9 +126,32 @@ public class SubCommandContext {
 
     /**
      * Sends command help information to the sender (and not the executor).
+     * <p>
+     * <i>Deprecated in favor of direct access to the underlying NodeWrapper implementation that
+     * generates the command usage message.</i>
+     * @deprecated Use {@link #getCommandTreeNode(SubCommand) getCommandTreeNode(null).generateUsage(CommandSender)}
+     *             to get the root command usage message
      */
+    @Deprecated(forRemoval = true, since = "0.0.15")
     public void sendCommandUsage() {
-        replyToSender(root.commandNode.generateUsage(ctx.getSource().getSender()));
+        replyToSender(getCommandTreeNode(null).generateUsage(ctx.getSource().getSender()));
+    }
+
+    /**
+     * Provides access to information on the subcommand's location in the command tree,
+     * and allows traversing the command tree from the subcommand's location.
+     * <p>
+     * Experimentally available primarily for the niche use-case of making your own help subcommand.
+     * @param subCommand Your subcommand (if null, the root command node will be used)
+     * @return NodeWrapper with command tree info, or <code>null</code> if not found
+     * @since 0.0.15
+     */
+    @Contract("null -> !null")
+    @ApiStatus.Experimental
+    public @Nullable NodeWrapper getCommandTreeNode(@Nullable SubCommand subCommand) {
+        if (subCommand == null)
+            return root.commandNode;
+        return root.commandNode.getNodeWrapper(subCommand);
     }
 
     /// See {@link SubCommandContext#vars} for deprecation reason.
