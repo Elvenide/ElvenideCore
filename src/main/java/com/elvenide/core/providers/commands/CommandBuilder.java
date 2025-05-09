@@ -10,17 +10,15 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.MessageComponentSerializer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class CommandBuilder {
 
     private final String name;
     private LiteralArgumentBuilder<CommandSourceStack> root;
-    private final HashMap<String, String> subNodeUsages = new HashMap<>();
+    NodeWrapper commandNode;
     String[] aliases = {};
     String description = "Command created with the ElvenideCore library.";
 
@@ -28,6 +26,7 @@ public class CommandBuilder {
         this.name = name;
         this.root = Commands.literal(name);
         this.root.executes(this::helpExecutor);
+        this.commandNode = new SubGroupBuilder(name, null).buildHashed();
         CommandRegistry.commands.add(this);
     }
 
@@ -66,8 +65,7 @@ public class CommandBuilder {
      * @param subCommand A SubCommand instance to set as the main command
      */
     public void setMainCommand(@NotNull SubCommand subCommand) {
-        subNodeUsages.clear();
-        HashedSubNodeWrapper wrapper = new HashedSubNodeWrapper(new SubCommand() {
+        NodeWrapper wrapper = new NodeWrapper(new SubCommand() {
             @Override
             public @NotNull String label() {
                 return CommandBuilder.this.name;
@@ -84,16 +82,9 @@ public class CommandBuilder {
             public void executes(@NotNull SubCommandContext context) {
                 subCommand.executes(context);
             }
-        });
-        parseUsageTree(wrapper, "/");
+        }, null);
         this.root = getNodeTree(wrapper);
-    }
-
-    private CommandBuilder addSubNode(@NotNull SubNode subNode) {
-        HashedSubNodeWrapper wrapper = new HashedSubNodeWrapper(subNode);
-        root.then(getNodeTree(wrapper));
-        parseUsageTree(wrapper, "/" + Core.lang.common.COMMAND_HELP_COLOR.formatted(name) + " ");
-        return this;
+        this.commandNode = wrapper;
     }
 
     /**
@@ -103,9 +94,11 @@ public class CommandBuilder {
      * @return This
      */
     public CommandBuilder addSubGroup(String name, Consumer<SubGroupBuilder> builder) {
-        SubGroupBuilder groupBuilder = new SubGroupBuilder(name);
+        SubGroupBuilder groupBuilder = new SubGroupBuilder(name, commandNode);
         builder.accept(groupBuilder);
-        return addSubNode(groupBuilder.build());
+        root.then(getNodeTree(groupBuilder.buildHashed()));
+        commandNode.asSubGroup().addSubNode(groupBuilder.buildHashed());
+        return this;
     }
 
     /**
@@ -114,7 +107,10 @@ public class CommandBuilder {
      * @return This
      */
     public CommandBuilder addSubCommand(@NotNull SubCommand subCommand) {
-        return addSubNode(subCommand);
+        NodeWrapper wrapper = new NodeWrapper(subCommand, commandNode);
+        root.then(getNodeTree(wrapper));
+        commandNode.asSubGroup().addSubNode(wrapper);
+        return this;
     }
 
     /**
@@ -142,7 +138,7 @@ public class CommandBuilder {
 
     /* <editor-fold defaultstate="collapsed" desc="Command Execution Functions"> */
 
-    private int validatedExecutor(HashedSubNodeWrapper commandWrapper, SubCommandContext ctx) {
+    private int validatedExecutor(NodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
             ctx.reply(Core.lang.common.NOT_PLAYER);
             return Command.SINGLE_SUCCESS;
@@ -158,7 +154,7 @@ public class CommandBuilder {
         }
         catch (InvalidArgumentException e) {
             ctx.replyToSender("<hover:show_text:\"%s\">%s</hover>",
-                Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(commandWrapper),
+                commandWrapper.generateUsage(ctx.executor()),
                 "<red>" + e.getMessage()
             );
         }
@@ -167,97 +163,35 @@ public class CommandBuilder {
     }
 
     private int helpExecutor(CommandContext<CommandSourceStack> rawCtx) {
-        return helpExecutor(rawCtx, null);
+        return helpExecutor(rawCtx, commandNode);
     }
 
-    private int helpExecutor(CommandContext<CommandSourceStack> rawCtx, @Nullable HashedSubNodeWrapper wrapper) {
+    private int helpExecutor(CommandContext<CommandSourceStack> rawCtx, @NotNull NodeWrapper wrapper) {
         SubCommandContext ctx = new SubCommandContext(rawCtx, new SubCommandBuilder(), this, 0);
 
         // Send command header
         ctx.reply(" ");
         ctx.reply(Core.lang.common.COMMAND_HEADER);
 
-        // Send all subcommand usages if no subnode is specified
-        if (wrapper == null) {
+        // Send description
+        if (wrapper.isSubCommand()) {
+            wrapper.asSubCommand().setup(ctx.subCommandData);
+            ctx.reply(ctx.subCommandData.description);
+        }
+        else if (wrapper == commandNode) {
             ctx.reply(description);
-            ctx.reply(Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(null));
         }
 
-        // Otherwise, send only the specified subnode's usage
-        else {
-            if (wrapper.isSubCommand()) {
-                wrapper.asSubCommand().setup(ctx.subCommandData);
-                ctx.reply(ctx.subCommandData.description);
-            }
-            ctx.reply(Core.lang.common.COMMAND_USAGE_PREFIX + getUsage(wrapper));
-        }
-
+        // Send usage
+        ctx.reply(wrapper.generateUsage(ctx.executor()));
         return Command.SINGLE_SUCCESS;
-    }
-
-    /* </editor-fold> */
-
-    /* <editor-fold defaultstate="collapsed" desc="Command Usage"> */
-
-    @NotNull String getUsage(@Nullable HashedSubNodeWrapper wrapper) {
-        if (wrapper == null)
-            return subNodeUsages.entrySet()
-                    .stream()
-                    .filter(e -> HashedSubNodeWrapper.isSubCommandId(e.getKey()))
-                    .map(Map.Entry::getValue)
-                    .collect(Collectors.joining("<br>"));
-        return subNodeUsages.getOrDefault(wrapper.id(), "");
-    }
-
-    private List<String> parseUsageGroup(SubGroup group, String prefix) {
-        ArrayList<String> usages = new ArrayList<>();
-        prefix += Core.lang.common.SUBGROUP_HELP_COLOR.formatted(group.label()) + " ";
-
-        // Parse all children's usage and concatenate into one string
-        for (HashedSubNodeWrapper child : group.hashedSubNodes()) {
-            usages.addAll(parseUsageTree(child, prefix));
-        }
-
-        return usages;
-    }
-
-    private String parseUsageCommand(SubCommand command, String prefix) {
-        StringBuilder argUsages = new StringBuilder();
-        prefix += Core.lang.common.SUBCOMMAND_HELP_COLOR.formatted(command.label()) + " ";
-
-        // Add all arguments
-        SubCommandBuilder argBuilder = new SubCommandBuilder();
-        command.setup(argBuilder);
-        for (SubArgumentBuilder subArg : argBuilder.subArgs) {
-            argUsages.append(subArg.formatted())
-                .append(" ");
-        }
-
-        prefix += argUsages.toString().strip();
-        return prefix;
-    }
-
-    private List<String> parseUsageTree(HashedSubNodeWrapper currentWrapper, String prefix) {
-        List<String> result;
-
-        if (currentWrapper.isSubGroup())
-            result = parseUsageGroup(currentWrapper.asSubGroup(), prefix);
-
-        else if (currentWrapper.isSubCommand())
-            result = List.of(parseUsageCommand(currentWrapper.asSubCommand(), prefix));
-
-        else
-            result = List.of();
-
-        subNodeUsages.put(currentWrapper.id(), String.join("<br>", result));
-        return result;
     }
 
     /* </editor-fold> */
 
     /* <editor-fold defaultstate="collapsed" desc="Command Tree Generation"> */
 
-    private RequiredArgumentBuilder<CommandSourceStack, ?> getArgumentTree(LinkedList<SubArgumentBuilder> remainingArgs, HashedSubNodeWrapper wrapper, SubCommandBuilder argBuilder, int specifiedArgs) {
+    private RequiredArgumentBuilder<CommandSourceStack, ?> getArgumentTree(LinkedList<SubArgumentBuilder> remainingArgs, NodeWrapper wrapper, SubCommandBuilder argBuilder, int specifiedArgs) {
         // Pop subargument from remaining list
         final SubArgumentBuilder arg = remainingArgs.pop();
 
@@ -290,13 +224,13 @@ public class CommandBuilder {
         return argNode;
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> getNodeTree(HashedSubNodeWrapper wrapper) {
+    private LiteralArgumentBuilder<CommandSourceStack> getNodeTree(@NotNull NodeWrapper wrapper) {
         // Create subcommand literal
         LiteralArgumentBuilder<CommandSourceStack> current = Commands.literal(wrapper.asSubNode().label());
 
         // If it is a subgroup, add its child nodes to current node
         if (wrapper.isSubGroup()) {
-            for (HashedSubNodeWrapper subWrapper : wrapper.asSubGroup().hashedSubNodes()) {
+            for (NodeWrapper subWrapper : wrapper.asSubGroup().getChildNodes()) {
                 LiteralArgumentBuilder<CommandSourceStack> child = getNodeTree(subWrapper);
                 current.then(child);
             }
