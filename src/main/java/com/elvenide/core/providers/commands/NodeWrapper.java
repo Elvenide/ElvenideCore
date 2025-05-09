@@ -2,9 +2,20 @@ package com.elvenide.core.providers.commands;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A wrapper around commands, subgroups, and subcommands that holds ancestry information
+ * on each node's place in the ElvenideCore command tree.
+ * <p>
+ * Mostly used internally for command tree management and command usage generation.
+ * @since 0.0.15
+ * @author <a href="https://elvenide.com">Elvenide</a>
+ */
 public class NodeWrapper {
 
     private final SubNode subNode;
@@ -20,6 +31,7 @@ public class NodeWrapper {
      * Gets the parent node of this node, if any.
      * @return The parent node, or <code>null</code> if this node is the root command
      */
+    @ApiStatus.Experimental
     public @Nullable NodeWrapper parent() {
         return parent;
     }
@@ -44,14 +56,18 @@ public class NodeWrapper {
         return subNode instanceof SubGroup;
     }
 
-    /// Recursively finds the wrapper for the given subnode further down the node tree.
-    @Nullable NodeWrapper findNode(SubNode node) {
+    /**
+     * Recursively gets the NodeWrapper for the given subnode further down the node tree.
+     * @param node The subnode
+     * @return The node wrapper, or <code>null</code> if not found
+     */
+    @Nullable NodeWrapper getNodeWrapper(SubNode node) {
         if (isSubGroup()) {
             for (NodeWrapper child : asSubGroup().getChildNodes())
                 if (child.asSubNode() == node)
                     return child;
                 else if (child.isSubGroup()) {
-                    NodeWrapper found = child.findNode(node);
+                    NodeWrapper found = child.getNodeWrapper(node);
                     if (found != null)
                         return found;
                 }
@@ -60,6 +76,35 @@ public class NodeWrapper {
         }
 
         return null;
+    }
+
+    /**
+     * Recursively gets all paths (as space-separated Strings) from this node to all descendant nodes.
+     * If this node is a subcommand, it will solely return its own label.
+     * <p>
+     * Experimentally available to allow making your own help subcommand.
+     * @return List of paths
+     */
+    @ApiStatus.Experimental
+    public @NotNull List<String> getSubPaths() {
+        String currentName = parent == null ? "" : asSubNode().label() + " ";
+        ArrayList<String> paths = new ArrayList<>();
+
+        if (isSubGroup()) {
+            for (NodeWrapper child : asSubGroup().getChildNodes()) {
+                List<String> childPaths = child.getSubPaths();
+                paths.addAll(
+                    childPaths
+                        .stream()
+                        .map(path -> currentName + path)
+                        .toList()
+                );
+            }
+        }
+        else if (!currentName.isBlank())
+            paths.add(currentName.strip());
+
+        return paths;
     }
 
     /**

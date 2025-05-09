@@ -114,20 +114,14 @@ public class CommandBuilder {
     }
 
     /**
-     * Adds a built-in "help" subcommand to the command, which will display auto-generated usage
-     * information for all subcommands associated with this command.
+     * Adds a built-in "help" subcommand to the command, which can display auto-generated usage
+     * information for all subgroups and subcommands associated with this command.
+     * <p>
+     * As of v0.0.15, the help subcommand now accepts a command name as an optional argument.
      * @return This
      */
     public CommandBuilder addHelpSubCommand() {
-        // Create subcommand literal
-        LiteralArgumentBuilder<CommandSourceStack> current = Commands.literal("help");
-
-        // Add help executor to current subgroup node
-        current.executes(this::helpExecutor);
-
-        // Add to root
-        root.then(current);
-        return this;
+        return addSubCommand(new BuiltinHelpCommand(this));
     }
 
     LiteralCommandNode<CommandSourceStack> build() {
@@ -176,7 +170,10 @@ public class CommandBuilder {
         // Send description
         if (wrapper.isSubCommand()) {
             wrapper.asSubCommand().setup(ctx.subCommandData);
-            ctx.reply(ctx.subCommandData.description);
+            if (ctx.subCommandData.description != null)
+                ctx.reply(ctx.subCommandData.description);
+            else
+                ctx.reply(description);
         }
         else if (wrapper == commandNode) {
             ctx.reply(description);
