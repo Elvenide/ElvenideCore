@@ -8,6 +8,7 @@ import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.*;
 import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
+import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.lang.LangProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
