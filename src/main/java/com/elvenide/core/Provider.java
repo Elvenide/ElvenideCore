@@ -14,7 +14,7 @@ public class Provider {
     protected final @NotNull Core core;
 
     @ApiStatus.Internal
-    public Provider(@Nullable Core core) {
+    protected Provider(@Nullable Core core) {
         if (core == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 

@@ -1,8 +1,8 @@
 package com.elvenide.core.plugin;
 
 import com.elvenide.core.Core;
-import com.elvenide.core.events.CoreListener;
-import com.elvenide.core.events.builtin.CoreReloadEvent;
+import com.elvenide.core.providers.event.CoreListener;
+import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
 import com.elvenide.core.providers.config.ConfigSupplier;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
