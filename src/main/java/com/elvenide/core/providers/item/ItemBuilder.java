@@ -31,7 +31,7 @@ public class ItemBuilder {
     private final ItemStack item;
 
     @ApiStatus.Internal
-    public ItemBuilder(Core instance, @Nullable Material material) {
+    ItemBuilder(Core instance, @Nullable Material material) {
         if (instance == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
@@ -42,7 +42,7 @@ public class ItemBuilder {
     }
 
     @ApiStatus.Internal
-    public ItemBuilder(Core instance, @NotNull ItemStack item) {
+    ItemBuilder(Core instance, @NotNull ItemStack item) {
         if (instance == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
@@ -182,11 +182,14 @@ public class ItemBuilder {
 
     /**
      * Adds a 1.21+ data component to the item.
+     * <p>
+     * <i>Considered unstable API due to the underlying unstable Paper implementation.</i>
      * @param type Data component type
      * @param builder Data component builder
      * @return This
      * @since 0.0.15
      */
+    @ApiStatus.Experimental
     public <T> ItemBuilder component(DataComponentType.Valued<T> type, DataComponentBuilder<T> builder) {
         item.setData(type, builder);
         return this;

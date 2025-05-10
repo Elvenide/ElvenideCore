@@ -1,8 +1,7 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.item;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
-import com.elvenide.core.providers.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
