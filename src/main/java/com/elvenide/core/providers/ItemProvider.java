@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,7 @@ public class ItemProvider extends Provider {
      * @return Item builder
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public ItemBuilder builder(@NotNull Material material) {
         return new ItemBuilder(core, material);
     }
@@ -35,6 +37,7 @@ public class ItemProvider extends Provider {
      * @return Item builder
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public ItemBuilder builder(@NotNull ItemStack item) {
         return new ItemBuilder(core, item);
     }
@@ -50,6 +53,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, NamespacedKey key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -66,6 +70,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, NamespacedKey key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -83,6 +88,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -101,6 +107,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -118,6 +125,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -136,6 +144,7 @@ public class ItemProvider extends Provider {
      * @param <C> Data return type
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -149,6 +158,7 @@ public class ItemProvider extends Provider {
      * @return Whether the item has your data
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public boolean hasData(ItemStack item, NamespacedKey key) {
         if (!item.hasItemMeta())
             return false;
@@ -163,6 +173,7 @@ public class ItemProvider extends Provider {
      * @return Whether the item has your data
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public boolean hasData(ItemStack item, String key) {
         if (!item.hasItemMeta())
             return false;
@@ -177,6 +188,7 @@ public class ItemProvider extends Provider {
      * @return Whether the item has your data
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public boolean hasData(ItemStack item, Enum<?> key) {
         if (!item.hasItemMeta())
             return false;

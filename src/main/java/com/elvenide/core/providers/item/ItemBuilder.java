@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -279,6 +280,7 @@ public class ItemBuilder {
      * @return Built item
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public ItemStack build() {
         return item.clone();
     }

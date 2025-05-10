@@ -6,6 +6,7 @@ import com.elvenide.core.plugin.CorePlugin;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +39,7 @@ public class KeyProvider extends Provider {
      * @param key The key string
      * @return The NamespacedKey
      */
+    @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull String key) {
         ensureInitialized();
         return new NamespacedKey(core.plugin, key);
@@ -51,6 +53,7 @@ public class KeyProvider extends Provider {
      * @param key The enum
      * @return The NamespacedKey
      */
+    @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull Enum<?> key) {
         return get(generateKeyStringFromEnum(key));
     }

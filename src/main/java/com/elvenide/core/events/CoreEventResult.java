@@ -1,5 +1,7 @@
 package com.elvenide.core.events;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * Represents the result of a {@link CoreEvent} call.
  * @author <a href="https://elvenide.com">Elvenide</a>
@@ -17,6 +19,7 @@ public enum CoreEventResult {
      * @return {@code true} if the event was cancelled, {@code false} otherwise
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public boolean isCancelled() {
         return this == CANCELLED;
     }

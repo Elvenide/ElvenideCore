@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class PermissionProvider extends Provider {
@@ -23,6 +24,7 @@ public class PermissionProvider extends Provider {
      * @param permission Permission, optionally negated
      * @return Boolean
      */
+    @Contract(pure = true)
     public boolean hasExplicitly(CommandSender sender, String permission) {
         if (permission.startsWith("-")) {
             Permission permNode = new Permission(permission.substring(1), PermissionDefault.FALSE);
@@ -40,6 +42,7 @@ public class PermissionProvider extends Provider {
      * @param permission Permission, optionally negated
      * @return Boolean
      */
+    @Contract(pure = true)
     public boolean has(CommandSender sender, String permission) {
         if (permission.startsWith("-"))
             return !sender.hasPermission(permission.substring(1));

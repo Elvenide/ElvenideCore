@@ -7,6 +7,7 @@ import com.elvenide.core.providers.commands.CommandBuilder;
 import com.elvenide.core.providers.commands.CommandRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class CommandProvider extends Provider {
@@ -21,6 +22,7 @@ public class CommandProvider extends Provider {
      * @param name Name of the command
      * @return Builder function to configure the command
      */
+    @Contract(pure = true)
     public CommandBuilder create(String name) {
         return CommandRegistry.command(core, name);
     }
