@@ -14,7 +14,7 @@ public class LangKey {
      * @param input The key tag
      */
     @ApiStatus.Internal
-    public LangKey(String input) {
+    LangKey(String input) {
         this.input = input;
     }
 
