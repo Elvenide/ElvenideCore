@@ -1,4 +1,4 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;

@@ -1,4 +1,4 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ abstract class SubGroup implements SubNode {
         nodeWrappers.add(subWrapper);
     }
 
-    public LinkedList<NodeWrapper> getChildNodes() {
+    LinkedList<NodeWrapper> getChildNodes() {
         return nodeWrappers;
     }
 

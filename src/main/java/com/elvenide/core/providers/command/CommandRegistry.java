@@ -1,7 +1,6 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
-import com.elvenide.core.providers.CommandProvider;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -15,20 +14,20 @@ import java.util.List;
  * @see Core#commands
  */
 @ApiStatus.Internal
-public final class CommandRegistry {
+final class CommandRegistry {
     private CommandRegistry() {}
 
     static final HashSet<CommandBuilder> commands = new HashSet<>();
     private static boolean registered = false;
 
-    public static CommandBuilder command(Core core, String name) {
+    static CommandBuilder command(Core core, String name) {
         if (core == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
         return new CommandBuilder(name);
     }
 
-    public static void register(Core core, JavaPlugin plugin) {
+    static void register(Core core, JavaPlugin plugin) {
         if (core == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");
 
