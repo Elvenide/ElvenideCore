@@ -1,4 +1,4 @@
-package com.elvenide.core.plugin;
+package com.elvenide.core.providers.plugin;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.providers.event.CoreListener;

@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.config;
 
-import com.elvenide.core.plugin.CorePlugin;
+import com.elvenide.core.providers.plugin.CorePlugin;
 
 import java.util.List;
 
