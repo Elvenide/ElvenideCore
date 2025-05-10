@@ -2,6 +2,7 @@ package com.elvenide.core.providers;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.providers.lang.LangProvider;
 import com.elvenide.core.providers.text.BrightColorsPackage;
 import com.elvenide.core.providers.text.ColorAliasesPackage;
 import com.elvenide.core.providers.text.MoreColorsPackage;
@@ -18,11 +19,13 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
+import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -62,7 +65,7 @@ public class TextProvider extends Provider {
         miniMessage = MiniMessage.builder()
                 .editTags(builder ->
                     builder.resolver(StandardTags.defaults())
-                        .tag("elang", LangProvider::createElangTag)
+                        .tag("elang", TextProvider::createElangTag)
                         .tag("egradient", TextProvider::createEgradientTag)
                         .tag("escape", TextProvider::createEscapeTag)
                         .tag("eshadow", TextProvider::createEshadowTag)
@@ -132,6 +135,19 @@ public class TextProvider extends Provider {
         return TagResolver.resolver(name, Tag.styling(
                 Objects.requireNonNull(TextColor.fromHexString(color))
         ));
+    }
+
+    /// @since 0.0.3
+    private static Tag createElangTag(final ArgumentQueue args, final Context ignored) {
+        final @Subst("key") String key = args.popOr("The <elang> tag requires at least one argument, the key to replace with a lang value.").value();
+        final String value = Core.lang.get(key);
+
+        ArrayList<String> placeholders = new ArrayList<>();
+        while (args.hasNext()) {
+            placeholders.add(args.pop().value());
+        }
+
+        return Tag.preProcessParsed(TextProvider.preParsing(value, placeholders.toArray(String[]::new)));
     }
 
     /// @since 0.0.11
