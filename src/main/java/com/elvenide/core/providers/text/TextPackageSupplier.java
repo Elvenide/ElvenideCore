@@ -1,7 +1,6 @@
 package com.elvenide.core.providers.text;
 
 import com.elvenide.core.Core;
-import com.elvenide.core.providers.TextProvider;
 
 public interface TextPackageSupplier {
 
@@ -14,7 +13,7 @@ public interface TextPackageSupplier {
     void build(TextProvider textProvider);
 
     /**
-     * Installs the current package to <code>Core.text</code>
+     * Installs the current package to {@link Core#text}.
      */
     default void install() {
         build(Core.text);

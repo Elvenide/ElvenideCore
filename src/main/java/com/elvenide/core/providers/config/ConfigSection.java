@@ -1,6 +1,6 @@
 package com.elvenide.core.providers.config;
 
-import com.elvenide.core.providers.TextProvider;
+import com.elvenide.core.providers.text.TextProvider;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;

@@ -1,12 +1,8 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.text;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.providers.lang.LangProvider;
-import com.elvenide.core.providers.text.BrightColorsPackage;
-import com.elvenide.core.providers.text.ColorAliasesPackage;
-import com.elvenide.core.providers.text.MoreColorsPackage;
-import com.elvenide.core.providers.text.TextPackageSupplier;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -386,7 +382,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
-        public final BrightColorsPackage brightColors = new BrightColorsPackage();
+        public final TextPackageSupplier brightColors = new BrightColorsPackage();
 
         /**
          * Introduces aliases for existing colors, including:
@@ -398,7 +394,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
-        public final ColorAliasesPackage colorAliases = new ColorAliasesPackage();
+        public final TextPackageSupplier colorAliases = new ColorAliasesPackage();
 
         /**
          * Introduces a set of additional MiniMessage colors, including:
@@ -412,7 +408,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
-        public final MoreColorsPackage moreColors = new MoreColorsPackage();
+        public final TextPackageSupplier moreColors = new MoreColorsPackage();
 
         @ApiStatus.Internal
         @Override

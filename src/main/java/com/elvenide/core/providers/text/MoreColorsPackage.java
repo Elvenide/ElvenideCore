@@ -1,9 +1,8 @@
 package com.elvenide.core.providers.text;
 
-import com.elvenide.core.providers.TextProvider;
 import org.jetbrains.annotations.ApiStatus;
 
-public class MoreColorsPackage implements TextPackageSupplier {
+class MoreColorsPackage implements TextPackageSupplier {
 
     @ApiStatus.Internal
     @Override
