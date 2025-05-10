@@ -54,6 +54,7 @@ public class Task {
      * @return True if cancelled
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public synchronized boolean isCancelled() {
         return runnable.isCancelled();
     }
@@ -63,6 +64,7 @@ public class Task {
      * @return Number of executions
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public synchronized long getExecutions() {
         return executions;
     }
@@ -72,6 +74,7 @@ public class Task {
      * @return Number of ticks passed
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public synchronized long getTicksPassed() {
         return ticksPassed;
     }
@@ -120,6 +123,8 @@ public class Task {
 
     /**
      * Repeatedly executes the task asynchronously with the given delay and period.
+     * <p>
+     * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in ticks
      * @param period Period, in ticks
      * @return Bukkit task representation
@@ -134,6 +139,8 @@ public class Task {
 
     /**
      * Executes the task asynchronously with the given delay.
+     * <p>
+     * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in ticks
      * @return Bukkit task representation
      * @since 0.0.15
@@ -167,6 +174,8 @@ public class Task {
 
     /**
      * Repeatedly executes the task asynchronously with the given delay and period.
+     * <p>
+     * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in seconds
      * @param period Period, in seconds
      * @return Bukkit task representation
@@ -178,11 +187,33 @@ public class Task {
 
     /**
      * Executes the task asynchronously with the given delay.
+     * <p>
+     * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in seconds
      * @return Bukkit task representation
      * @since 0.0.15
      */
     public synchronized BukkitTask delayAsyncSecs(double delay) {
         return delayAsync((long) (delay * 20));
+    }
+
+    /**
+     * Executes the task on the next tick.
+     * @return Bukkit task representation
+     * @since 0.0.15
+     */
+    public synchronized BukkitTask schedule() {
+        return runnable.runTask(core.plugin);
+    }
+
+    /**
+     * Executes the task asynchronously on the next tick.
+     * <p>
+     * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
+     * @return Bukkit task representation
+     * @since 0.0.15
+     */
+    public synchronized BukkitTask scheduleAsync() {
+        return runnable.runTaskAsynchronously(core.plugin);
     }
 }
