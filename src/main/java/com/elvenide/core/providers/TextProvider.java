@@ -32,6 +32,10 @@ import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class should not be directly referenced by any plugin.
+ * Its methods should only be utilized through the {@link Core#text} field.
+ */
 public class TextProvider extends Provider {
     private static MiniMessage miniMessage;
     private static final TagResolver.Builder customColorResolver = TagResolver.builder();
