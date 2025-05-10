@@ -1,6 +1,5 @@
 package com.elvenide.core.providers.config;
 
-import com.elvenide.core.providers.ConfigProvider;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.ApiStatus;
@@ -16,7 +15,7 @@ import java.util.Objects;
 public class Config extends YamlConfiguration implements ConfigSection {
 
     private final File file;
-    public Config(@Nullable ConfigProvider system, File file) {
+    Config(@Nullable ConfigProvider system, File file) {
         super();
 
         if (system == null)
