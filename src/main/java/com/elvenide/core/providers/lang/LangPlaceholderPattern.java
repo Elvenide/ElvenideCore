@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 
 /**
- * ElvenideCore lang key placeholders must follow the regex pattern: <b>%([0-9]+[$]|<)*[-#+ 0,(]*[0-9]*([.][0-9]+)?[nbBhHsScCfdoxXeEgGaA]|%[tT][a-zA-Z]|{}</b>
+ * ElvenideCore lang key placeholders must follow the regex pattern: <b>%([0-9]+[$]|&lt;)*[-#+ 0,(]*[0-9]*([.][0-9]+)?[nbBhHsScCfdoxXeEgGaA]|%[tT][a-zA-Z]|{}</b>
  * <p>
  * In other words, it must be a valid <code>String.format()</code> placeholder or a custom <code>{}</code> placeholder.
  * @since 0.0.8
