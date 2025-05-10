@@ -13,6 +13,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
+/**
+ * This class should not be directly referenced by any plugin.
+ * Its methods should only be utilized through the {@link Core#perms} field.
+ */
 public class PermProvider extends Provider {
     @ApiStatus.Internal
     public PermProvider(@Nullable Core core) {

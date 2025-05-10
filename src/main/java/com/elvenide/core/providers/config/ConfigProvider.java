@@ -11,6 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.HashMap;
 
+/**
+ * This class should not be directly referenced by any plugin.
+ * Its methods should only be utilized through the {@link Core#config} field.
+ */
 public class ConfigProvider extends Provider {
     private final HashMap<String, Config> configs = new HashMap<>();
 

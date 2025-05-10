@@ -9,6 +9,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
+/**
+ * This class should not be directly referenced by any plugin.
+ * Its methods should only be utilized through the {@link Core#lang} field.
+ */
 public class LangProvider extends Provider {
 
     private static final HashMap<String, String> messages = new HashMap<>();
