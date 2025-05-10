@@ -1,4 +1,4 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;

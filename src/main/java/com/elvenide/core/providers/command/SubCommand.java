@@ -1,4 +1,4 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import org.jetbrains.annotations.NotNull;
 

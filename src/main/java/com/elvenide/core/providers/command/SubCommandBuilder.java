@@ -1,4 +1,4 @@
-package com.elvenide.core.providers.commands;
+package com.elvenide.core.providers.command;
 
 import com.mojang.brigadier.arguments.*;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;

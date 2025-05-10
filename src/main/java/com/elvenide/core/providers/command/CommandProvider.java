@@ -1,10 +1,8 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.plugin.CorePlugin;
-import com.elvenide.core.providers.commands.CommandBuilder;
-import com.elvenide.core.providers.commands.CommandRegistry;
 import com.elvenide.core.providers.lang.LangProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
