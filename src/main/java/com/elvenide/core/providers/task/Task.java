@@ -21,7 +21,7 @@ public class Task {
     };
 
     @ApiStatus.Internal
-    public Task(Core core) {
+    Task(Core core) {
         super();
 
         if (core == null)
