@@ -11,6 +11,7 @@ import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangProvider;
+import com.elvenide.core.providers.perm.PermProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -69,7 +70,7 @@ public class Core {
      * Check different kinds of permissions with extreme ease.
      * @since 0.0.5
      */
-    public static final PermissionProvider perms = new PermissionProvider(INSTANCE);
+    public static final PermProvider perms = new PermProvider(INSTANCE);
 
     /**
      * Easily create commands that take full advantage of Minecraft's brigadier command API.
