@@ -5,10 +5,13 @@ import com.elvenide.core.Provider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
 
 public class PermissionProvider extends Provider {
     @ApiStatus.Internal
@@ -52,7 +55,7 @@ public class PermissionProvider extends Provider {
     }
 
     /**
-     * Checks if a sender has a permission.
+     * Checks if a user has a permission.
      * <p>
      * Permissions can start with the following prefixes for special behavior:
      * <ul>
@@ -81,5 +84,23 @@ public class PermissionProvider extends Provider {
 
         permission = permission.replace("\\", ""); // Remove escape characters
         return user.hasPermission(permission);
+    }
+
+    /**
+     * Attempts to get all permissions explicitly defined on the user, but is not guaranteed to return everything.
+     * You may need to use Vault or a permission plugin API for more complete results.
+     * @param user User (player or console)
+     * @return Map of permission nodes to their boolean values
+     */
+    @Contract(pure = true)
+    @ApiStatus.Experimental
+    public HashMap<String, Boolean> all(Permissible user) {
+        HashMap<String, Boolean> perms = new HashMap<>();
+
+        user.recalculatePermissions();
+        for (PermissionAttachmentInfo perm : user.getEffectivePermissions())
+            perms.put(perm.getPermission(), perm.getValue());
+
+        return perms;
     }
 }
