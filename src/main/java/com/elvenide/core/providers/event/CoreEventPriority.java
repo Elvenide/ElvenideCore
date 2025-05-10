@@ -1,4 +1,4 @@
-package com.elvenide.core.events;
+package com.elvenide.core.providers.event;
 
 /**
  * The priority of an event handler, used to determine the order in which handlers for a specific event are executed.

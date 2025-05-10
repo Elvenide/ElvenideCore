@@ -1,4 +1,4 @@
-package com.elvenide.core.events;
+package com.elvenide.core.providers.event;
 
 import com.elvenide.core.Core;
 import net.kyori.adventure.audience.Audience;

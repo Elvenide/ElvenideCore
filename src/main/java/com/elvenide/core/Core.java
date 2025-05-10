@@ -1,9 +1,9 @@
 package com.elvenide.core;
 
-import com.elvenide.core.events.CoreCancellable;
-import com.elvenide.core.events.CoreEvent;
-import com.elvenide.core.events.CoreEventHandler;
-import com.elvenide.core.events.CoreListener;
+import com.elvenide.core.providers.event.CoreCancellable;
+import com.elvenide.core.providers.event.CoreEvent;
+import com.elvenide.core.providers.event.CoreEventHandler;
+import com.elvenide.core.providers.event.CoreListener;
 import com.elvenide.core.plugin.CorePlugin;
 import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
