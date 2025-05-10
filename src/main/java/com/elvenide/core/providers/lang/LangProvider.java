@@ -1,19 +1,12 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.lang;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
-import com.elvenide.core.providers.lang.LangKey;
-import com.elvenide.core.providers.lang.LangKeySupplier;
-import com.elvenide.core.providers.lang.LangPattern;
-import net.kyori.adventure.text.minimessage.Context;
-import net.kyori.adventure.text.minimessage.tag.Tag;
-import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LangProvider extends Provider {
@@ -229,15 +222,4 @@ public class LangProvider extends Provider {
         public final LangKey COMMANDS_HIDDEN_BY_PERMS = setCommandsHiddenByPerms("<dark_gray>{} commands were hidden due to lack of permissions.");
     }
 
-    static Tag createElangTag(final ArgumentQueue args, final Context ignored) {
-        final String key = args.popOr("The <elang> tag requires at least one argument, the key to replace with a lang value.").value();
-        final String value = messages.getOrDefault(key, "");
-
-        ArrayList<String> placeholders = new ArrayList<>();
-        while (args.hasNext()) {
-            placeholders.add(args.pop().value());
-        }
-
-        return Tag.preProcessParsed(TextProvider.preParsing(value, placeholders.toArray(String[]::new)));
-    }
 }
