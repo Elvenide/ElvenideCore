@@ -1,7 +1,7 @@
 package com.elvenide.core.providers.event.builtin;
 
 import com.elvenide.core.providers.event.CoreEvent;
-import com.elvenide.core.plugin.CorePlugin;
+import com.elvenide.core.providers.plugin.CorePlugin;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.Contract;
