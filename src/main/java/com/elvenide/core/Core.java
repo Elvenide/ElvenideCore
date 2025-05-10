@@ -12,6 +12,7 @@ import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangProvider;
 import com.elvenide.core.providers.perm.PermProvider;
+import com.elvenide.core.providers.task.TaskProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
