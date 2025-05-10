@@ -2,6 +2,7 @@ package com.elvenide.core.providers.lang;
 
 import com.elvenide.core.Core;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 
 /// Used internally to represent ElvenideCore lang keys.
 public class LangKey {
@@ -22,6 +23,7 @@ public class LangKey {
      * @param placeholders The placeholders to substitute
      * @return The key tag with placeholders substituted
      */
+    @Contract(pure = true)
     public String formatted(Object... placeholders) {
         return Core.text.format(input, placeholders);
     }
@@ -30,6 +32,7 @@ public class LangKey {
      * Gets the raw key tag, without substituting placeholders.
      * @return The raw key tag
      */
+    @Contract(pure = true)
     @Override
     public String toString() {
         return input;

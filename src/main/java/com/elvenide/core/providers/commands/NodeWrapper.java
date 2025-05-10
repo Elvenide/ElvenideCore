@@ -2,6 +2,7 @@ package com.elvenide.core.providers.commands;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,27 +32,33 @@ public class NodeWrapper {
      * Gets the parent node of this node, if any.
      * @return The parent node, or <code>null</code> if this node is the root command
      */
+    @Contract(pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper parent() {
         return parent;
     }
 
+    @Contract(pure = true)
     SubNode asSubNode() {
         return subNode;
     }
 
+    @Contract(pure = true)
     SubCommand asSubCommand() {
         return (SubCommand) subNode;
     }
 
+    @Contract(pure = true)
     SubGroup asSubGroup() {
         return (SubGroup) subNode;
     }
 
+    @Contract(pure = true)
     boolean isSubCommand() {
         return subNode instanceof SubCommand;
     }
 
+    @Contract(pure = true)
     boolean isSubGroup() {
         return subNode instanceof SubGroup;
     }
@@ -61,6 +68,7 @@ public class NodeWrapper {
      * @param node The subnode
      * @return The node wrapper, or <code>null</code> if not found
      */
+    @Contract(pure = true)
     @Nullable NodeWrapper getNodeWrapper(SubNode node) {
         if (isSubGroup()) {
             for (NodeWrapper child : asSubGroup().getChildNodes())
@@ -85,6 +93,7 @@ public class NodeWrapper {
      * Experimentally available to allow making your own help subcommand.
      * @return List of paths
      */
+    @Contract(pure = true)
     @ApiStatus.Experimental
     public @NotNull List<String> getSubPaths() {
         String currentName = parent == null ? "" : asSubNode().label() + " ";
@@ -114,6 +123,7 @@ public class NodeWrapper {
      * @param path Path to the node, composed of subnode labels separated by spaces
      * @return The node, or <code>null</code> if not found or if this node has no children
      */
+    @Contract(pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper findDescendant(String path) {
         String[] split = path.split(" ", 2);
@@ -146,6 +156,7 @@ public class NodeWrapper {
      * @param user The user who will see the message
      * @return The usage message
      */
+    @Contract(pure = true)
     @ApiStatus.Experimental
     public String generateUsage(CommandSender user) {
         if (usageGenerator == null)

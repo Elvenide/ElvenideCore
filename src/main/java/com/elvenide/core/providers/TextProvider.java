@@ -19,6 +19,7 @@ import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -192,6 +193,7 @@ public class TextProvider extends Provider {
      * @return The formatted text
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public final @NotNull String format(Object rawText, Object... placeholders) {
         String text = String.valueOf(rawText);
 
@@ -254,6 +256,7 @@ public class TextProvider extends Provider {
      * @param component The component
      * @return Serialized text
      */
+    @Contract(pure = true)
     public final @NotNull String serialize(Component component) {
         return resolver().serialize(component);
     }
@@ -265,6 +268,7 @@ public class TextProvider extends Provider {
      * @return Serialized text
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public final @NotNull String serializeWithoutEscaping(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
@@ -284,6 +288,7 @@ public class TextProvider extends Provider {
      * @param optionalPlaceholders Optional placeholders
      * @return Deserialized MiniMessage component
      */
+    @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
         return resolver().deserialize(
                 preParsing(String.valueOf(text), optionalPlaceholders),
@@ -305,6 +310,7 @@ public class TextProvider extends Provider {
      * @see #deserialize(Object, Object...)
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         text = placeholderResolver.apply(player, String.valueOf(text));
         return deserialize(text);

@@ -6,6 +6,7 @@ import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSele
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class SubArgumentContext {
      * @return Boolean
      * @since 0.0.6
      */
+    @Contract(pure = true)
     public boolean isProvided(@NotNull String name) {
         SubArgumentBuilder arg = arg(name);
         if (arg == null)
@@ -61,6 +63,7 @@ public class SubArgumentContext {
      * @param <T> Type of the argument
      * @since 0.0.6
      */
+    @Contract(pure = true)
     @SuppressWarnings("unchecked")
     public <T> boolean isEqual(@NotNull String name, @NotNull T value) {
         T raw = (T) getRaw(name, value.getClass());
@@ -73,6 +76,7 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.6
      */
+    @Contract(pure = true)
     public ArgumentConditional ifProvided(@NotNull String name) {
         return ifTrue(isProvided(name));
     }
@@ -84,6 +88,7 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.6
      */
+    @Contract(pure = true)
     public <T> ArgumentConditional ifEqual(@NotNull String name, @NotNull T value) {
         return ifTrue(isEqual(name, value));
     }
@@ -94,10 +99,12 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.14
      */
+    @Contract(pure = true)
     public ArgumentConditional ifTrue(boolean condition) {
         return new ArgumentConditional(this, condition, true);
     }
 
+    @Contract(pure = true)
     public boolean getBool(@NotNull String name, boolean def) {
         Boolean raw = getRaw(name, Boolean.class);
         if (raw == null)
@@ -106,6 +113,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public int getInt(@NotNull String name, int def) {
         Integer raw = getRaw(name, Integer.class);
         if (raw == null)
@@ -114,6 +122,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public long getLong(@NotNull String name, long def) {
         Long raw = getRaw(name, Long.class);
         if (raw == null)
@@ -122,6 +131,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public float getFloat(@NotNull String name, float def) {
         Float raw = getRaw(name, Float.class);
         if (raw == null)
@@ -130,6 +140,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public double getDouble(@NotNull String name, double def) {
         Double raw = getRaw(name, Double.class);
         if (raw == null)
@@ -138,6 +149,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public @NotNull String getString(@NotNull String name, @NotNull String def) {
         String raw = getRaw(name, String.class);
         if (raw == null)
@@ -146,6 +158,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name, @NotNull List<Player> def) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
         if (raw == null)
@@ -159,6 +172,7 @@ public class SubArgumentContext {
         }
     }
 
+    @Contract(pure = true)
     public @NotNull Player getPlayer(@NotNull String name, @NotNull Player def) {
         List<Player> players = getPlayers(name, List.of(def));
         if (players.isEmpty())
@@ -167,10 +181,12 @@ public class SubArgumentContext {
             return players.getFirst();
     }
 
+    @Contract(pure = true)
     public @NotNull Material getMaterial(@NotNull String name, @NotNull Material def) {
         return getItem(name, new ItemStack(def)).getType();
     }
 
+    @Contract(pure = true)
     public @NotNull ItemStack getItem(@NotNull String name, @NotNull ItemStack def) {
         ItemStack raw = getRaw(name, ItemStack.class);
         if (raw == null)
@@ -179,6 +195,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public boolean getBool(@NotNull String name) {
         Boolean raw = getRaw(name, Boolean.class);
         if (raw == null)
@@ -187,6 +204,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public int getInt(@NotNull String name) {
         Integer raw = getRaw(name, Integer.class);
         if (raw == null)
@@ -195,6 +213,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public long getLong(@NotNull String name) {
         Long raw = getRaw(name, Long.class);
         if (raw == null)
@@ -203,6 +222,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public float getFloat(@NotNull String name) {
         Float raw = getRaw(name, Float.class);
         if (raw == null)
@@ -211,6 +231,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public double getDouble(@NotNull String name) {
         Double raw = getRaw(name, Double.class);
         if (raw == null)
@@ -219,6 +240,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public @NotNull String getString(@NotNull String name) {
         String raw = getRaw(name, String.class);
         if (raw == null)
@@ -227,6 +249,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
         if (raw == null)
@@ -240,6 +263,7 @@ public class SubArgumentContext {
         }
     }
 
+    @Contract(pure = true)
     public @NotNull Player getPlayer(@NotNull String name) {
         List<Player> players = getPlayers(name);
         if (players.isEmpty())
@@ -248,10 +272,12 @@ public class SubArgumentContext {
             return players.getFirst();
     }
 
+    @Contract(pure = true)
     public @NotNull Material getMaterial(@NotNull String name) {
         return getItem(name).getType();
     }
 
+    @Contract(pure = true)
     public @NotNull ItemStack getItem(@NotNull String name) {
         ItemStack raw = getRaw(name, ItemStack.class);
         if (raw == null)

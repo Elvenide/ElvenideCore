@@ -4,6 +4,7 @@ import com.elvenide.core.events.CoreEvent;
 import com.elvenide.core.plugin.CorePlugin;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -24,6 +25,7 @@ public class CoreReloadEvent extends Event implements CoreEvent {
      * Gets the current plugin instance.
      * @return The current plugin
      */
+    @Contract(pure = true)
     public CorePlugin plugin() {
         return plugin;
     }
@@ -32,6 +34,7 @@ public class CoreReloadEvent extends Event implements CoreEvent {
      * Gets the current plugin instance, cast to the given class.
      * @return The current plugin
      */
+    @Contract(pure = true)
     public <T extends CorePlugin> T plugin(Class<T> clazz) {
         return clazz.cast(plugin);
     }

@@ -45,6 +45,7 @@ public class SubCommandContext {
      * Gets the command executor if one exists, or otherwise gets the command sender.
      * @return The executor or sender
      */
+    @Contract(pure = true)
     public @NotNull CommandSender executor() {
         Entity e = ctx.getSource().getExecutor();
         if (e == null)
@@ -56,6 +57,7 @@ public class SubCommandContext {
      * Gets the executor as a player. Check if the executor is a player first with <code>isPlayer()</code>.
      * @return The executing player
      */
+    @Contract(pure = true)
     public @NotNull Player player() {
         return (Player) executor();
     }
@@ -64,6 +66,7 @@ public class SubCommandContext {
      * Gets the location the command is being executed at, usually the location of the executing player.
      * @return Location
      */
+    @Contract(pure = true)
     public Location location() {
         return ctx.getSource().getLocation();
     }
@@ -73,6 +76,7 @@ public class SubCommandContext {
      * @param permission Permission
      * @return Boolean
      */
+    @Contract(pure = true)
     public boolean hasPermission(String permission) {
         return Core.perms.has(executor(), permission);
     }
@@ -81,6 +85,7 @@ public class SubCommandContext {
      * Checks if the executor is a player.
      * @return Boolean
      */
+    @Contract(pure = true)
     public boolean isPlayer() {
         return executor() instanceof Player;
     }
@@ -146,7 +151,7 @@ public class SubCommandContext {
      * @return NodeWrapper with command tree info, or <code>null</code> if not found
      * @since 0.0.15
      */
-    @Contract("null -> !null")
+    @Contract(value = "null -> !null", pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper getCommandTreeNode(@Nullable SubCommand subCommand) {
         if (subCommand == null)

@@ -2,6 +2,7 @@ package com.elvenide.core.providers.commands;
 
 import com.elvenide.core.Core;
 import net.kyori.adventure.audience.Audience;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class ArgumentConditional {
@@ -22,6 +23,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @Contract(pure = true)
     public ArgumentConditional andIfProvided(@NotNull String argName) {
         return andIfTrue(args.isProvided(argName));
     }
@@ -33,6 +35,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @Contract(pure = true)
     public <T> ArgumentConditional andIfEqual(@NotNull String argName, @NotNull T value) {
         return andIfTrue(args.isEqual(argName, value));
     }
@@ -43,6 +46,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.9
      */
+    @Contract(pure = true)
     public ArgumentConditional andIfTrue(boolean condition) {
         if (operational)
             isTrue = isTrue && condition;
@@ -191,6 +195,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @Contract(pure = true)
     public ArgumentConditional orIfProvided(@NotNull String argName) {
         return orIfTrue(args.isProvided(argName));
     }
@@ -203,6 +208,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @Contract(pure = true)
     public <T> ArgumentConditional orIfEqual(@NotNull String argName, @NotNull T value) {
         return orIfTrue(args.isEqual(argName, value));
     }
@@ -214,6 +220,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.9
      */
+    @Contract(pure = true)
     public ArgumentConditional orIfTrue(boolean condition) {
         if (operational && !isTrue)
             return new ArgumentConditional(args, condition, true);

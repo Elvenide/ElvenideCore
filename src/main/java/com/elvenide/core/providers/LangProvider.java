@@ -10,6 +10,7 @@ import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class LangProvider extends Provider {
      * @return The tag
      * @since 0.0.15
      */
+    @Contract(pure = true)
     public LangKey tag(@LangPattern String key) {
         return new LangKey("<elang:" + key + ">");
     }
@@ -43,6 +45,7 @@ public class LangProvider extends Provider {
      * @return The key
      * @since 0.0.9
      */
+    @Contract(pure = true)
     public @LangPattern String untag(String tag) {
         @Subst("tag") String replace = tag.replace("<elang:", "").replace(">", "");
         return replace;
@@ -53,6 +56,7 @@ public class LangProvider extends Provider {
      * @param key The key
      * @return The value
      */
+    @Contract(pure = true)
     public String get(@LangPattern String key) {
         return messages.get(key);
     }
