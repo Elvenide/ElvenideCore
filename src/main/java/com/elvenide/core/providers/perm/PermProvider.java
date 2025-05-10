@@ -1,4 +1,4 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.perm;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
@@ -13,9 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class PermissionProvider extends Provider {
+public class PermProvider extends Provider {
     @ApiStatus.Internal
-    public PermissionProvider(@Nullable Core core) {
+    public PermProvider(@Nullable Core core) {
         super(core);
     }
 
