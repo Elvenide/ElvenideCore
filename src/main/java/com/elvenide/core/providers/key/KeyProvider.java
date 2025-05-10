@@ -1,4 +1,4 @@
-package com.elvenide.core.providers;
+package com.elvenide.core.providers.key;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
