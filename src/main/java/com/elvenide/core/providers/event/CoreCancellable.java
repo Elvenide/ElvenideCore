@@ -1,17 +1,13 @@
 package com.elvenide.core.providers.event;
 
-import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
-import org.jetbrains.annotations.ApiStatus;
 
 /**
- * For internal use only.
- * <p>
- * For use in your plugin, use {@link Core.CancellableEvent} instead.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * Represents a {@link CoreEvent} that can be cancelled.
  * @since 0.0.15
+ * @author <a href="https://elvenide.com">Elvenide</a>
  */
-@ApiStatus.Internal
+@PublicAPI
 public interface CoreCancellable {
 
     /**
