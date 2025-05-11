@@ -12,11 +12,25 @@ import org.jetbrains.annotations.NotNull;
 @PublicAPI
 public interface SubCommand extends SubNode {
 
+    /**
+     * The name of the subcommand.
+     * @return String name
+     */
     @Override
     @NotNull String label();
 
+    /**
+     * Configures various optional properties of the subcommand,
+     * such as its description, permission, or arguments.
+     * @param builder Builder to configure the subcommand
+     */
     void setup(@NotNull SubCommandBuilder builder);
 
+    /**
+     * Executes the subcommand given contextual information about the execution,
+     * such as the command sender or arguments.
+     * @param context Context of the command execution
+     */
     void executes(@NotNull SubCommandContext context);
 
 }
