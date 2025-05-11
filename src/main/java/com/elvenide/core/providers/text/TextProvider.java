@@ -255,6 +255,7 @@ public class TextProvider extends Provider {
             else if (!(placeholders[i] instanceof String))
                 placeholders[i] = String.valueOf(placeholders[i]);
 
+            output[matcher.start()] = '%';
             output[matcher.start() + 1] = formatLetter;
             i++;
         }
