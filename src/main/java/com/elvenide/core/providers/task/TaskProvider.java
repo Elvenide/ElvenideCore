@@ -2,6 +2,7 @@ package com.elvenide.core.providers.task;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,7 @@ public class TaskProvider extends Provider {
      * Returns a builder to create a new scheduled task.
      * @return Task builder
      */
+    @PublicAPI
     @Contract(pure = true)
     public Task builder() {
         return new Task(core);

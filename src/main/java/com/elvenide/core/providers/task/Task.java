@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.task;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.ApiStatus;
@@ -35,6 +36,7 @@ public class Task {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public synchronized Task then(Consumer<Task> consumer) {
         this.consumer = this.consumer.andThen(consumer);
@@ -45,6 +47,7 @@ public class Task {
      * Cancels the task, preventing further execution.
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized void cancel() {
         runnable.cancel();
     }
@@ -54,6 +57,7 @@ public class Task {
      * @return True if cancelled
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public synchronized boolean isCancelled() {
         return runnable.isCancelled();
@@ -64,6 +68,7 @@ public class Task {
      * @return Number of executions
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public synchronized long getExecutions() {
         return executions;
@@ -74,6 +79,7 @@ public class Task {
      * @return Number of ticks passed
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public synchronized long getTicksPassed() {
         return ticksPassed;
@@ -102,6 +108,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask repeat(long delay, long period) {
         setup();
         this.ticksPassed += delay;
@@ -115,6 +122,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask delay(long delay) {
         setup();
         this.tickInterval = delay;
@@ -130,6 +138,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask repeatAsync(long delay, long period) {
         setup();
         this.ticksPassed += delay;
@@ -145,6 +154,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask delayAsync(long delay) {
         setup();
         this.tickInterval = delay;
@@ -158,6 +168,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask repeatSecs(double delay, double period) {
         return repeat((long) (delay * 20), (long) (period * 20));
     }
@@ -168,6 +179,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask delaySecs(double delay) {
         return delay((long) (delay * 20));
     }
@@ -181,6 +193,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask repeatAsyncSecs(double delay, double period) {
         return repeatAsync((long) (delay * 20), (long) (period * 20));
     }
@@ -193,6 +206,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask delayAsyncSecs(double delay) {
         return delayAsync((long) (delay * 20));
     }
@@ -202,6 +216,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask schedule() {
         return runnable.runTask(core.plugin);
     }
@@ -213,6 +228,7 @@ public class Task {
      * @return Bukkit task representation
      * @since 0.0.15
      */
+    @PublicAPI
     public synchronized BukkitTask scheduleAsync() {
         return runnable.runTaskAsynchronously(core.plugin);
     }

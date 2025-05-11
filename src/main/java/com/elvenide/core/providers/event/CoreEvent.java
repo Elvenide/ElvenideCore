@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.event;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -19,6 +20,7 @@ public interface CoreEvent {
      * @return The result of the event (cancelled or completed)
      * @since 0.0.15
      */
+    @PublicAPI
     default CoreEventResult callCoreEvent() {
         boolean isCancelled = CoreEventManager.call(this);
         return isCancelled ? CoreEventResult.CANCELLED : CoreEventResult.COMPLETED;
@@ -30,6 +32,7 @@ public interface CoreEvent {
      * <b>Note:</b> Unlike cancelling, this does not affect other handlers listening for the same event.
      * @since 0.0.15
      */
+    @PublicAPI
     default void end() {
         throw new CoreEventCancelException(null);
     }
@@ -42,6 +45,7 @@ public interface CoreEvent {
      * @since 0.0.15
      * @param condition Condition that will end the handler if true
      */
+    @PublicAPI
     default void endIf(boolean condition) {
         if (condition)
             end();
@@ -57,6 +61,7 @@ public interface CoreEvent {
      * @param errorMessage Error message to send
      * @param optionalPlaceholders Optional placeholders in the error message
      */
+    @PublicAPI
     default void end(Audience target, String errorMessage, Object... optionalPlaceholders) {
         Core.text.send(target, "<red>" + errorMessage, optionalPlaceholders);
         end();
@@ -74,6 +79,7 @@ public interface CoreEvent {
      * @param errorMessage Error message to send
      * @param optionalPlaceholders Optional placeholders in the error message
      */
+    @PublicAPI
     default void endIf(boolean condition, Audience target, String errorMessage, Object... optionalPlaceholders) {
         if (condition)
             end(target, errorMessage, optionalPlaceholders);

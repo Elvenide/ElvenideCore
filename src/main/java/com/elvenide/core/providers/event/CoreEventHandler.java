@@ -1,5 +1,8 @@
 package com.elvenide.core.providers.event;
 
+import com.elvenide.core.api.PublicAPI;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -11,6 +14,8 @@ import java.lang.annotation.Target;
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
+@PublicAPI
+@Documented
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(java.lang.annotation.ElementType.METHOD)
 @Inherited

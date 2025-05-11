@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.event;
 
+import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.Contract;
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
+@PublicAPI
 public enum CoreEventResult {
     /// The event was cancelled.
     CANCELLED,
@@ -19,6 +21,7 @@ public enum CoreEventResult {
      * @return {@code true} if the event was cancelled, {@code false} otherwise
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public boolean isCancelled() {
         return this == CANCELLED;

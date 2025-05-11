@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.plugin;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.event.CoreListener;
 import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
 import com.elvenide.core.providers.config.ConfigSupplier;
@@ -83,6 +84,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * @param suppliers Config suppliers
      * @since 0.0.15
      */
+    @PublicAPI
     public final void registerConfigSuppliers(ConfigSupplier... suppliers) {
         configSuppliers.addAll(List.of(suppliers));
     }
@@ -94,6 +96,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * @param listeners Listeners
      * @since 0.0.15
      */
+    @PublicAPI
     public static void registerListeners(Listener... listeners) {
         if (instance == null)
             throw new IllegalStateException("Plugin has not been initialized yet.");
@@ -107,6 +110,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * Emits a {@link CoreReloadEvent} and reloads all registered {@link #registerConfigSuppliers(ConfigSupplier...) config suppliers}.
      * @since 0.0.15
      */
+    @PublicAPI
     public static void reload() {
         if (instance == null)
             throw new IllegalStateException("Plugin has not been initialized yet.");

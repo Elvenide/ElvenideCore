@@ -2,6 +2,7 @@ package com.elvenide.core.providers.lang;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -18,6 +19,7 @@ public class LangProvider extends Provider {
     private static final HashMap<String, String> messages = new HashMap<>();
 
     /// A set of commonly used lang keys, many of which are used within ElvenideCore
+    @PublicAPI
     public CommonLangKeys common;
 
     @ApiStatus.Internal
@@ -31,6 +33,7 @@ public class LangProvider extends Provider {
      * @return The tag
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public LangKey tag(@LangPattern String key) {
         return new LangKey("<elang:" + key + ">");
@@ -42,6 +45,7 @@ public class LangProvider extends Provider {
      * @return The key
      * @since 0.0.9
      */
+    @PublicAPI
     @Contract(pure = true)
     public @LangPattern String untag(String tag) {
         @Subst("tag") String replace = tag.replace("<elang:", "").replace(">", "");
@@ -53,6 +57,7 @@ public class LangProvider extends Provider {
      * @param key The key
      * @return The value
      */
+    @PublicAPI
     @Contract(pure = true)
     public String get(@LangPattern String key) {
         return messages.get(key);
@@ -67,6 +72,7 @@ public class LangProvider extends Provider {
      * @param key The key, containing only lowercase letters, numbers, underscores, and periods
      * @param value The value, can be any text including built-in or custom MiniMessage tags
      */
+    @PublicAPI
     public void set(@LangPattern String key, String value) {
         if (!key.matches("[a-z0-9_.]+"))
             throw new IllegalArgumentException("Invalid key: " + key + "; must match regex: [a-z0-9_.]+");
@@ -79,66 +85,84 @@ public class LangProvider extends Provider {
         public CommonLangKeys() {}
 
         /// @see #NOT_PLAYER
+        @PublicAPI
         public LangKey setNotPlayer(String value) { return create("not_player", value); }
 
         /// @see #NO_PERMISSION
+        @PublicAPI
         public LangKey setNoPermission(String value) { return create("no_permission", value); }
 
         /// @see #COMMAND_HEADER
+        @PublicAPI
         public LangKey setCommandHeader(String value) { return create("command_header", value); }
 
         /// @see #COMMAND_USAGE_PREFIX
+        @PublicAPI
         public LangKey setCommandUsagePrefix(String value) { return create("command_usage_prefix", value); }
 
         /// @see #MISSING_ARGUMENT
+        @PublicAPI
         public LangKey setMissingArgument(String value) { return create("missing_arg", value, "%s"); }
 
         /// @see #INVALID_TYPE
+        @PublicAPI
         public LangKey setInvalidType(String value) { return create("invalid_arg_type", value, "%s"); }
 
         /// @see #INVALID_PLAYER
+        @PublicAPI
         public LangKey setInvalidPlayer(String value) { return create("invalid_arg_player", value, "%s"); }
 
         /// @see #SUBGROUP_HELP_FORMATTING
+        @PublicAPI
         public LangKey setSubGroupHelpColor(String value) {  return create("subgroup_help_color", value, "{}"); }
 
         /// @see #SUBCOMMAND_HELP_FORMATTING
+        @PublicAPI
         public LangKey setSubCommandHelpColor(String value) {  return create("subcommand_help_color", value, "{}"); }
 
         /// @see #BOOL_ARGUMENT_HELP_FORMATTING
+        @PublicAPI
         public LangKey setBoolArgumentHelpColor(String value) {  return create("bool_argument_help_color", value, "{}"); }
 
         /// @see #STRING_ARGUMENT_HELP_FORMATTING
+        @PublicAPI
         public LangKey setStringArgumentHelpColor(String value) {  return create("string_argument_help_color", value, "{}"); }
 
         /// @see #NUMBER_ARGUMENT_HELP_FORMATTING
+        @PublicAPI
         public LangKey setNumberArgumentHelpColor(String value) {  return create("number_argument_help_color", value, "{}"); }
 
         /// @see #PLAYER_ARGUMENT_HELP_FORMATTING
+        @PublicAPI
         public LangKey setPlayerArgumentHelpColor(String value) {  return create("player_argument_help_color", value, "{}"); }
 
         /// @see #ITEM_ARGUMENT_HELP_FORMATTING
+        @PublicAPI
         public LangKey setItemArgumentHelpColor(String value) {  return create("item_argument_help_color", value, "{}"); }
 
         /// @see #COMMANDS_HIDDEN_BY_PERMS
+        @PublicAPI
         public LangKey setCommandsHiddenByPerms(String value) { return create("commands_hidden_by_perms", value, "{}"); }
 
         /**
          * Error message shown to non-player command senders trying to use player-only commands.
          * @since 0.0.8
          */
+        @PublicAPI
         public final LangKey NOT_PLAYER = setNotPlayer("<red>You must be a player to use this.");
 
         /**
          * Error message shown to command senders trying to use commands they do not have permission for.
          * @since 0.0.8
          */
+        @PublicAPI
         public final LangKey NO_PERMISSION = setNoPermission("<red>You do not have permission to use this.");
 
         /**
          * The command header, displayed above command usage information.
          * @since 0.0.8
          */
+        @PublicAPI
         public final LangKey COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>ElvenideCore-Based Plugin");
 
         /**
@@ -146,6 +170,7 @@ public class LangProvider extends Provider {
          * Can be used to color the slash (/) in the command usage display.
          * @since 0.0.10
          */
+        @PublicAPI
         public final LangKey COMMAND_USAGE_PREFIX = setCommandUsagePrefix("<gray>");
 
         /**
@@ -153,6 +178,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
+        @PublicAPI
         public final LangKey MISSING_ARGUMENT = setMissingArgument("Missing argument: '%s'. Hover to see command syntax.");
 
         /**
@@ -160,6 +186,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
+        @PublicAPI
         public final LangKey INVALID_TYPE = setInvalidType("Invalid value provided for argument: '%s'. Hover to see command syntax.");
 
         /**
@@ -167,6 +194,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder (%s).
          * @since 0.0.13
          */
+        @PublicAPI
         public final LangKey INVALID_PLAYER = setInvalidPlayer("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax.");
 
         /**
@@ -174,6 +202,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey SUBGROUP_HELP_FORMATTING = setSubGroupHelpColor("<gray>{}</gray>");
 
         /**
@@ -181,6 +210,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey SUBCOMMAND_HELP_FORMATTING = setSubCommandHelpColor("<gray>{}</gray>");
 
         /**
@@ -188,6 +218,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey BOOL_ARGUMENT_HELP_FORMATTING = setBoolArgumentHelpColor("<gold>{}</gold>");
 
         /**
@@ -195,6 +226,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey STRING_ARGUMENT_HELP_FORMATTING = setStringArgumentHelpColor("<dark_green>{}</dark_green>");
 
         /**
@@ -202,6 +234,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey NUMBER_ARGUMENT_HELP_FORMATTING = setNumberArgumentHelpColor("<dark_aqua>{}</dark_aqua>");
 
         /**
@@ -209,6 +242,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey PLAYER_ARGUMENT_HELP_FORMATTING = setPlayerArgumentHelpColor("<dark_purple>{}</dark_purple>");
 
         /**
@@ -216,6 +250,7 @@ public class LangProvider extends Provider {
          * Has a single String placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey ITEM_ARGUMENT_HELP_FORMATTING = setItemArgumentHelpColor("<blue>{}</blue>");
 
         /**
@@ -223,6 +258,7 @@ public class LangProvider extends Provider {
          * Has a single Integer placeholder ({}).
          * @since 0.0.15
          */
+        @PublicAPI
         public final LangKey COMMANDS_HIDDEN_BY_PERMS = setCommandsHiddenByPerms("<dark_gray>{} commands were hidden due to lack of permissions.");
     }
 

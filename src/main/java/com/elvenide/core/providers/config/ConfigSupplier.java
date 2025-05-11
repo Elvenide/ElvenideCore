@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.config;
 
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * Can be registered within a CorePlugin instance using {@link CorePlugin#registerConfigSuppliers(ConfigSupplier...)}.
  * @since 0.0.15
  */
+@PublicAPI
 public interface ConfigSupplier {
 
     /**

@@ -2,7 +2,11 @@ package com.elvenide.core.providers.command;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface SubNode {
+/**
+ * An abstract node that is part of an ElvenideCore command tree.
+ * Subcommands and subgroups are subclasses of this interface.
+ */
+interface SubNode {
 
     @NotNull String label();
 

@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.config;
 
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.text.TextProvider;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
@@ -17,6 +18,11 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Represents a section of an ElvenideCore config file.
+ * @since 0.0.15
+ */
+@PublicAPI
 public interface ConfigSection extends ConfigurationSection {
 
     private static NamespacedKey asMinecraftKey(String input) {
@@ -37,6 +43,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Set of keys directly applied to this config section
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Set<String> getKeys() {
         return getKeys(false);
     }
@@ -46,6 +53,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Map of values directly applied to this config section
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Map<String, Object> getValues() {
         return getValues(false);
     }
@@ -56,6 +64,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return URI
      * @since 0.0.2
      */
+    @PublicAPI
     default @NotNull URI getURI(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -73,6 +82,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Sound
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Sound getSound(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -90,6 +100,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return PotionEffectType
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull PotionEffectType getPotionEffectType(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -107,6 +118,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Material
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Material getMaterial(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -125,6 +137,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Material
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Material getMaterialLegacy(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -147,6 +160,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return EntityType
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull EntityType getEntityType(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -164,6 +178,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Particle
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Particle getParticle(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -181,6 +196,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Color
      * @since 0.0.15
      */
+    @PublicAPI
     default @NotNull Color getColorFromString(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -211,6 +227,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Float
      * @since 0.0.15
      */
+    @PublicAPI
     default float getFloat(@NotNull String key) {
         return Double.valueOf(getDouble(key)).floatValue();
     }
@@ -221,6 +238,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Float
      * @since 0.0.15
      */
+    @PublicAPI
     default float getFloat(@NotNull String key, float defaultValue) {
         return Double.valueOf(getDouble(key, defaultValue)).floatValue();
     }
@@ -231,6 +249,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Component
      * @since 0.0.15
      */
+    @PublicAPI
     @Override
     default @Nullable Component getRichMessage(@NotNull String path) {
         return getRichMessage(path, null);
@@ -242,6 +261,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @return Component
      * @since 0.0.15
      */
+    @PublicAPI
     @Override
     @Nullable
     default Component getRichMessage(@NotNull String path, @Nullable Component fallback) {
@@ -253,6 +273,7 @@ public interface ConfigSection extends ConfigurationSection {
      * Supports custom tags/colors added by ElvenideCore.
      * @since 0.0.15
      */
+    @PublicAPI
     @Override
     default void setRichMessage(@NotNull String path, @Nullable Component value) {
         setComponent(path, TextProvider.resolver(), value);
@@ -265,6 +286,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param value Value
      * @since 0.0.15
      */
+    @PublicAPI
     default void setAndSave(@NotNull String key, @Nullable Object value) {
         set(key, value);
         getRoot().save();
@@ -276,6 +298,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @since 0.0.15
      */
+    @PublicAPI
     default void remove(@NotNull String key) {
         set(key, null);
     }
@@ -286,6 +309,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @since 0.0.15
      */
+    @PublicAPI
     default void removeAndSave(@NotNull String key) {
         remove(key);
         getRoot().save();
@@ -295,6 +319,7 @@ public interface ConfigSection extends ConfigurationSection {
      * Gets the root Config that this section is from.
      * @return Config
      */
+    @PublicAPI
     @Override
     @NotNull Config getRoot();
 
@@ -303,6 +328,7 @@ public interface ConfigSection extends ConfigurationSection {
      * If this section is a Config, this will return null.
      * @return ConfigSection
      */
+    @PublicAPI
     @Override
     @Nullable ConfigSection getParent();
 
@@ -311,6 +337,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param path Path to the ConfigSection
      * @return ConfigurationSection
      */
+    @PublicAPI
     @Override
     @NotNull ConfigSection createSection(@NotNull String path);
 
@@ -320,6 +347,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param map Map of keys and values to set
      * @return ConfigurationSection
      */
+    @PublicAPI
     @Override
     @NotNull ConfigSection createSection(@NotNull String path, @NotNull Map<?, ?> map);
 
@@ -330,6 +358,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param path Path to the ConfigSection
      * @return ConfigSection, or <code>null</code> if not found
      */
+    @PublicAPI
     @ApiStatus.Experimental
     @Override
     @Nullable ConfigSection getConfigurationSection(@NotNull String path);
@@ -341,6 +370,7 @@ public interface ConfigSection extends ConfigurationSection {
      * @param path Path to the ConfigSection
      * @return ConfigurationSection, or <code>null</code> if not found
      */
+    @PublicAPI
     default @Nullable ConfigSection getSection(@NotNull String path) {
         return getConfigurationSection(path);
     }

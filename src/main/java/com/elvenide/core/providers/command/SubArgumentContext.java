@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.Material;
@@ -45,6 +46,7 @@ public class SubArgumentContext {
      * @return Boolean
      * @since 0.0.6
      */
+    @PublicAPI
     @Contract(pure = true)
     public boolean isProvided(@NotNull String name) {
         SubArgumentBuilder arg = arg(name);
@@ -63,6 +65,7 @@ public class SubArgumentContext {
      * @param <T> Type of the argument
      * @since 0.0.6
      */
+    @PublicAPI
     @Contract(pure = true)
     @SuppressWarnings("unchecked")
     public <T> boolean isEqual(@NotNull String name, @NotNull T value) {
@@ -76,6 +79,7 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.6
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional ifProvided(@NotNull String name) {
         return ifTrue(isProvided(name));
@@ -88,6 +92,7 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.6
      */
+    @PublicAPI
     @Contract(pure = true)
     public <T> ArgumentConditional ifEqual(@NotNull String name, @NotNull T value) {
         return ifTrue(isEqual(name, value));
@@ -99,11 +104,13 @@ public class SubArgumentContext {
      * @return ArgumentConditional
      * @since 0.0.14
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional ifTrue(boolean condition) {
         return new ArgumentConditional(this, condition, true);
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public boolean getBool(@NotNull String name, boolean def) {
         Boolean raw = getRaw(name, Boolean.class);
@@ -113,6 +120,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public int getInt(@NotNull String name, int def) {
         Integer raw = getRaw(name, Integer.class);
@@ -122,6 +130,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public long getLong(@NotNull String name, long def) {
         Long raw = getRaw(name, Long.class);
@@ -131,6 +140,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public float getFloat(@NotNull String name, float def) {
         Float raw = getRaw(name, Float.class);
@@ -140,6 +150,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public double getDouble(@NotNull String name, double def) {
         Double raw = getRaw(name, Double.class);
@@ -149,6 +160,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull String getString(@NotNull String name, @NotNull String def) {
         String raw = getRaw(name, String.class);
@@ -158,6 +170,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name, @NotNull List<Player> def) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
@@ -172,6 +185,7 @@ public class SubArgumentContext {
         }
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull Player getPlayer(@NotNull String name, @NotNull Player def) {
         List<Player> players = getPlayers(name, List.of(def));
@@ -181,11 +195,13 @@ public class SubArgumentContext {
             return players.getFirst();
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull Material getMaterial(@NotNull String name, @NotNull Material def) {
         return getItem(name, new ItemStack(def)).getType();
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull ItemStack getItem(@NotNull String name, @NotNull ItemStack def) {
         ItemStack raw = getRaw(name, ItemStack.class);
@@ -195,6 +211,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public boolean getBool(@NotNull String name) {
         Boolean raw = getRaw(name, Boolean.class);
@@ -204,6 +221,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public int getInt(@NotNull String name) {
         Integer raw = getRaw(name, Integer.class);
@@ -213,6 +231,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public long getLong(@NotNull String name) {
         Long raw = getRaw(name, Long.class);
@@ -222,6 +241,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public float getFloat(@NotNull String name) {
         Float raw = getRaw(name, Float.class);
@@ -231,6 +251,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public double getDouble(@NotNull String name) {
         Double raw = getRaw(name, Double.class);
@@ -240,6 +261,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull String getString(@NotNull String name) {
         String raw = getRaw(name, String.class);
@@ -249,6 +271,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
@@ -263,6 +286,7 @@ public class SubArgumentContext {
         }
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull Player getPlayer(@NotNull String name) {
         List<Player> players = getPlayers(name);
@@ -272,11 +296,13 @@ public class SubArgumentContext {
             return players.getFirst();
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull Material getMaterial(@NotNull String name) {
         return getItem(name).getType();
     }
 
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull ItemStack getItem(@NotNull String name) {
         ItemStack raw = getRaw(name, ItemStack.class);

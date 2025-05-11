@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.config;
 
+import com.elvenide.core.api.PublicAPI;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.ApiStatus;
@@ -29,6 +30,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
      * Reloads the config from the file.
      * Creates the file and its parent folders if they don't exist.
      */
+    @PublicAPI
     public void reload() {
         if (!file.getParentFile().exists()) {
             boolean ignored = file.getParentFile().mkdirs();
@@ -56,6 +58,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
     /**
      * Saves the config to the file.
      */
+    @PublicAPI
     public void save() {
         try {
             save(file);
@@ -64,27 +67,32 @@ public class Config extends YamlConfiguration implements ConfigSection {
         }
     }
 
+    @PublicAPI
     @Override
     public @NotNull Config getRoot() {
         return this;
     }
 
+    @PublicAPI
     @Contract("-> null")
     @Override
     public @Nullable ConfigSection getParent() {
         return null;
     }
 
+    @PublicAPI
     @Override
     public @NotNull ConfigSection createSection(@NotNull String path) {
         return new ConfigSectionImpl(super.createSection(path), this, this);
     }
 
+    @PublicAPI
     @Override
     public @NotNull ConfigSection createSection(@NotNull String path, @NotNull Map<?, ?> map) {
         return new ConfigSectionImpl(super.createSection(path, map), this, this);
     }
 
+    @PublicAPI
     @ApiStatus.Experimental
     @Override
     public @Nullable ConfigSection getConfigurationSection(@NotNull String path) {

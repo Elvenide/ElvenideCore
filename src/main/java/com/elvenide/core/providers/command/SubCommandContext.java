@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.Location;
@@ -22,6 +23,7 @@ public class SubCommandContext {
     private final CommandBuilder root;
 
     /// The parsed arguments of the subcommand.
+    @PublicAPI
     public final SubArgumentContext args;
 
     /**
@@ -30,6 +32,7 @@ public class SubCommandContext {
      * Deprecated in favor of Java's built-in atomic objects, which are just as easy to use while providing extra features.
      * @deprecated Use atomic objects instead (e.g. {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger}, {@link java.util.concurrent.atomic.AtomicReference AtomicReference})
      */
+    @PublicAPI
     @Deprecated(since = "0.0.15", forRemoval = true)
     public final Variables vars = new Variables();
 
@@ -45,6 +48,7 @@ public class SubCommandContext {
      * Gets the command executor if one exists, or otherwise gets the command sender.
      * @return The executor or sender
      */
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull CommandSender executor() {
         Entity e = ctx.getSource().getExecutor();
@@ -57,6 +61,7 @@ public class SubCommandContext {
      * Gets the executor as a player. Check if the executor is a player first with <code>isPlayer()</code>.
      * @return The executing player
      */
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull Player player() {
         return (Player) executor();
@@ -66,6 +71,7 @@ public class SubCommandContext {
      * Gets the location the command is being executed at, usually the location of the executing player.
      * @return Location
      */
+    @PublicAPI
     @Contract(pure = true)
     public Location location() {
         return ctx.getSource().getLocation();
@@ -76,6 +82,7 @@ public class SubCommandContext {
      * @param permission Permission
      * @return Boolean
      */
+    @PublicAPI
     @Contract(pure = true)
     public boolean hasPermission(String permission) {
         return Core.perms.has(executor(), permission);
@@ -85,6 +92,7 @@ public class SubCommandContext {
      * Checks if the executor is a player.
      * @return Boolean
      */
+    @PublicAPI
     @Contract(pure = true)
     public boolean isPlayer() {
         return executor() instanceof Player;
@@ -95,6 +103,7 @@ public class SubCommandContext {
      * @param message String in MiniMessage format
      * @param optionalPlaceholders Optional placeholders
      */
+    @PublicAPI
     public void reply(Object message, Object... optionalPlaceholders) {
         executor().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
@@ -104,6 +113,7 @@ public class SubCommandContext {
      * @param message String in MiniMessage format
      * @param optionalPlaceholders Optional placeholders
      */
+    @PublicAPI
     public void replyToSender(Object message, Object... optionalPlaceholders) {
         ctx.getSource().getSender().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
     }
@@ -116,6 +126,7 @@ public class SubCommandContext {
      * @param optionalPlaceholders Optional placeholders
      * @since 0.0.15
      */
+    @PublicAPI
     public void end(Object errorMessage, Object... optionalPlaceholders) {
         throw new InvalidArgumentException("%s", Core.text.format(errorMessage, optionalPlaceholders));
     }
@@ -125,6 +136,7 @@ public class SubCommandContext {
      * @param command Command (no leading slash)
      * @since 0.0.14
      */
+    @PublicAPI
     public void performConsoleCommand(String command) {
         executor().getServer().dispatchCommand(executor().getServer().getConsoleSender(), command);
     }
@@ -137,6 +149,7 @@ public class SubCommandContext {
      * @deprecated Use {@link #getCommandTreeNode(SubCommand) getCommandTreeNode(null).generateUsage(CommandSender)}
      *             to get the root command usage message
      */
+    @PublicAPI
     @Deprecated(forRemoval = true, since = "0.0.15")
     public void sendCommandUsage() {
         replyToSender(getCommandTreeNode(null).generateUsage(ctx.getSource().getSender()));
@@ -151,6 +164,7 @@ public class SubCommandContext {
      * @return NodeWrapper with command tree info, or <code>null</code> if not found
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(value = "null -> !null", pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper getCommandTreeNode(@Nullable SubCommand subCommand) {
