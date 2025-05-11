@@ -43,7 +43,7 @@ class CoreEventManager {
                 @Override
                 public void accept(CoreEvent event) {
                     try {
-                        method.invoke(method.getParameterTypes()[0].cast(event));
+                        method.invoke(listener, method.getParameterTypes()[0].cast(event));
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
