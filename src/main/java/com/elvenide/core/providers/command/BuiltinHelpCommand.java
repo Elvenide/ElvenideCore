@@ -43,9 +43,7 @@ class BuiltinHelpCommand implements SubCommand {
                     .ifTrue(node.get() == null)
                     .thenEnd("There is no such command: {}", path);
             })
-            .orElse(() -> {
-                node.set(commandNode.getNodeWrapper(this));
-            });
+            .orElse(() -> node.set(commandNode.getNodeWrapper(this)));
 
         // Get the final node to show usage for
         @NotNull NodeWrapper wrapper = node.get();
