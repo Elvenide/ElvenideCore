@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.command;
 
+import com.elvenide.core.api.PublicAPI;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -32,6 +33,7 @@ public class NodeWrapper {
      * Gets the parent node of this node, if any.
      * @return The parent node, or <code>null</code> if this node is the root command
      */
+    @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper parent() {
@@ -93,6 +95,7 @@ public class NodeWrapper {
      * Experimentally available to allow making your own help subcommand.
      * @return List of paths
      */
+    @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
     public @NotNull List<String> getSubPaths() {
@@ -123,6 +126,7 @@ public class NodeWrapper {
      * @param path Path to the node, composed of subnode labels separated by spaces
      * @return The node, or <code>null</code> if not found or if this node has no children
      */
+    @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
     public @Nullable NodeWrapper findDescendant(String path) {
@@ -156,6 +160,7 @@ public class NodeWrapper {
      * @param user The user who will see the message
      * @return The usage message
      */
+    @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
     public String generateUsage(CommandSender user) {

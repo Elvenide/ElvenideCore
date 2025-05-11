@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.command;
 
+import com.elvenide.core.api.PublicAPI;
 import com.mojang.brigadier.arguments.*;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,7 @@ public class SubCommandBuilder {
      * @return This
      * @since 0.0.13
      */
+    @PublicAPI
     public SubCommandBuilder setDescription(@NotNull String description) {
         this.description = description;
         return this;
@@ -38,6 +40,7 @@ public class SubCommandBuilder {
      * @return This
      * @since 0.0.13
      */
+    @PublicAPI
     public SubCommandBuilder setPermission(@NotNull String permission) {
         this.permission = permission;
         return this;
@@ -48,6 +51,7 @@ public class SubCommandBuilder {
      * @return This
      * @since 0.0.13
      */
+    @PublicAPI
     public SubCommandBuilder setPlayerOnly() {
         this.playerOnly = true;
         return this;
@@ -63,6 +67,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addBool(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, BoolArgumentType.bool());
         consumer.accept(builder);
@@ -75,6 +80,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addInt(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, IntegerArgumentType.integer());
         consumer.accept(builder);
@@ -89,6 +95,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addInt(String label, int min, int max, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, IntegerArgumentType.integer(min, max));
         consumer.accept(builder);
@@ -101,6 +108,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addLong(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, LongArgumentType.longArg());
         consumer.accept(builder);
@@ -115,6 +123,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addLong(String label, long min, long max, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, LongArgumentType.longArg(min, max));
         consumer.accept(builder);
@@ -127,6 +136,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addFloat(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg());
         consumer.accept(builder);
@@ -141,6 +151,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addFloat(String label, float min, float max, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg(min, max));
         consumer.accept(builder);
@@ -153,6 +164,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addDouble(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, DoubleArgumentType.doubleArg());
         consumer.accept(builder);
@@ -167,6 +179,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addDouble(String label, double min, double max, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, DoubleArgumentType.doubleArg(min, max));
         consumer.accept(builder);
@@ -179,6 +192,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addWord(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.word());
         consumer.accept(builder);
@@ -191,6 +205,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addString(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.string());
         consumer.accept(builder);
@@ -203,6 +218,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addGreedy(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.greedyString());
         consumer.accept(builder);
@@ -215,6 +231,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addPlayer(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
         consumer.accept(builder);
@@ -227,6 +244,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addPlayers(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
         consumer.accept(builder);
@@ -239,6 +257,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addMaterial(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
         consumer.accept(builder);
@@ -251,6 +270,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addItem(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);
         consumer.accept(builder);
@@ -266,6 +286,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addBool(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, BoolArgumentType.bool());
         return add(builder);
@@ -276,6 +297,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addInt(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, IntegerArgumentType.integer());
         return add(builder);
@@ -288,6 +310,7 @@ public class SubCommandBuilder {
      * @param max Maximum value of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addInt(String label, int min, int max) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, IntegerArgumentType.integer(min, max));
         return add(builder);
@@ -298,6 +321,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addLong(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, LongArgumentType.longArg());
         return add(builder);
@@ -310,6 +334,7 @@ public class SubCommandBuilder {
      * @param max Maximum value of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addLong(String label, long min, long max) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, LongArgumentType.longArg(min, max));
         return add(builder);
@@ -320,6 +345,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addFloat(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg());
         return add(builder);
@@ -332,6 +358,7 @@ public class SubCommandBuilder {
      * @param max Maximum value of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addFloat(String label, float min, float max) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, FloatArgumentType.floatArg(min, max));
         return add(builder);
@@ -342,6 +369,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addDouble(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, DoubleArgumentType.doubleArg());
         return add(builder);
@@ -354,6 +382,7 @@ public class SubCommandBuilder {
      * @param max Maximum value of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addDouble(String label, double min, double max) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, DoubleArgumentType.doubleArg(min, max));
         return add(builder);
@@ -364,6 +393,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addWord(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.word());
         return add(builder);
@@ -374,6 +404,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addString(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.string());
         return add(builder);
@@ -384,6 +415,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addGreedy(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, StringArgumentType.greedyString());
         return add(builder);
@@ -394,6 +426,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addPlayer(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
         return add(builder);
@@ -404,6 +437,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addPlayers(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
         return add(builder);
@@ -414,6 +448,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addMaterial(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
         return add(builder);
@@ -424,6 +459,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @PublicAPI
     public SubCommandBuilder addItem(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);
         return add(builder);

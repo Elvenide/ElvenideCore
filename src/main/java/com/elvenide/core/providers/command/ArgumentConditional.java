@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional andIfProvided(@NotNull String argName) {
         return andIfTrue(args.isProvided(argName));
@@ -35,6 +37,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @PublicAPI
     @Contract(pure = true)
     public <T> ArgumentConditional andIfEqual(@NotNull String argName, @NotNull T value) {
         return andIfTrue(args.isEqual(argName, value));
@@ -46,6 +49,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.9
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional andIfTrue(boolean condition) {
         if (operational)
@@ -59,6 +63,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.6
      */
+    @PublicAPI
     public ArgumentConditional then(Runnable runnable) {
         if (operational && isTrue)
             runnable.run();
@@ -73,6 +78,7 @@ public class ArgumentConditional {
      * @throws InvalidArgumentException If the condition is true
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional thenEnd(Object errorMessage, Object... placeholders) throws InvalidArgumentException {
         if (operational && isTrue)
             throw new InvalidArgumentException("%s", Core.text.format(errorMessage, placeholders));
@@ -87,6 +93,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional thenReply(Object message, Object... placeholders) {
         if (operational && isTrue)
             args.sub.reply(message, placeholders);
@@ -100,6 +107,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional thenReplyToSender(Object message, Object... placeholders) {
         if (operational && isTrue)
             args.sub.replyToSender(message, placeholders);
@@ -114,6 +122,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional thenSend(Audience target, Object message, Object... placeholders) {
         if (operational && isTrue)
             Core.text.send(target, message, placeholders);
@@ -126,6 +135,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.7
      */
+    @PublicAPI
     public ArgumentConditional orElse(Runnable runnable) {
         if (operational && !isTrue)
             runnable.run();
@@ -141,6 +151,7 @@ public class ArgumentConditional {
      * @throws InvalidArgumentException If the condition is false
      * @since 0.0.14
      */
+    @PublicAPI
     public ArgumentConditional orEnd(Object errorMessage, Object... placeholders) throws InvalidArgumentException {
         if (operational && !isTrue)
             throw new InvalidArgumentException("%s", Core.text.format(errorMessage, placeholders));
@@ -155,6 +166,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional orReply(Object message, Object... placeholders) {
         if (operational && !isTrue)
             args.sub.reply(message, placeholders);
@@ -168,6 +180,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional orReplyToSender(Object message, Object... placeholders) {
         if (operational && !isTrue)
             args.sub.replyToSender(message, placeholders);
@@ -182,6 +195,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ArgumentConditional orSend(Audience target, Object message, Object... placeholders) {
         if (operational && !isTrue)
             Core.text.send(target, message, placeholders);
@@ -195,6 +209,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional orIfProvided(@NotNull String argName) {
         return orIfTrue(args.isProvided(argName));
@@ -208,6 +223,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.8
      */
+    @PublicAPI
     @Contract(pure = true)
     public <T> ArgumentConditional orIfEqual(@NotNull String argName, @NotNull T value) {
         return orIfTrue(args.isEqual(argName, value));
@@ -220,6 +236,7 @@ public class ArgumentConditional {
      * @return This
      * @since 0.0.9
      */
+    @PublicAPI
     @Contract(pure = true)
     public ArgumentConditional orIfTrue(boolean condition) {
         if (operational && !isTrue)

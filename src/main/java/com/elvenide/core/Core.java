@@ -1,5 +1,6 @@
 package com.elvenide.core;
 
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.event.CoreCancellable;
 import com.elvenide.core.providers.event.CoreEvent;
 import com.elvenide.core.providers.event.CoreEventHandler;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
  * ElvenideCore is a powerful library containing numerous features useful in nearly every plugin.
  * @author <a href="https://elvenide.com">Elvenide</a>
  */
+@PublicAPI
 @ApiStatus.NonExtendable
 public class Core {
     private static int counter = 0;
@@ -43,6 +45,7 @@ public class Core {
      * (which automatically calls this method).
      * @param plugin Plugin
      */
+    @PublicAPI
     public static void setPlugin(JavaPlugin plugin) {
         INSTANCE.plugin = plugin;
     }
@@ -51,12 +54,14 @@ public class Core {
      * Easily convert between Strings and Components, with support for custom tags.
      * @since 0.0.1
      */
+    @PublicAPI
     public static final TextProvider text = new TextProvider(INSTANCE);
 
     /**
      * Easily access and manipulate YAML configuration files.
      * @since 0.0.2
      */
+    @PublicAPI
     public static final ConfigProvider config = new ConfigProvider(INSTANCE);
 
     /**
@@ -64,6 +69,7 @@ public class Core {
      * text using <code>&lt;elang&gt;</code> tags.
      * @since 0.0.3
      */
+    @PublicAPI
     public static final LangProvider lang = new LangProvider(INSTANCE);
     static { lang.common = new LangProvider.CommonLangKeys(); }
 
@@ -71,12 +77,14 @@ public class Core {
      * Check different kinds of permissions with extreme ease.
      * @since 0.0.5
      */
+    @PublicAPI
     public static final PermProvider perms = new PermProvider(INSTANCE);
 
     /**
      * Easily create commands that take full advantage of Minecraft's brigadier command API.
      * @since 0.0.8
      */
+    @PublicAPI
     public static final CommandProvider commands = new CommandProvider(INSTANCE);
 
     /**
@@ -89,18 +97,21 @@ public class Core {
      * </ul>
      * @since 0.0.14
      */
+    @PublicAPI
     public static final KeyProvider keys = new KeyProvider(INSTANCE);
 
     /**
      * Easily create and manipulate items.
      * @since 0.0.15
      */
+    @PublicAPI
     public static final ItemProvider items = new ItemProvider(INSTANCE);
 
     /**
      * Schedule tasks to run delayed or periodically.
      * @since 0.0.15
      */
+    @PublicAPI
     public static final TaskProvider tasks = new TaskProvider(INSTANCE);
 
     /**
@@ -108,6 +119,7 @@ public class Core {
      * @author <a href="https://elvenide.com">Elvenide</a>
      * @since 0.0.15
      */
+    @PublicAPI
     public static abstract class Plugin extends CorePlugin {}
 
     /**
@@ -122,6 +134,7 @@ public class Core {
      * @author <a href="https://elvenide.com">Elvenide</a>
      * @since 0.0.15
      */
+    @PublicAPI
     public interface Event extends CoreEvent {}
 
     /**
@@ -129,6 +142,7 @@ public class Core {
      * @since 0.0.15
      * @author <a href="https://elvenide.com">Elvenide</a>
      */
+    @PublicAPI
     public interface CancellableEvent extends CoreEvent, CoreCancellable {}
 
     /**
@@ -140,5 +154,6 @@ public class Core {
      * @author <a href="https://elvenide.com">Elvenide</a>
      * @since 0.0.15
      */
+    @PublicAPI
     public interface Listener extends CoreListener {}
 }

@@ -1,7 +1,12 @@
 package com.elvenide.core.providers.text;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 
+/**
+ * When installed, supplies a bundle of custom ElvenideCore tags to {@link Core#text}.
+ */
+@PublicAPI
 public interface TextPackageSupplier {
 
     /**
@@ -15,6 +20,7 @@ public interface TextPackageSupplier {
     /**
      * Installs the current package to {@link Core#text}.
      */
+    @PublicAPI
     default void install() {
         build(Core.text);
     }

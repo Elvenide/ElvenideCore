@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.event;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -17,6 +18,7 @@ public interface CoreCancellable {
      * Sets the event as cancelled, preventing later-priority handlers marked "ignoreCancelled" from running.
      * @param cancelled Whether the event is cancelled
      */
+    @PublicAPI
     default void setCancelled(boolean cancelled) {
         throw new CoreEventCancelException(cancelled);
     }

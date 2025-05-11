@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -37,6 +38,7 @@ public class CommandBuilder {
      * @param description Description
      * @return This
      */
+    @PublicAPI
     public CommandBuilder setDescription(String description) {
         this.description = description;
         return this;
@@ -47,6 +49,7 @@ public class CommandBuilder {
      * @param aliases Aliases
      * @return This
      */
+    @PublicAPI
     public CommandBuilder setAliases(String... aliases) {
         this.aliases = aliases;
         return this;
@@ -64,6 +67,7 @@ public class CommandBuilder {
      * provided main command will be overridden by the command's name.
      * @param subCommand A SubCommand instance to set as the main command
      */
+    @PublicAPI
     public void setMainCommand(@NotNull SubCommand subCommand) {
         NodeWrapper wrapper = new NodeWrapper(new SubCommand() {
             @Override
@@ -93,6 +97,7 @@ public class CommandBuilder {
      * @param builder Builder function to configure the subgroup
      * @return This
      */
+    @PublicAPI
     public CommandBuilder addSubGroup(String name, Consumer<SubGroupBuilder> builder) {
         SubGroupBuilder groupBuilder = new SubGroupBuilder(name, commandNode);
         builder.accept(groupBuilder);
@@ -106,6 +111,7 @@ public class CommandBuilder {
      * @param subCommand Name of the subcommand
      * @return This
      */
+    @PublicAPI
     public CommandBuilder addSubCommand(@NotNull SubCommand subCommand) {
         NodeWrapper wrapper = new NodeWrapper(subCommand, commandNode);
         root.then(getNodeTree(wrapper));
@@ -120,6 +126,7 @@ public class CommandBuilder {
      * As of v0.0.15, the help subcommand now accepts a command name as an optional argument.
      * @return This
      */
+    @PublicAPI
     public CommandBuilder addHelpSubCommand() {
         return addSubCommand(new BuiltinHelpCommand(this));
     }

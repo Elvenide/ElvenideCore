@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import com.mojang.brigadier.arguments.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +32,7 @@ public class SubArgumentBuilder {
      * @return This
      * @since 0.0.8
      */
+    @PublicAPI
     public SubArgumentBuilder setOptional() {
         this.required = false;
         return this;
@@ -41,6 +43,7 @@ public class SubArgumentBuilder {
      * @param suggester Suggestion builder function
      * @since 0.0.8
      */
+    @PublicAPI
     public void suggests(@NotNull Function<SubCommandContext, List<String>> suggester) {
         this.suggester = suggester;
     }
@@ -50,6 +53,7 @@ public class SubArgumentBuilder {
      * @param staticList List of suggestions
      * @since 0.0.13
      */
+    @PublicAPI
     public void suggests(List<String> staticList) {
         this.suggester = context -> staticList;
     }
@@ -59,6 +63,7 @@ public class SubArgumentBuilder {
      * @param staticArray String suggestions
      * @since 0.0.14
      */
+    @PublicAPI
     public void suggests(String... staticArray) {
         this.suggester = context -> List.of(staticArray);
     }

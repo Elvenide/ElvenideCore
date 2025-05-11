@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.lang;
 
+import com.elvenide.core.api.PublicAPI;
 import org.intellij.lang.annotations.Pattern;
 
 import java.lang.annotation.Documented;
@@ -15,6 +16,7 @@ import static java.lang.annotation.ElementType.*;
  * In other words, it must be a valid <code>String.format()</code> placeholder or a custom <code>{}</code> placeholder.
  * @since 0.0.8
  */
+@PublicAPI
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target({ METHOD, FIELD, PARAMETER, LOCAL_VARIABLE })

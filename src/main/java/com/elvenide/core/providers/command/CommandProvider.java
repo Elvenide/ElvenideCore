@@ -2,6 +2,7 @@ package com.elvenide.core.providers.command;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.lang.LangProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,7 @@ public class CommandProvider extends Provider {
      * @return Builder function to configure the command
      */
     @Contract(pure = true)
+    @PublicAPI
     public CommandBuilder create(String name) {
         return CommandRegistry.command(core, name);
     }
@@ -37,6 +39,7 @@ public class CommandProvider extends Provider {
      * @deprecated Use {@link #register()} with initialization instead.
      */
     @Deprecated(since = "0.0.15", forRemoval = true)
+    @PublicAPI
     public void register(JavaPlugin plugin) {
         CommandRegistry.register(core, plugin);
     }
@@ -51,6 +54,7 @@ public class CommandProvider extends Provider {
      * @see #create(String)
      * @since 0.0.15
      */
+    @PublicAPI
     public void register() {
         CommandRegistry.register(core, core.plugin);
     }
@@ -61,6 +65,7 @@ public class CommandProvider extends Provider {
      * @see LangProvider.CommonLangKeys#COMMAND_HEADER
      * @since 0.0.9
      */
+    @PublicAPI
     public void setHeader(String header) {
         Core.lang.common.setCommandHeader(header);
     }

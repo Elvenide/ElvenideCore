@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.item;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import io.papermc.paper.datacomponent.DataComponentBuilder;
 import io.papermc.paper.datacomponent.DataComponentType;
 import net.kyori.adventure.text.Component;
@@ -55,6 +56,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder amount(int amount) {
         item.setAmount(amount);
         return this;
@@ -66,6 +68,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder name(@NotNull String name, Object... placeholders) {
         item.editMeta(m -> m.customName(nonItalicWithItalicSupport(name, placeholders)));
         return this;
@@ -77,6 +80,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder name(@NotNull String name, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         item.editMeta(m -> m.customName(nonItalicWithItalicSupport(name, placeholderResolver)));
         return this;
@@ -88,6 +92,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder lore(@NotNull String loreLine, Object... placeholders) {
         item.editMeta(m -> {
             List<Component> existingLore = m.lore();
@@ -104,6 +109,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder lore(@NotNull String loreLine, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         item.editMeta(m -> {
             List<Component> existingLore = m.lore();
@@ -120,6 +126,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder lores(@NotNull ArrayList<String> lore) {
         item.editMeta(m -> m.lore(lore.stream().map(this::nonItalicWithItalicSupport).toList()));
         return this;
@@ -131,6 +138,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder lores(@NotNull ArrayList<String> lore, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         item.editMeta(m -> m.lore(lore.stream().map(s -> nonItalicWithItalicSupport(s, placeholderResolver)).toList()));
         return this;
@@ -142,6 +150,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder maxStackSize(int size) {
         if (size < 1)
             throw new IllegalArgumentException("Max stack size cannot be less than 1");
@@ -159,6 +168,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder headOwner(String name) {
         item.editMeta(SkullMeta.class, m -> {
             m.setPlayerProfile(Bukkit.createProfile(name));
@@ -173,6 +183,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder color(Color color) {
         item.editMeta(LeatherArmorMeta.class, m -> {
             m.setColor(color);
@@ -189,6 +200,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     @ApiStatus.Experimental
     public <T> ItemBuilder component(DataComponentType.Valued<T> type, DataComponentBuilder<T> builder) {
         item.setData(type, builder);
@@ -203,6 +215,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public <P, C> ItemBuilder data(NamespacedKey key, PersistentDataType<P, C> type, C value) {
         item.editMeta(m -> {
             m.getPersistentDataContainer().set(key, type, value);
@@ -219,6 +232,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public <P, C> ItemBuilder data(String key, PersistentDataType<P, C> type, C value) {
         return data(Core.keys.get(key), type, value);
     }
@@ -232,6 +246,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public <P, C> ItemBuilder data(Enum<?> key, PersistentDataType<P, C> type, C value) {
         return data(Core.keys.get(key), type, value);
     }
@@ -243,6 +258,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public ItemBuilder meta(Consumer<ItemMeta> consumer) {
         item.editMeta(consumer);
         return this;
@@ -256,6 +272,7 @@ public class ItemBuilder {
      * @return This
      * @since 0.0.15
      */
+    @PublicAPI
     public <MetaType extends ItemMeta> ItemBuilder meta(Class<MetaType> metaClass, Consumer<MetaType> consumer) {
         item.editMeta(metaClass, consumer);
         return this;
@@ -283,6 +300,7 @@ public class ItemBuilder {
      * @return Built item
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public ItemStack build() {
         return item.clone();

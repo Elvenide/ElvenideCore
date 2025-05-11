@@ -2,6 +2,7 @@ package com.elvenide.core.providers.perm;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
@@ -33,6 +34,7 @@ public class PermProvider extends Provider {
      * @return Boolean
      * @deprecated Use {@link #has(Permissible, String)} with the explicit-prefix ("#") at the start of the permission
      */
+    @PublicAPI
     @Deprecated(since = "0.0.15", forRemoval = true)
     @Contract(pure = true)
     public boolean hasExplicitly(CommandSender sender, String permission) {
@@ -72,6 +74,7 @@ public class PermProvider extends Provider {
      * @param permission Permission, with optional negated (-) and/or explicit (#) prefix
      * @return Boolean
      */
+    @PublicAPI
     @Contract(pure = true)
     public boolean has(Permissible user, String permission) {
         // Negated
@@ -96,6 +99,7 @@ public class PermProvider extends Provider {
      * @param user User (player or console)
      * @return Map of permission nodes to their boolean values
      */
+    @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
     public HashMap<String, Boolean> all(Permissible user) {

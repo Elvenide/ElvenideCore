@@ -2,6 +2,7 @@ package com.elvenide.core.providers.config;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -31,6 +32,7 @@ public class ConfigProvider extends Provider {
      * @deprecated Use {@link #get(String)} with initialization instead.
      */
     @Deprecated(since = "0.0.15", forRemoval = true)
+    @PublicAPI
     public @NotNull Config get(JavaPlugin plugin, String relativePath) {
         if (configs.containsKey(relativePath))
             return configs.get(relativePath);
@@ -52,6 +54,7 @@ public class ConfigProvider extends Provider {
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
      * @return The config
      */
+    @PublicAPI
     public @NotNull Config get(String relativePath) {
         ensureInitialized();
 
@@ -75,6 +78,7 @@ public class ConfigProvider extends Provider {
      * </ul>
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
      */
+    @PublicAPI
     public void deleteFile(String relativePath) {
         ensureInitialized();
 

@@ -2,6 +2,7 @@ package com.elvenide.core.providers.text;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.lang.LangProvider;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -38,12 +39,15 @@ public class TextProvider extends Provider {
     private static final HashMap<String, String> customColors = new HashMap<>();
 
     /// Flag that handles whether &lt;gradient&gt; tags should be auto-converted to &lt;egradient&gt;
+    @PublicAPI
     public static boolean autoConvertGradientToEgradient = true;
 
     /// Flag that handles whether &lt;shadow&gt; tags should be auto-converted to &lt;eshadow&gt;
+    @PublicAPI
     public static boolean autoConvertShadowToEshadow = true;
 
     /// A set of built-in text packages that add additional custom tags to MiniMessage
+    @PublicAPI
     public final CommonTextPackages packages = new CommonTextPackages();
 
     @ApiStatus.Internal
@@ -57,6 +61,7 @@ public class TextProvider extends Provider {
      * Note: Intended for internal use, and as such is not stable API and should not be used unless absolutely necessary.
      * @return MiniMessage
      */
+    @PublicAPI
     @ApiStatus.Experimental
     public static MiniMessage resolver() {
         if (miniMessage != null)
@@ -209,6 +214,7 @@ public class TextProvider extends Provider {
      * @return The formatted text
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public final @NotNull String format(Object rawText, Object... placeholders) {
         String text = String.valueOf(rawText);
@@ -272,6 +278,7 @@ public class TextProvider extends Provider {
      * @param component The component
      * @return Serialized text
      */
+    @PublicAPI
     @Contract(pure = true)
     public final @NotNull String serialize(Component component) {
         return resolver().serialize(component);
@@ -284,6 +291,7 @@ public class TextProvider extends Provider {
      * @return Serialized text
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public final @NotNull String serializeWithoutEscaping(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
@@ -304,6 +312,7 @@ public class TextProvider extends Provider {
      * @param optionalPlaceholders Optional placeholders
      * @return Deserialized MiniMessage component
      */
+    @PublicAPI
     @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
         return resolver().deserialize(
@@ -326,6 +335,7 @@ public class TextProvider extends Provider {
      * @see #deserialize(Object, Object...)
      * @since 0.0.15
      */
+    @PublicAPI
     @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         text = placeholderResolver.apply(player, String.valueOf(text));
@@ -340,6 +350,7 @@ public class TextProvider extends Provider {
      * @param optionalPlaceholders Optional placeholders
      * @since 0.0.15
      */
+    @PublicAPI
     public final void send(Audience audience, Object text, Object... optionalPlaceholders) {
         audience.sendMessage(deserialize(text, optionalPlaceholders));
     }
@@ -352,6 +363,7 @@ public class TextProvider extends Provider {
      * @param placeholderResolver The placeholder resolver
      * @since 0.0.15
      */
+    @PublicAPI
     public final void send(Player player, Object text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         player.sendMessage(deserialize(text, player, placeholderResolver));
     }
@@ -365,6 +377,7 @@ public class TextProvider extends Provider {
      * @param name The name of the tag, in a valid MiniMessage tag name pattern
      * @param color The color of the tag
      */
+    @PublicAPI
     public final void addColorTag(@TagPattern String name, String color) {
         customColorResolver.resolver(createCustomColorResolver(name, color));
     }
@@ -382,6 +395,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
+        @PublicAPI
         public final TextPackageSupplier brightColors = new BrightColorsPackage();
 
         /**
@@ -394,6 +408,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
+        @PublicAPI
         public final TextPackageSupplier colorAliases = new ColorAliasesPackage();
 
         /**
@@ -408,6 +423,7 @@ public class TextProvider extends Provider {
          * </ul>
          * @since 0.0.10
          */
+        @PublicAPI
         public final TextPackageSupplier moreColors = new MoreColorsPackage();
 
         @ApiStatus.Internal
@@ -426,6 +442,7 @@ public class TextProvider extends Provider {
          *     <li>{@link #moreColors More Colors}</li>
          * </ul>
          */
+        @PublicAPI
         @Override
         public void install() {
             TextPackageSupplier.super.install();
@@ -435,6 +452,7 @@ public class TextProvider extends Provider {
          * Installs a provided third-party package.
          * @param textPackage The package
          */
+        @PublicAPI
         public void installExternal(TextPackageSupplier textPackage) {
             textPackage.build(Core.text);
         }

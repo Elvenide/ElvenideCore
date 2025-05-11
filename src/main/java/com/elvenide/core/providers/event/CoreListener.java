@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.event;
 
 import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -17,6 +18,7 @@ public interface CoreListener {
      * Registers this core listener, allowing it to receive core events.
      * @since 0.0.15
      */
+    @PublicAPI
     default void register() {
         CoreEventManager.register(this);
     }
@@ -25,6 +27,7 @@ public interface CoreListener {
      * Unregisters this core listener, stopping it from receiving core events.
      * @since 0.0.15
      */
+    @PublicAPI
     default void unregister() {
         CoreEventManager.unregister(this);
     }
@@ -35,6 +38,7 @@ public interface CoreListener {
      * @param listenerClass The class of the listeners to unregister
      * @since 0.0.15
      */
+    @PublicAPI
     static void unregisterListeners(Class<? extends CoreListener> listenerClass) {
         CoreEventManager.unregisterAllWithListener(listenerClass);
     }
@@ -46,6 +50,7 @@ public interface CoreListener {
      * libraries' functionality in the future.
      * @since 0.0.15
      */
+    @PublicAPI
     @ApiStatus.Experimental
     static void unregisterAll() {
         CoreEventManager.unregisterAll();

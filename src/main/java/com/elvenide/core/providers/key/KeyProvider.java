@@ -2,6 +2,7 @@ package com.elvenide.core.providers.key;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +34,7 @@ public class KeyProvider extends Provider {
      * @param plugin Your plugin
      * @deprecated Use {@link CorePlugin} or {@link Core#setPlugin(JavaPlugin)} instead
      */
+    @PublicAPI
     @Deprecated(forRemoval = true, since = "0.0.15")
     public void init(@NotNull JavaPlugin plugin) {
         Core.setPlugin(plugin);
@@ -43,6 +45,7 @@ public class KeyProvider extends Provider {
      * @param key The key string
      * @return The NamespacedKey
      */
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull String key) {
         ensureInitialized();
@@ -57,6 +60,7 @@ public class KeyProvider extends Provider {
      * @param key The enum
      * @return The NamespacedKey
      */
+    @PublicAPI
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull Enum<?> key) {
         return get(generateKeyStringFromEnum(key));

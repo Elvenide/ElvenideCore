@@ -2,6 +2,7 @@ package com.elvenide.core.providers.item;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.api.PublicAPI;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public ItemBuilder builder(@NotNull Material material) {
         return new ItemBuilder(core, material);
     }
@@ -41,6 +43,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public ItemBuilder builder(@NotNull ItemStack item) {
         return new ItemBuilder(core, item);
     }
@@ -57,6 +60,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, NamespacedKey key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -74,6 +78,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, NamespacedKey key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -92,6 +97,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -111,6 +117,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -129,6 +136,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -148,6 +156,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type, C def) {
         if (!item.hasItemMeta())
             throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
@@ -162,6 +171,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public boolean hasData(ItemStack item, NamespacedKey key) {
         if (!item.hasItemMeta())
             return false;
@@ -177,6 +187,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public boolean hasData(ItemStack item, String key) {
         if (!item.hasItemMeta())
             return false;
@@ -192,6 +203,7 @@ public class ItemProvider extends Provider {
      * @since 0.0.15
      */
     @Contract(pure = true)
+    @PublicAPI
     public boolean hasData(ItemStack item, Enum<?> key) {
         if (!item.hasItemMeta())
             return false;

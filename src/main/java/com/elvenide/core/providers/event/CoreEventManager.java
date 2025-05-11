@@ -11,6 +11,7 @@ class CoreEventManager {
 
     private static final HashMap<Class<? extends CoreEvent>, EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>>> handlers = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     private static HashMap<Class<? extends CoreEvent>, EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>>> getHandlers(CoreListener listener) {
         HashMap<Class<? extends CoreEvent>, EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>>> localHandlers = new HashMap<>();
 
