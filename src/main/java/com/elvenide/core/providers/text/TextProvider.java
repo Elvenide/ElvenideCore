@@ -445,7 +445,7 @@ public class TextProvider extends Provider {
         @PublicAPI
         @Override
         public void install() {
-            TextPackageSupplier.super.install();
+            build(Core.text);
         }
 
         /**

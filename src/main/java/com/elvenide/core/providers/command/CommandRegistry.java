@@ -27,6 +27,7 @@ final class CommandRegistry {
         return new CommandBuilder(name);
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     static void register(Core core, JavaPlugin plugin) {
         if (core == null)
             throw new IllegalArgumentException("ElvenideCore cannot be null");

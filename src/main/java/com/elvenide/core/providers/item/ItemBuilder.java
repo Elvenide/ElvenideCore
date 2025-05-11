@@ -155,9 +155,7 @@ public class ItemBuilder {
         if (size < 1)
             throw new IllegalArgumentException("Max stack size cannot be less than 1");
 
-        item.editMeta(m -> {
-            m.setMaxStackSize(size);
-        });
+        item.editMeta(m -> m.setMaxStackSize(size));
         return this;
     }
 
@@ -170,9 +168,7 @@ public class ItemBuilder {
      */
     @PublicAPI
     public ItemBuilder headOwner(String name) {
-        item.editMeta(SkullMeta.class, m -> {
-            m.setPlayerProfile(Bukkit.createProfile(name));
-        });
+        item.editMeta(SkullMeta.class, m -> m.setPlayerProfile(Bukkit.createProfile(name)));
         return this;
     }
 
@@ -185,9 +181,7 @@ public class ItemBuilder {
      */
     @PublicAPI
     public ItemBuilder color(Color color) {
-        item.editMeta(LeatherArmorMeta.class, m -> {
-            m.setColor(color);
-        });
+        item.editMeta(LeatherArmorMeta.class, m -> m.setColor(color));
         return this;
     }
 
@@ -202,6 +196,7 @@ public class ItemBuilder {
      */
     @PublicAPI
     @ApiStatus.Experimental
+    @SuppressWarnings("UnstableApiUsage")
     public <T> ItemBuilder component(DataComponentType.Valued<T> type, DataComponentBuilder<T> builder) {
         item.setData(type, builder);
         return this;
@@ -217,9 +212,7 @@ public class ItemBuilder {
      */
     @PublicAPI
     public <P, C> ItemBuilder data(NamespacedKey key, PersistentDataType<P, C> type, C value) {
-        item.editMeta(m -> {
-            m.getPersistentDataContainer().set(key, type, value);
-        });
+        item.editMeta(m -> m.getPersistentDataContainer().set(key, type, value));
         return this;
     }
 

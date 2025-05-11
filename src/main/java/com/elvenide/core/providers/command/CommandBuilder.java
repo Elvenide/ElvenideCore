@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class CommandBuilder {
 
     private final String name;
@@ -139,6 +140,7 @@ public class CommandBuilder {
 
     /* <editor-fold defaultstate="collapsed" desc="Command Execution Functions"> */
 
+    @SuppressWarnings("SameReturnValue")
     private int validatedExecutor(NodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
             ctx.reply(Core.lang.common.NOT_PLAYER);
@@ -167,6 +169,7 @@ public class CommandBuilder {
         return helpExecutor(rawCtx, commandNode);
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int helpExecutor(CommandContext<CommandSourceStack> rawCtx, @NotNull NodeWrapper wrapper) {
         SubCommandContext ctx = new SubCommandContext(rawCtx, new SubCommandBuilder(), this, 0);
 
