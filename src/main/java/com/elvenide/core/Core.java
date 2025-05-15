@@ -1,13 +1,13 @@
 package com.elvenide.core;
 
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangProvider;
 import com.elvenide.core.providers.perm.PermProvider;
+import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.task.TaskProvider;
 import com.elvenide.core.providers.text.TextProvider;
 import org.bukkit.plugin.java.JavaPlugin;
