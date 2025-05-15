@@ -2,9 +2,9 @@ package com.elvenide.core.providers.plugin;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
+import com.elvenide.core.providers.config.ConfigSupplier;
 import com.elvenide.core.providers.event.CoreListener;
 import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
-import com.elvenide.core.providers.config.ConfigSupplier;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;

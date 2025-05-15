@@ -1,6 +1,5 @@
 package com.elvenide.core.providers.event;
 
-import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.ApiStatus;
 
