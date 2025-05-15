@@ -4,12 +4,18 @@ import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
+import com.google.common.base.Charsets;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.HashMap;
 
 /**
@@ -55,7 +61,7 @@ public class ConfigProvider extends Provider {
      * @return The config
      */
     @PublicAPI
-    public @NotNull Config get(String relativePath) {
+    public @NotNull Config get(@NotNull String relativePath) {
         ensureInitialized();
 
         if (configs.containsKey(relativePath))
@@ -79,11 +85,57 @@ public class ConfigProvider extends Provider {
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
      */
     @PublicAPI
-    public void deleteFile(String relativePath) {
+    public void deleteFile(@NotNull String relativePath) {
         ensureInitialized();
 
         File file = new File(core.plugin.getDataFolder(), relativePath);
         boolean ignored = file.delete();
         configs.remove(relativePath);
+    }
+
+    /**
+     * Gets a config in the provided path relative to your plugin's data folder.
+     * The config must have a resource with the same path in your plugin code's <code>resources</code> folder.
+     * If the config file does not exist, a new config will be created with the contents of the resource.
+     * <p>
+     * <b>Before using this</b>, you must do ONE of the following:
+     * <ul>
+     *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>
+     *     <li>{@link Core#setPlugin(JavaPlugin) Manual initialization}</li>
+     * </ul>
+     * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
+     * @return The config
+     */
+    @PublicAPI
+    public Config getResource(@NotNull String relativePath) {
+        ensureInitialized();
+
+        // Remove leading "./"
+        if (relativePath.startsWith("./"))
+            relativePath = relativePath.substring(2);
+
+        // Load the resource
+        InputStream stream = core.plugin.getResource(relativePath);
+        if (stream == null)
+            throw new RuntimeException("Failed to load resource: " + relativePath);
+
+        // Determine if the file exists
+        File file = new File(core.plugin.getDataFolder(), relativePath);
+        boolean isNew = !file.exists();
+
+        // Get config, copying resource if it doesn't exist
+        Config config = get(relativePath);
+        if (isNew) {
+            try {
+                Files.copy(stream, file.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            config.reload();
+        }
+
+        // Load defaults
+        config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(stream, Charsets.UTF_8)));
+        return config;
     }
 }
