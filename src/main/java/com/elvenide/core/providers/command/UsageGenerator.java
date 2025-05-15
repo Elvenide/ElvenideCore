@@ -19,13 +19,15 @@ class UsageGenerator {
 
     private final NodeWrapper self;
     private final String prefix;
+    private final String prefixNoHover;
 
     UsageGenerator(NodeWrapper self) {
         this.self = self;
-        prefix = getStringPathToSelf();
+        prefix = getStringPathToSelf(true);
+        prefixNoHover = getStringPathToSelf(false);
     }
 
-    private String getStringPathToSelf() {
+    private String getStringPathToSelf(boolean useHover) {
         LinkedList<String> path = new LinkedList<>();
 
         NodeWrapper current = self;
@@ -33,7 +35,7 @@ class UsageGenerator {
             if (current.isSubCommand())
                 path.addFirst(displaySubCommand(current.asSubCommand()));
             else
-                path.addFirst(displaySubGroup(current.asSubGroup()));
+                path.addFirst(displaySubGroup(current.asSubGroup(), useHover));
 
             current = current.parent();
         }
@@ -41,27 +43,29 @@ class UsageGenerator {
         return String.join(" ", path);
     }
 
-    private String displaySubGroup(SubGroup group) {
+    private String displaySubGroup(SubGroup group, boolean useHover) {
         String output = Core.lang.common.SUBGROUP_HELP_FORMATTING.formatted(group.label());
 
-        ArrayList<String> childUsages = new ArrayList<>();
-        for (NodeWrapper child : group.getChildNodes())
-            if (child.isSubCommand())
-                childUsages.add(prefix + " " + output + " " + displaySubCommand(child.asSubCommand()));
+        if (useHover) {
+            ArrayList<String> childUsages = new ArrayList<>();
+            for (NodeWrapper child : group.getChildNodes())
+                if (child.isSubCommand())
+                    childUsages.add(prefix + " " + output + " " + displaySubCommand(child.asSubCommand()));
 
-        if (!childUsages.isEmpty()) {
-            if (childUsages.size() > 8) {
-                childUsages = new ArrayList<>(childUsages.subList(0, 8));
-                childUsages.add("...");
+            if (!childUsages.isEmpty()) {
+                if (childUsages.size() > 8) {
+                    childUsages = new ArrayList<>(childUsages.subList(0, 8));
+                    childUsages.add("...");
+                }
+
+                output = "<hover:show_text:\"%s\">%s</hover>".formatted(String.join(
+                    "<br>",
+                    childUsages
+                        .stream()
+                        .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
+                        .toList()
+                ), output);
             }
-
-            output = "<hover:show_text:\"%s\">%s</hover>".formatted(String.join(
-                "<br>",
-                childUsages
-                    .stream()
-                    .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
-                    .toList()
-            ), output);
         }
 
         return output;
@@ -83,14 +87,15 @@ class UsageGenerator {
         return output;
     }
 
-    private String displaySubNode(NodeWrapper wrapper) {
+    private String displaySubNode(NodeWrapper wrapper, boolean useHover) {
         if (wrapper.isSubCommand())
             return displaySubCommand(wrapper.asSubCommand());
-        return displaySubGroup(wrapper.asSubGroup());
+        return displaySubGroup(wrapper.asSubGroup(), useHover);
     }
 
     /// Generates either child usages (of subgroup) or own usage (of subcommand); returns null if 'page' is too large
-    private List<String> generateUsages(NodeWrapper current, @Nullable CommandSender executor) {
+    private List<String> generateUsages(NodeWrapper current, @Nullable CommandSender executor, boolean useHover) {
+        String prefix = useHover ? this.prefix : this.prefixNoHover;
         if (current.isSubCommand())
             return List.of(prefix);
 
@@ -109,7 +114,7 @@ class UsageGenerator {
                 }
             }
 
-            usages.add(prefix + " " + displaySubNode(child));
+            usages.add(prefix + " " + displaySubNode(child, useHover));
         }
 
         String missingPermsMessage = Core.lang.common.COMMANDS_HIDDEN_BY_PERMS.formatted(missingPerms);
@@ -127,10 +132,10 @@ class UsageGenerator {
     }
 
     /// Generates a multi-line command usage message
-    public String generate(CommandSender executor) {
+    public String generate(CommandSender executor, boolean useHover) {
         return String.join(
             "<br>",
-            generateUsages(self, executor)
+            generateUsages(self, executor, useHover)
                 .stream()
                 .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
                 .toList()
