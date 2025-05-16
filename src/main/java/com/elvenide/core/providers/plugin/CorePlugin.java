@@ -5,6 +5,7 @@ import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.config.ConfigSupplier;
 import com.elvenide.core.providers.event.CoreListener;
 import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -111,6 +112,22 @@ public abstract class CorePlugin extends JavaPlugin {
 
         for (Listener listener : listeners)
             instance.getServer().getPluginManager().registerEvents(listener, instance);
+    }
+
+    /**
+     * Unregisters one or more Bukkit event listeners.
+     * <p>
+     * Note: Does not unregister {@link CoreListener CoreListener}s; use {@link CoreListener#unregister()} to do so.
+     * @param listeners Listeners
+     * @since 0.0.15
+     */
+    @PublicAPI
+    public static void unregisterListeners(Listener... listeners) {
+        if (instance == null)
+            throw new IllegalStateException("Plugin has not been initialized yet.");
+
+        for (Listener listener : listeners)
+            HandlerList.unregisterAll(listener);
     }
 
     /**
