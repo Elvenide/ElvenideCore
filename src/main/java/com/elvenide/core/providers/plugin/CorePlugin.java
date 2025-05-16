@@ -77,6 +77,16 @@ public abstract class CorePlugin extends JavaPlugin {
     public void onDisabled() {}
 
     /**
+     * @return Plugin version as defined in plugin.yml or paper-plugin.yml
+     * @since 0.0.15
+     */
+    @PublicAPI
+    @SuppressWarnings("UnstableApiUsage")
+    public final String getPluginVersion() {
+        return getPluginMeta().getVersion();
+    }
+
+    /**
      * Registers one or more config suppliers.
      * Registered config suppliers will be automatically reloaded when {@link #reload()} is called.
      * @param suppliers Config suppliers
