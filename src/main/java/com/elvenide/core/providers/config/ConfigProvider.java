@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 
 /**
@@ -114,6 +115,10 @@ public class ConfigProvider extends Provider {
         if (relativePath.startsWith("./"))
             relativePath = relativePath.substring(2);
 
+        // Get any existing config
+        if (configs.containsKey(relativePath))
+            return configs.get(relativePath);
+
         // Load the resource
         InputStream stream = core.plugin.getResource(relativePath);
         if (stream == null)
@@ -127,7 +132,7 @@ public class ConfigProvider extends Provider {
         Config config = get(relativePath);
         if (isNew) {
             try {
-                Files.copy(stream, file.toPath());
+                Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
