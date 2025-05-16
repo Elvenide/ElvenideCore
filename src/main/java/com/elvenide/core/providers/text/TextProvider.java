@@ -117,11 +117,13 @@ public class TextProvider extends Provider {
     static String preParsing(String text, Object[] placeholders) {
         // Auto-convert <gradient> to <egradient>
         if (autoConvertGradientToEgradient)
-            text = text.replaceAll("<gradient:", "<egradient:");
+            text = text.replace("<gradient:", "<egradient:")
+                .replace("</gradient>", "</egradient>");
 
         // Auto-convert <shadow> to <eshadow>
         if (autoConvertShadowToEshadow)
-            text = text.replaceAll("<shadow:", "<eshadow:");
+            text = text.replace("<shadow:", "<eshadow:")
+                .replace("</shadow>", "</eshadow>");
 
         // Format placeholders
         if (placeholders.length > 0)
