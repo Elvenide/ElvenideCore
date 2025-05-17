@@ -10,6 +10,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.MessageComponentSerializer;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -156,10 +157,11 @@ public class CommandBuilder {
             commandWrapper.asSubCommand().executes(ctx);
         }
         catch (InvalidArgumentException e) {
-            ctx.replyToSender("<hover:show_text:\"%s\">%s</hover>",
-                commandWrapper.generateUsage(ctx.executor()),
-                "<red>" + e.getMessage()
-            );
+            ctx.ctx.getSource().getSender()
+                .sendMessage(
+                    Core.text.deserialize("<red>{}", e.getMessage())
+                        .hoverEvent(HoverEvent.showText(Core.text.deserialize(commandWrapper.generateUsage(ctx.executor()))))
+                );
         }
 
         return Command.SINGLE_SUCCESS;
