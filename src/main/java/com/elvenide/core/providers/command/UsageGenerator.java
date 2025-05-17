@@ -67,7 +67,7 @@ class UsageGenerator {
         return displaySubGroup(wrapper.asSubGroup());
     }
 
-    /// Generates either child usages (of subgroup) or own usage (of subcommand); returns null if 'page' is too large
+    /// Generates either child usages (of subgroup) or own usage (of subcommand)
     private List<String> generateUsages(NodeWrapper current, @Nullable CommandSender executor) {
         if (current.isSubCommand())
             return List.of(prefix);
