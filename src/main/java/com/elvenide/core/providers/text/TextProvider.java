@@ -118,12 +118,12 @@ public class TextProvider extends Provider {
         // Auto-convert <gradient> to <egradient>
         if (autoConvertGradientToEgradient)
             text = text.replace("<gradient:", "<egradient:")
-                .replace("</gradient>", "</egradient>");
+                .replace("</egradient>", "</gradient>");
 
         // Auto-convert <shadow> to <eshadow>
         if (autoConvertShadowToEshadow)
             text = text.replace("<shadow:", "<eshadow:")
-                .replace("</shadow>", "</eshadow>");
+                .replace("</eshadow>", "</shadow>");
 
         // Format placeholders
         if (placeholders.length > 0)
