@@ -65,6 +65,6 @@ class BuiltinHelpCommand implements SubCommand {
         }
 
         // Send usage
-        ctx.reply(wrapper.generateUsage(ctx.executor(), true));
+        ctx.reply(wrapper.generateUsage(ctx.executor()));
     }
 }

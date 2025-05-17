@@ -158,16 +158,15 @@ public class NodeWrapper {
      * <p>
      * Experimentally available to allow making your own help subcommand.
      * @param user The user who will see the message
-     * @param showSubcommandsInHoverTooltip Whether to show child subcommands in the hover tooltip of subgroups
      * @return The usage message
      */
     @PublicAPI
     @Contract(pure = true)
     @ApiStatus.Experimental
-    public String generateUsage(CommandSender user, boolean showSubcommandsInHoverTooltip) {
+    public String generateUsage(CommandSender user) {
         if (usageGenerator == null)
             usageGenerator = new UsageGenerator(this);
-        return usageGenerator.generate(user, showSubcommandsInHoverTooltip);
+        return usageGenerator.generate(user);
     }
 
 }
