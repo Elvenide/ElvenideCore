@@ -1,6 +1,7 @@
 package com.elvenide.core.providers.config;
 
 import com.elvenide.core.api.PublicAPI;
+import com.google.common.base.Charsets;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.ApiStatus;
@@ -10,20 +11,35 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Objects;
 
 public class Config extends YamlConfiguration implements ConfigSection {
 
+    private final ConfigProvider system;
     private final File file;
+    private @Nullable String resourcePath;
+
     Config(@Nullable ConfigProvider system, File file) {
         super();
 
         if (system == null)
             throw new IllegalArgumentException("ConfigSystem cannot be null");
 
+        this.system = system;
         this.file = file;
+        this.resourcePath = null;
+
         reload();
+    }
+
+    Config(@Nullable ConfigProvider system, File file, @NotNull String resource) {
+        this(system, file);
+        this.resourcePath = resource;
     }
 
     /**
@@ -32,6 +48,10 @@ public class Config extends YamlConfiguration implements ConfigSection {
      */
     @PublicAPI
     public void reload() {
+        InputStream resource = resourcePath != null ? system.plugin().getResource(resourcePath) : null;
+        if (resourcePath != null && resource == null)
+            throw new RuntimeException("Failed to load resource: " + resourcePath);
+
         if (!file.getParentFile().exists()) {
             boolean ignored = file.getParentFile().mkdirs();
         }
@@ -42,6 +62,13 @@ public class Config extends YamlConfiguration implements ConfigSection {
             } catch (Exception ignored1) {
                 throw new RuntimeException("Failed to create config file: " + file.getAbsolutePath());
             }
+
+            if (resource != null)
+                try {
+                    Files.copy(resource, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to copy resource to config file: " + file.getAbsolutePath(), e);
+                }
         }
 
         try {
@@ -53,6 +80,9 @@ public class Config extends YamlConfiguration implements ConfigSection {
         catch (InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
+
+        if (resource != null)
+            setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(resource, Charsets.UTF_8)));
     }
 
     /**

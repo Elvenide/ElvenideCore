@@ -31,6 +31,12 @@ public class ConfigProvider extends Provider {
         super(core);
     }
 
+    /// Allows Config to internally obtain plugin instance
+    @ApiStatus.Internal
+    JavaPlugin plugin() {
+        return core.plugin;
+    }
+
     /**
      * Gets a config in the provided path relative to your plugin's data folder.
      * @param plugin Your plugin
@@ -96,7 +102,7 @@ public class ConfigProvider extends Provider {
 
     /**
      * Gets a config in the provided path relative to your plugin's data folder.
-     * The config must have a resource with the same path in your plugin code's <code>resources</code> folder.
+     * The config must have a resource at the resource path in your plugin code's <code>resources</code> folder.
      * If the config file does not exist, a new config will be created with the contents of the resource.
      * <p>
      * <b>Before using this</b>, you must do ONE of the following:
@@ -105,42 +111,25 @@ public class ConfigProvider extends Provider {
      *     <li>{@link Core#setPlugin(JavaPlugin) Manual initialization}</li>
      * </ul>
      * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
+     * @param resourcePath The path, relative to your code's resources folder (e.g. "./config.yml")@
      * @return The config
      */
     @PublicAPI
-    public Config getResource(@NotNull String relativePath) {
+    public Config get(@NotNull String relativePath, @NotNull String resourcePath) {
         ensureInitialized();
 
         // Remove leading "./"
-        if (relativePath.startsWith("./"))
+        if (resourcePath.startsWith("./"))
             relativePath = relativePath.substring(2);
 
         // Get any existing config
         if (configs.containsKey(relativePath))
             return configs.get(relativePath);
 
-        // Load the resource
-        InputStream stream = core.plugin.getResource(relativePath);
-        if (stream == null)
-            throw new RuntimeException("Failed to load resource: " + relativePath);
-
-        // Determine if the file exists
+        // Create config with resource
         File file = new File(core.plugin.getDataFolder(), relativePath);
-        boolean isNew = !file.exists();
-
-        // Get config, copying resource if it doesn't exist
-        Config config = get(relativePath);
-        if (isNew) {
-            try {
-                Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            config.reload();
-        }
-
-        // Load defaults
-        config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(stream, Charsets.UTF_8)));
+        Config config = new Config(this, file, resourcePath);
+        configs.put(relativePath, config);
         return config;
     }
 }
