@@ -19,15 +19,13 @@ class UsageGenerator {
 
     private final NodeWrapper self;
     private final String prefix;
-    private final String prefixNoHover;
 
     UsageGenerator(NodeWrapper self) {
         this.self = self;
-        prefix = getStringPathToSelf(true);
-        prefixNoHover = getStringPathToSelf(false);
+        prefix = getStringPathToSelf();
     }
 
-    private String getStringPathToSelf(boolean useHover) {
+    private String getStringPathToSelf() {
         LinkedList<String> path = new LinkedList<>();
 
         NodeWrapper current = self;
@@ -35,7 +33,7 @@ class UsageGenerator {
             if (current.isSubCommand())
                 path.addFirst(displaySubCommand(current.asSubCommand()));
             else
-                path.addFirst(displaySubGroup(current.asSubGroup(), useHover));
+                path.addFirst(displaySubGroup(current.asSubGroup()));
 
             current = current.parent();
         }
@@ -43,32 +41,8 @@ class UsageGenerator {
         return String.join(" ", path);
     }
 
-    private String displaySubGroup(SubGroup group, boolean useHover) {
-        String output = Core.lang.common.SUBGROUP_HELP_FORMATTING.formatted(group.label());
-
-        if (useHover) {
-            ArrayList<String> childUsages = new ArrayList<>();
-            for (NodeWrapper child : group.getChildNodes())
-                if (child.isSubCommand())
-                    childUsages.add(prefix + " " + output + " " + displaySubCommand(child.asSubCommand()));
-
-            if (!childUsages.isEmpty()) {
-                if (childUsages.size() > 8) {
-                    childUsages = new ArrayList<>(childUsages.subList(0, 8));
-                    childUsages.add("...");
-                }
-
-                output = "<hover:show_text:\"%s\">%s</hover>".formatted(String.join(
-                    "<br>",
-                    childUsages
-                        .stream()
-                        .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
-                        .toList()
-                ), output);
-            }
-        }
-
-        return output;
+    private String displaySubGroup(SubGroup group) {
+        return Core.lang.common.SUBGROUP_HELP_FORMATTING.formatted(group.label());
     }
 
     private String displaySubCommand(SubCommand command) {
@@ -87,15 +61,14 @@ class UsageGenerator {
         return output;
     }
 
-    private String displaySubNode(NodeWrapper wrapper, boolean useHover) {
+    private String displaySubNode(NodeWrapper wrapper) {
         if (wrapper.isSubCommand())
             return displaySubCommand(wrapper.asSubCommand());
-        return displaySubGroup(wrapper.asSubGroup(), useHover);
+        return displaySubGroup(wrapper.asSubGroup());
     }
 
     /// Generates either child usages (of subgroup) or own usage (of subcommand); returns null if 'page' is too large
-    private List<String> generateUsages(NodeWrapper current, @Nullable CommandSender executor, boolean useHover) {
-        String prefix = useHover ? this.prefix : this.prefixNoHover;
+    private List<String> generateUsages(NodeWrapper current, @Nullable CommandSender executor) {
         if (current.isSubCommand())
             return List.of(prefix);
 
@@ -114,7 +87,7 @@ class UsageGenerator {
                 }
             }
 
-            usages.add(prefix + " " + displaySubNode(child, useHover));
+            usages.add(prefix + " " + displaySubNode(child));
         }
 
         String missingPermsMessage = Core.lang.common.COMMANDS_HIDDEN_BY_PERMS.formatted(missingPerms);
@@ -132,10 +105,10 @@ class UsageGenerator {
     }
 
     /// Generates a multi-line command usage message
-    public String generate(CommandSender executor, boolean useHover) {
+    public String generate(CommandSender executor) {
         return String.join(
             "<br>",
-            generateUsages(self, executor, useHover)
+            generateUsages(self, executor)
                 .stream()
                 .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
                 .toList()

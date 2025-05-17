@@ -157,7 +157,7 @@ public class CommandBuilder {
         }
         catch (InvalidArgumentException e) {
             ctx.replyToSender("<hover:show_text:\"%s\">%s</hover>",
-                commandWrapper.generateUsage(ctx.executor(), false),
+                commandWrapper.generateUsage(ctx.executor()),
                 "<red>" + e.getMessage()
             );
         }
@@ -190,7 +190,7 @@ public class CommandBuilder {
         }
 
         // Send usage
-        ctx.reply(wrapper.generateUsage(ctx.executor(), true));
+        ctx.reply(wrapper.generateUsage(ctx.executor()));
         return Command.SINGLE_SUCCESS;
     }
 

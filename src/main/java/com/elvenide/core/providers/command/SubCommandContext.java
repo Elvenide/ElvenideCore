@@ -153,7 +153,7 @@ public class SubCommandContext {
     @PublicAPI
     @Deprecated(forRemoval = true, since = "0.0.15")
     public void sendCommandUsage() {
-        replyToSender(getCommandTreeNode(null).generateUsage(ctx.getSource().getSender(), true));
+        replyToSender(getCommandTreeNode(null).generateUsage(ctx.getSource().getSender()));
     }
 
     /**
