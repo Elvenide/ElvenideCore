@@ -38,8 +38,16 @@ public class Config extends YamlConfiguration implements ConfigSection {
     }
 
     Config(@Nullable ConfigProvider system, File file, @NotNull String resource) {
-        this(system, file);
+        super();
+
+        if (system == null)
+            throw new IllegalArgumentException("ConfigSystem cannot be null");
+
+        this.system = system;
+        this.file = file;
         this.resourcePath = resource;
+
+        reload();
     }
 
     /**
