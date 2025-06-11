@@ -22,7 +22,7 @@ class UsageGenerator {
 
     UsageGenerator(NodeWrapper self) {
         this.self = self;
-        prefix = getStringPathToSelf();
+        prefix = "/" + getStringPathToSelf();
     }
 
     private String getStringPathToSelf() {
