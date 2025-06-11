@@ -128,27 +128,27 @@ class CoreEventManager {
         EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>> eventExecutors = handlers.get(event.getClass());
 
         // EARLIEST
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.EARLIEST, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.EARLIEST, new ArrayList<>())))
             cancelled = execute(executor, event, cancelled);
 
         // EARLY
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.EARLY, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.EARLY, new ArrayList<>())))
             cancelled = execute(executor, event, cancelled);
 
         // NORMAL
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.NORMAL, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.NORMAL, new ArrayList<>())))
             cancelled = execute(executor, event, cancelled);
 
         // LATE
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.LATE, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.LATE, new ArrayList<>())))
             cancelled = execute(executor, event, cancelled);
 
         // LATEST
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.LATEST, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.LATEST, new ArrayList<>())))
             cancelled = execute(executor, event, cancelled);
 
         // RESULT
-        for (CoreEventExecutor executor : eventExecutors.getOrDefault(CoreEventPriority.RESULT, new ArrayList<>()))
+        for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.RESULT, new ArrayList<>())))
             execute(executor, event, cancelled);
 
         return cancelled;
