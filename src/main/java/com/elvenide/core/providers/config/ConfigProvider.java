@@ -4,19 +4,12 @@ import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.plugin.CorePlugin;
-import com.google.common.base.Charsets;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 
 /**
@@ -54,6 +47,18 @@ public class ConfigProvider extends Provider {
         Config config = new Config(this, file);
         configs.put(relativePath, config);
         return config;
+    }
+
+    @Override
+    protected void ensureInitialized() throws IllegalStateException {
+        // Ensure plugin is initialized
+        super.ensureInitialized();
+
+        // Ensure data folder exists
+        File dataFolder = core.plugin.getDataFolder();
+        if (!dataFolder.exists()) {
+            boolean ignored = dataFolder.mkdirs();
+        }
     }
 
     /**
