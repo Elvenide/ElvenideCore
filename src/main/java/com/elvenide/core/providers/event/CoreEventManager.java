@@ -98,7 +98,7 @@ class CoreEventManager {
 
     private static boolean execute(CoreEventExecutor executor, CoreEvent event, boolean cancelled) {
         if (cancelled && executor.getData().ignoreCancelled())
-            return cancelled;
+            return true;
 
         executor.accept(event);
         if (event instanceof CoreCancellable)

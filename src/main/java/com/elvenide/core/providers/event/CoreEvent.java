@@ -1,8 +1,6 @@
 package com.elvenide.core.providers.event;
 
-import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
-import net.kyori.adventure.audience.Audience;
 
 /**
  * Represents a custom ElvenideCore event that can be handled by registered {@link CoreListener CoreListener}s.
@@ -28,65 +26,6 @@ public interface CoreEvent {
     default CoreEventResult callCoreEvent() {
         boolean isCancelled = CoreEventManager.call(this);
         return isCancelled ? CoreEventResult.CANCELLED : CoreEventResult.COMPLETED;
-    }
-
-    /**
-     * Ends the <i>current</i> event handler, preventing any code below this method call from running.
-     * <p>
-     * <b>Note:</b> Unlike cancelling, this does not affect other handlers listening for the same event.
-     * @since 0.0.15
-     */
-    @PublicAPI
-    default void end() {
-        throw new CoreEventCancelException(null);
-    }
-
-    /**
-     * Ends the <i>current</i> event handler, preventing any code below this method call from running,
-     * but only if the condition is true.
-     * <p>
-     * <b>Note:</b> Unlike cancelling, this does not affect other handlers listening for the same event.
-     * @since 0.0.15
-     * @param condition Condition that will end the handler if true
-     */
-    @PublicAPI
-    default void endIf(boolean condition) {
-        if (condition)
-            end();
-    }
-
-    /**
-     * Ends the <i>current</i> event handler, preventing any code below this method call from running.
-     * Sends an error message notifying a relevant audience.
-     * <p>
-     * <b>Note:</b> Unlike cancelling, this does not affect other handlers listening for the same event.
-     * @since 0.0.15
-     * @param target Target audience to send an error message to (e.g. player, group, console, server)
-     * @param errorMessage Error message to send
-     * @param optionalPlaceholders Optional placeholders in the error message
-     */
-    @PublicAPI
-    default void end(Audience target, String errorMessage, Object... optionalPlaceholders) {
-        Core.text.send(target, "<red>" + errorMessage, optionalPlaceholders);
-        end();
-    }
-
-    /**
-     * Ends the <i>current</i> event handler, preventing any code below this method call from running,
-     * but only if the condition is true.
-     * Sends an error message notifying a relevant audience, if the condition is true.
-     * <p>
-     * <b>Note:</b> Unlike cancelling, this does not affect other handlers listening for the same event.
-     * @since 0.0.15
-     * @param condition Condition that will end the handler and send an error message if true
-     * @param target Target audience to send an error message to (e.g. player, group, console, server)
-     * @param errorMessage Error message to send
-     * @param optionalPlaceholders Optional placeholders in the error message
-     */
-    @PublicAPI
-    default void endIf(boolean condition, Audience target, String errorMessage, Object... optionalPlaceholders) {
-        if (condition)
-            end(target, errorMessage, optionalPlaceholders);
     }
 
 }

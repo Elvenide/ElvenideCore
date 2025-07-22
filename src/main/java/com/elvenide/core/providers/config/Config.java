@@ -22,7 +22,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
 
     private final ConfigProvider system;
     private final File file;
-    private @Nullable String resourcePath;
+    private final @Nullable String resourcePath;
 
     Config(@Nullable ConfigProvider system, File file) {
         super();
