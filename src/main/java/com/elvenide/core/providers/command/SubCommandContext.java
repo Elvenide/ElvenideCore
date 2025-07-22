@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-@SuppressWarnings("UnstableApiUsage")
 public class SubCommandContext {
 
     final CommandContext<CommandSourceStack> ctx;
