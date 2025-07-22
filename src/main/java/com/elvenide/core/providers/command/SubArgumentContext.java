@@ -172,7 +172,6 @@ public class SubArgumentContext {
 
     @PublicAPI
     @Contract(pure = true)
-    @SuppressWarnings("UnstableApiUsage")
     public @NotNull List<Player> getPlayers(@NotNull String name, @NotNull List<Player> def) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
         if (raw == null)
@@ -274,7 +273,6 @@ public class SubArgumentContext {
 
     @PublicAPI
     @Contract(pure = true)
-    @SuppressWarnings("UnstableApiUsage")
     public @NotNull List<Player> getPlayers(@NotNull String name) {
         PlayerSelectorArgumentResolver raw = getRaw(name, PlayerSelectorArgumentResolver.class);
         if (raw == null)

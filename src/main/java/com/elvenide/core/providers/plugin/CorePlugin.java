@@ -58,6 +58,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * (Load >> Enable >> Reload).
      * @since 0.0.15
      */
+    @SuppressWarnings("EmptyMethod")
     @ApiStatus.OverrideOnly
     public void onLoaded() {}
 
@@ -74,6 +75,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * Code run when the plugin is disabled.
      * @since 0.0.15
      */
+    @SuppressWarnings("EmptyMethod")
     @ApiStatus.OverrideOnly
     public void onDisabled() {}
 
@@ -82,7 +84,6 @@ public abstract class CorePlugin extends JavaPlugin {
      * @since 0.0.15
      */
     @PublicAPI
-    @SuppressWarnings("UnstableApiUsage")
     public final String getPluginVersion() {
         return getPluginMeta().getVersion();
     }
