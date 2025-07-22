@@ -41,6 +41,6 @@ public @interface CoreEventHandler {
      * If true, this handler method will not run if the event was cancelled by an earlier executed handler.
      * @return Boolean to ignore cancelled events
      */
-    boolean ignoreCancelled() default false;
+    boolean ignoreCancelled() default true;
 
 }
