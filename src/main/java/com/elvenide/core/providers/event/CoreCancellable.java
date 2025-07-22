@@ -16,7 +16,7 @@ public interface CoreCancellable {
      */
     @PublicAPI
     default void setCancelled(boolean cancelled) {
-        throw new CoreEventCancelException(cancelled);
+        CoreEventManager.cancel(this, cancelled);
     }
 
 }

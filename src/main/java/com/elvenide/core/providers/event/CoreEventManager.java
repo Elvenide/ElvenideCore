@@ -10,6 +10,11 @@ import java.util.HashMap;
 class CoreEventManager {
 
     private static final HashMap<Class<? extends CoreEvent>, EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>>> handlers = new HashMap<>();
+    private static final HashMap<CoreCancellable, Boolean> cancellations = new HashMap<>();
+
+    static void cancel(CoreCancellable coreCancellable, boolean cancelled) {
+        cancellations.put(coreCancellable, cancelled);
+    }
 
     @SuppressWarnings("unchecked")
     private static HashMap<Class<? extends CoreEvent>, EnumMap<CoreEventPriority, ArrayList<CoreEventExecutor>>> getHandlers(CoreListener listener) {
@@ -95,27 +100,9 @@ class CoreEventManager {
         if (cancelled && executor.getData().ignoreCancelled())
             return cancelled;
 
-        try {
-            executor.accept(event);
-        } catch (Exception e) {
-            if (e instanceof CoreEventCancelException ce)
-                cancelled = ce.isCancelled(cancelled);
-            else {
-                Throwable t = e;
-                boolean foundCancellable = false;
-                while (t.getCause() != null) {
-                    t = t.getCause();
-                    if (t instanceof CoreEventCancelException ce) {
-                        cancelled = ce.isCancelled(cancelled);
-                        foundCancellable = true;
-                        break;
-                    }
-                }
-
-                if (!foundCancellable)
-                    throw e;
-            }
-        }
+        executor.accept(event);
+        if (event instanceof CoreCancellable)
+            cancelled = cancellations.getOrDefault(event, false);
 
         return cancelled;
     }
@@ -150,6 +137,10 @@ class CoreEventManager {
         // RESULT
         for (CoreEventExecutor executor : new ArrayList<>(eventExecutors.getOrDefault(CoreEventPriority.RESULT, new ArrayList<>())))
             execute(executor, event, cancelled);
+
+        // Clear cancellations for this event
+        if (event instanceof CoreCancellable)
+            cancellations.remove(event);
 
         return cancelled;
     }
