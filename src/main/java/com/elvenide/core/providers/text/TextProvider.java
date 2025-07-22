@@ -40,11 +40,11 @@ public class TextProvider extends Provider {
 
     /// Flag that handles whether &lt;gradient&gt; tags should be auto-converted to &lt;egradient&gt;
     @PublicAPI
-    public static boolean autoConvertGradientToEgradient = true;
+    private static boolean autoConvertGradientToEgradient = true;
 
     /// Flag that handles whether &lt;shadow&gt; tags should be auto-converted to &lt;eshadow&gt;
     @PublicAPI
-    public static boolean autoConvertShadowToEshadow = true;
+    private static boolean autoConvertShadowToEshadow = true;
 
     /// A set of built-in text packages that add additional custom tags to MiniMessage
     @PublicAPI
@@ -53,6 +53,26 @@ public class TextProvider extends Provider {
     @ApiStatus.Internal
     public TextProvider(@Nullable Core core) {
         super(core);
+    }
+
+    /**
+     * Sets the flag that handles whether &lt;gradient&gt; tags should be auto-converted to &lt;egradient&gt;
+     * @param value Boolean value
+     * @since 0.0.15
+     */
+    @PublicAPI
+    public static void shouldAutoConvertGradientToEgradient(boolean value) {
+        autoConvertGradientToEgradient = value;
+    }
+
+    /**
+     * Sets the flag that handles whether &lt;shadow&gt; tags should be auto-converted to &lt;eshadow&gt;
+     * @param value Boolean value
+     * @since 0.0.15
+     */
+    @PublicAPI
+    public static void shouldAutoConvertShadowToEshadow(boolean value) {
+        autoConvertShadowToEshadow = value;
     }
 
     /**
