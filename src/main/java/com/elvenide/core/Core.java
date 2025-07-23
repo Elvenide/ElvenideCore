@@ -6,6 +6,7 @@ import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangProvider;
+import com.elvenide.core.providers.log.LogProvider;
 import com.elvenide.core.providers.perm.PermProvider;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.task.TaskProvider;
@@ -109,4 +110,11 @@ public class Core {
      */
     @PublicAPI
     public static final TaskProvider tasks = new TaskProvider(INSTANCE);
+
+    /**
+     * Send various types of log messages to the console, with the ability to easily toggle logging on and off.
+     * @since 0.0.15
+     */
+    @PublicAPI
+    public static final LogProvider log = new LogProvider(INSTANCE);
 }
