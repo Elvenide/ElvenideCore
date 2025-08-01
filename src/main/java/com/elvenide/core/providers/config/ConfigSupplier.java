@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * When registered in a CorePlugin, all configs supplied by this ConfigSupplier will automatically
  * be reloaded when the plugin is reloaded by {@link CorePlugin#reload()}.
- * <p></p>
+ * <p>
  * Can be registered within a CorePlugin instance using {@link CorePlugin#registerConfigSuppliers(ConfigSupplier...)}.
  * @since 0.0.15
  */

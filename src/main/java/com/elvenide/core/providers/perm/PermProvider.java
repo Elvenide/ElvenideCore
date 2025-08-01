@@ -26,7 +26,7 @@ public class PermProvider extends Provider {
 
     /**
      * Checks if a sender explicitly has a permission.
-     * <p></p>
+     * <p>
      * <i>This method is deprecated due to its previous support for negated permissions.
      * There is no such thing as "explicitly not having" a permission; that is simply the same as "not having" it.</i>h
      * @param sender Sender (player or console)
@@ -62,13 +62,13 @@ public class PermProvider extends Provider {
 
     /**
      * Checks if a user has a permission.
-     * <p></p>
+     * <p>
      * Permissions can start with the following prefixes for special behavior:
      * <ul>
      * <li>"-" checks if the user doesn't have the permission</li>
      * <li>"#" checks if the user explicitly has the permission set (ignores op)</li>
      * </ul>
-     * <p></p>
+     * <p>
      * You can use backslashes ("\") as escape characters to prevent the prefix special behavior.
      * @param user User (player or console)
      * @param permission Permission, with optional negated (-) and/or explicit (#) prefix

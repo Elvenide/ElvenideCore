@@ -77,7 +77,7 @@ public class TextProvider extends Provider {
 
     /**
      * ElvenideCore's custom MiniMessage instance, with support for custom tags/colors.
-     * <p></p>
+     * <p>
      * Note: Intended for internal use, and as such is not stable API and should not be used unless absolutely necessary.
      * @return MiniMessage
      */
@@ -226,7 +226,7 @@ public class TextProvider extends Provider {
      * Formats text with any number of placeholders.<br/>
      * Supports all Java format placeholders (e.g. %s, %d).<br/>
      * Supports custom placeholders (e.g. {}).
-     * <p></p>
+     * <p>
      * Example (returns "Hello, world!"):<br/>
      * <code>
      *     format("%s, {}!", "Hello", "world");
@@ -289,7 +289,7 @@ public class TextProvider extends Provider {
     /**
      * Serializes a MiniMessage Component to a String in MiniMessage format.
      * Automatically escapes any tags present within the component.
-     * <p></p>
+     * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
      *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
@@ -322,7 +322,7 @@ public class TextProvider extends Provider {
 
     /**
      * Deserializes a String in MiniMessage format to a MiniMessage Component.
-     * <p></p>
+     * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
      *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
@@ -346,7 +346,7 @@ public class TextProvider extends Provider {
 
     /**
      * Deserializes a String with support for placeholders provided by a third-party plugin.
-     * <p></p>
+     * <p>
      * Example:
      * <code>
      *     deserialize("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
@@ -393,7 +393,7 @@ public class TextProvider extends Provider {
 
     /**
      * Adds a custom color tag parseable by {@link #deserialize(Object, Object...)}.
-     * <p></p>
+     * <p>
      * For example:<br/>
      * <code>addColorTag("bright_red", "#ff0000")</code> will add
      * <code>&lt;bright_red&gt;</code>

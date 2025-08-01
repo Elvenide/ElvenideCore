@@ -41,7 +41,7 @@ public class LogProvider extends Provider {
     /**
      * Logs an info message to console, if logging is enabled (enabled by default).
      * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
-     * <p></p>
+     * <p>
      * Placeholders can be inserted using Java format placeholders (e.g. %s, %d) or custom placeholders (e.g. {}).
      * @param text String text
      * @param optionalPlaceholders Optional placeholders
@@ -56,7 +56,7 @@ public class LogProvider extends Provider {
     /**
      * Logs a warning message to console, if logging is enabled (enabled by default).
      * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
-     * <p></p>
+     * <p>
      * Placeholders can be inserted using Java format placeholders (e.g. %s, %d) or custom placeholders (e.g. {}).
      * @param text String text
      * @param optionalPlaceholders Optional placeholders
@@ -71,7 +71,7 @@ public class LogProvider extends Provider {
     /**
      * Logs an error message to console, if logging is enabled (enabled by default).
      * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
-     * <p></p>
+     * <p>
      * Placeholders can be inserted using Java format placeholders (e.g. %s, %d) or custom placeholders (e.g. {}).
      * @param text String text
      * @param optionalPlaceholders Optional placeholders
@@ -86,7 +86,7 @@ public class LogProvider extends Provider {
     /**
      * Logs a debug message to console, if logging is enabled and debug mode is enabled (both enabled by default).
      * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
-     * <p></p>
+     * <p>
      * Placeholders can be inserted using Java format placeholders (e.g. %s, %d) or custom placeholders (e.g. {}).
      * @param text String text
      * @param optionalPlaceholders Optional placeholders

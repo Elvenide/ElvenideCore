@@ -6,7 +6,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Represents a listener that can handle CoreEvent events,
  * including both built-in ElvenideCore events and your own custom events.
- * <p></p>
+ * <p>
  * Individual methods in the class implementing this interface should be annotated
  * with {@link CoreEventHandler @CoreEventHandler} to allow them to receive events, similar to Bukkit's {@link org.bukkit.event.Listener}.
  * @author <a href="https://elvenide.com">Elvenide</a>
@@ -46,7 +46,7 @@ public interface CoreListener {
 
     /**
      * Unregisters all core listeners.
-     * <p></p>
+     * <p>
      * It is not recommended to use this, as it could affect internal ElvenideCore functionality or dependent
      * libraries' functionality in the future.
      * @since 0.0.15

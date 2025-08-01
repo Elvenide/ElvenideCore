@@ -60,10 +60,10 @@ public class CommandBuilder {
      * By default, an ElvenideCore command does not directly have arguments or execution,
      * and instead uses subcommands with such:<br />
      * <code>/command subGroupOrCommand &lt;arguments&gt;</code>
-     * <p></p>
+     * <p>
      * Using this method will give this command its own arguments and execution:<br />
      * <code>/command &lt;arguments&gt;</code>
-     * <p></p>
+     * <p>
      * Any other subgroups and subcommands will be removed. The label of the
      * provided main command will be overridden by the command's name.
      * @param subCommand A SubCommand instance to set as the main command
@@ -123,7 +123,7 @@ public class CommandBuilder {
     /**
      * Adds a built-in "help" subcommand to the command, which can display auto-generated usage
      * information for all subgroups and subcommands associated with this command.
-     * <p></p>
+     * <p>
      * As of v0.0.15, the help subcommand now accepts a command name as an optional argument.
      * @return This
      */

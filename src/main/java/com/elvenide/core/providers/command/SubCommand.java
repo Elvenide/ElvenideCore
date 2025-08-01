@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an executable subcommand that can be added to a command or subgroup.
- * <p></p>
+ * <p>
  * Implement this interface and then use {@link Core#commands} to create your own commands in ElvenideCore.
  */
 @PublicAPI
