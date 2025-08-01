@@ -175,7 +175,7 @@ public class MenuSlot {
     /**
      * Sets the current slot as a button that goes to the next page.
      * Automatically prevents the player from going beyond the last page.
-     * <p>
+     * <p></p>
      * Requires manually providing the max number of icons in any paginated area and the sizes of each paginated icon list.
      * @param icon The icon
      * @param maxPaginatedIconsPerPage Function that returns the maximum number of icons in any paginated area per page
@@ -206,7 +206,7 @@ public class MenuSlot {
     /**
      * Sets the current slot as a button that goes to the next page.
      * Automatically prevents the player from going beyond the last page.
-     * <p>
+     * <p></p>
      * If you solely used the <code>populate</code> methods for adding paginated items to the menu,
      * then this method will fully automatically calculate the max page that should not be exceeded.
      * If not, then you need to use {@link #setNextPageButton(ItemStack, Supplier, Supplier)} instead.

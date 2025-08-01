@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 /**
  * Represents one of two inventories in a CoreMenu.
- * <p>
+ * <p></p>
  * Use {@link #slot(int)} to access a specific slot and, for example, add an item at that slot.
  * Or use the various <code>populate</code> methods to add groups of items to the menu (with pagination support).
  * @author <a href="https://elvenide.com">Elvenide</a>

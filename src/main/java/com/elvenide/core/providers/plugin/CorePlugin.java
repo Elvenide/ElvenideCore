@@ -101,7 +101,7 @@ public abstract class CorePlugin extends JavaPlugin {
 
     /**
      * Registers one or more Bukkit event listeners.
-     * <p>
+     * <p></p>
      * Note: Does not register {@link CoreListener CoreListener}s; use {@link CoreListener#register()} to do so.
      * @param listeners Listeners
      * @since 0.0.15
@@ -117,7 +117,7 @@ public abstract class CorePlugin extends JavaPlugin {
 
     /**
      * Unregisters one or more Bukkit event listeners.
-     * <p>
+     * <p></p>
      * Note: Does not unregister {@link CoreListener CoreListener}s; use {@link CoreListener#unregister()} to do so.
      * @param listeners Listeners
      * @since 0.0.15

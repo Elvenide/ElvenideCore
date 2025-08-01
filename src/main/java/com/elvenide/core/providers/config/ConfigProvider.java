@@ -63,7 +63,7 @@ public class ConfigProvider extends Provider {
 
     /**
      * Gets a config in the provided path relative to your plugin's data folder.
-     * <p>
+     * <p></p>
      * <b>Before using this</b>, you must do ONE of the following:
      * <ul>
      *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>
@@ -88,7 +88,7 @@ public class ConfigProvider extends Provider {
     /**
      * Deletes a config file at the provided path relative to your plugin's data folder.
      * Note that this method can delete any file and does not explicitly check for config files.
-     * <p>
+     * <p></p>
      * <b>Before using this</b>, you must do ONE of the following:
      * <ul>
      *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>
@@ -109,7 +109,7 @@ public class ConfigProvider extends Provider {
      * Gets a config in the provided path relative to your plugin's data folder.
      * The config must have a resource at the resource path in your plugin code's <code>resources</code> folder.
      * If the config file does not exist, a new config will be created with the contents of the resource.
-     * <p>
+     * <p></p>
      * <b>Before using this</b>, you must do ONE of the following:
      * <ul>
      *     <li>Make your plugin extend {@link CorePlugin} (automatic initialization)</li>

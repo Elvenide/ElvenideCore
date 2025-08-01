@@ -27,7 +27,7 @@ public enum CoreEventPriority {
 
     /**
      * Handler executes after all others. Should be used to view the final result without further modifying the event.
-     * <p>
+     * <p></p>
      * Attempting to cancel an event in a RESULT priority handler will have no effect.
      */
     RESULT

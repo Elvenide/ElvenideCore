@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Generates a command help/usage message for a single subnode.
- * <p>
+ * <p></p>
  * A subgroup will display a list of its children.<br/>
  * A subcommand will display its own usage, including any arguments.
  * @since 0.0.15

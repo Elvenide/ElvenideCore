@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * A wrapper around commands, subgroups, and subcommands that holds ancestry information
  * on each node's place in the ElvenideCore command tree.
- * <p>
+ * <p></p>
  * Mostly used internally for command tree management and command usage generation.
  * @since 0.0.15
  * @author <a href="https://elvenide.com">Elvenide</a>
@@ -91,7 +91,7 @@ public class NodeWrapper {
     /**
      * Recursively gets all paths (as space-separated Strings) from this node to all descendant nodes.
      * If this node is a subcommand, it will solely return its own label.
-     * <p>
+     * <p></p>
      * Experimentally available to allow making your own help subcommand.
      * @return List of paths
      */
@@ -121,7 +121,7 @@ public class NodeWrapper {
 
     /**
      * Recursively finds a subnode further down the node tree using the given path (case-insensitive).
-     * <p>
+     * <p></p>
      * Experimentally available to allow making your own help subcommand.
      * @param path Path to the node, composed of subnode labels separated by spaces
      * @return The node, or <code>null</code> if not found or if this node has no children
@@ -155,7 +155,7 @@ public class NodeWrapper {
     /**
      * Generates a command usage message for this node, based on the permissions of the given user.
      * Does not send the message to the user.
-     * <p>
+     * <p></p>
      * Experimentally available to allow making your own help subcommand.
      * @param user The user who will see the message
      * @return The usage message
