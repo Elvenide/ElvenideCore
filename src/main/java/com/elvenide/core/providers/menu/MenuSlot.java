@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -132,7 +131,7 @@ public class MenuSlot {
         }
 
         // If the slot is in a range, then adjust the slot index
-        if (rangeStart != 0) {
+        if (isRange) {
             int rangeIndex = slot - rangeStart;
             int length = rangeEnd - rangeStart + 1;
             return rangeIndex + (page-1) * length;

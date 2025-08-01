@@ -112,7 +112,7 @@ public class SlotManager {
                         clickedSlot.rangeStart = startSlot;
                         clickedSlot.rangeEnd = endSlot;
                         clickedSlot.isRange = true;
-                        clickedSlot.maxPage = (icons.size() - 1) / length + 1;;
+                        clickedSlot.maxPage = (icons.size() - 1) / length + 1;
                         clickHandler.accept(clickedSlot);
                     });
                 else if (icon != null)
