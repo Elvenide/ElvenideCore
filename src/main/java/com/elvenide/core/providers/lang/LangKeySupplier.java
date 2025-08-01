@@ -1,12 +1,21 @@
 package com.elvenide.core.providers.lang;
 
-import com.elvenide.core.ElvenideCore;
+import com.elvenide.core.Core;
+import com.elvenide.core.api.PublicAPI;
+
+import java.util.Arrays;
 
 /**
  * Represents a supplier of ElvenideCore lang keys.
  * @since 0.0.8
  */
+@PublicAPI
 public interface LangKeySupplier {
+    /// Internally escapes quotes for MiniMessage
+    private static String esc(String p) {
+        return p.replace("\"", "\\\"");
+    }
+
     /**
      * Create a lang key with placeholders.
      * @param key The key
@@ -16,12 +25,11 @@ public interface LangKeySupplier {
      * @return The lang tag, with placeholders
      * @since 0.0.13
      */
-    default String create(@LangPattern String key, String defValue, @LangPlaceholderPattern String firstPlaceholder, String... otherPlaceholders) {
-        ElvenideCore.lang.set(key, defValue);
-        String placeholders = ":" + firstPlaceholder + ":" + String.join(":", otherPlaceholders);
-        if (placeholders.endsWith(":"))
-            placeholders = placeholders.substring(0, placeholders.length() - 1);
-        return ElvenideCore.lang.tag(key + placeholders);
+    @PublicAPI
+    default LangKey create(@LangPattern String key, String defValue, @LangPlaceholderPattern String firstPlaceholder, String... otherPlaceholders) {
+        Core.lang.set(key, defValue);
+        String placeholders = ":\"" + esc(firstPlaceholder) + "\"" + Arrays.stream(otherPlaceholders).map(p -> ":\"" + esc(p) + "\"").reduce("", String::concat);
+        return Core.lang.tag(key + placeholders);
     }
 
     /**
@@ -31,8 +39,9 @@ public interface LangKeySupplier {
      * @return The lang tag
      * @since 0.0.8
      */
-    default String create(@LangPattern String key, String defValue) {
-        ElvenideCore.lang.set(key, defValue);
-        return ElvenideCore.lang.tag(key);
+    @PublicAPI
+    default LangKey create(@LangPattern String key, String defValue) {
+        Core.lang.set(key, defValue);
+        return Core.lang.tag(key);
     }
 }

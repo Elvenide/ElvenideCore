@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.lang;
 
+import com.elvenide.core.api.PublicAPI;
 import org.intellij.lang.annotations.Pattern;
 
 import java.lang.annotation.Documented;
@@ -13,6 +14,7 @@ import static java.lang.annotation.ElementType.*;
  * ElvenideCore lang keys must follow the regex pattern: <b>[a-z0-9_.]+</b>.
  * @since 0.0.8
  */
+@PublicAPI
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target({ METHOD, FIELD, PARAMETER, LOCAL_VARIABLE })
