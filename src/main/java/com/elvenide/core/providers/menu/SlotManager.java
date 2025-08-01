@@ -28,7 +28,7 @@ public class SlotManager {
     private final CoreMenu coreMenu;
     private int page = 1;
     private final HashMap<Integer, Consumer<ClickedMenuSlot>> clickHandlers = new HashMap<>();
-    final ArrayList<List<ItemStack>> populatedItems = new ArrayList<>();
+    final ArrayList<Integer> populatedItems = new ArrayList<>();
     final AtomicInteger maxPopulatedIconsPerPage = new AtomicInteger(0);
 
     @ApiStatus.Internal
@@ -103,7 +103,7 @@ public class SlotManager {
     private void populateRangeInternal(int startSlot, int endSlot, List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon, @Nullable Consumer<ClickedMenuSlot> clickHandler) {
         int length = endSlot - startSlot + 1;
         maxPopulatedIconsPerPage.set(Math.max(maxPopulatedIconsPerPage.get(), length));
-        populatedItems.add(icons);
+        populatedItems.add(icons.size());
 
         for (int i = startSlot; i <= endSlot; i++) {
             MenuSlot slot = slot(i);
@@ -187,7 +187,7 @@ public class SlotManager {
     private void populateAreaInternal(int col1, int row1, int col2, int row2, List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon, @Nullable Consumer<ClickedMenuSlot> clickHandler) {
         int area = (col2 - col1 + 1) * (row2 - row1 + 1);
         maxPopulatedIconsPerPage.set(Math.max(maxPopulatedIconsPerPage.get(), area));
-        populatedItems.add(icons);
+        populatedItems.add(icons.size());
 
         for (int y = row1; y <= row2; y++) {
             for (int x = col1; x <= col2; x++) {

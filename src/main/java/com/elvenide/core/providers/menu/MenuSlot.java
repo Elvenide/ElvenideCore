@@ -211,7 +211,7 @@ public class MenuSlot {
      */
     @PublicAPI
     public void setNextPageButton(@NotNull ItemStack icon) {
-        setNextPageButton(icon, slotManager.maxPopulatedIconsPerPage::get, () -> slotManager.populatedItems.stream().map(List::size).toList());
+        setNextPageButton(icon, slotManager.maxPopulatedIconsPerPage::get, () -> slotManager.populatedItems);
     }
 
     /**
