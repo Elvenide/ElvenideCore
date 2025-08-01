@@ -170,6 +170,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name, @NotNull List<Player> def) {
@@ -271,6 +272,7 @@ public class SubArgumentContext {
         return raw;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     @Contract(pure = true)
     public @NotNull List<Player> getPlayers(@NotNull String name) {

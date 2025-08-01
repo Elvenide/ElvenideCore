@@ -231,6 +231,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addPlayer(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
@@ -244,6 +245,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addPlayers(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
@@ -257,6 +259,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addMaterial(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
@@ -270,6 +273,7 @@ public class SubCommandBuilder {
      * @param consumer Builder function for additional argument properties
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addItem(String label, Consumer<SubArgumentBuilder> consumer) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);
@@ -426,6 +430,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addPlayer(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.player(), 1);
@@ -437,6 +442,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addPlayers(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.players(), 2);
@@ -448,6 +454,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addMaterial(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 3);
@@ -459,6 +466,7 @@ public class SubCommandBuilder {
      * @param label Name of the argument
      * @return This
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public SubCommandBuilder addItem(String label) {
         SubArgumentBuilder builder = new SubArgumentBuilder(label, ArgumentTypes.itemStack(), 4);

@@ -83,6 +83,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * @return Plugin version as defined in plugin.yml or paper-plugin.yml
      * @since 0.0.15
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public final String getPluginVersion() {
         return getPluginMeta().getVersion();

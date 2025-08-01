@@ -4,6 +4,7 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 
 ## Versions
 - [v0.0.15](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15) for Paper 1.21.8 (latest)
+- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15-1.21.4) for Paper 1.21.4 (latest)
 - [v0.0.14](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.14) for Paper 1.21.4
 - [v0.0.13](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.13) for Paper 1.21.4
 

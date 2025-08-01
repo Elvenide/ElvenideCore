@@ -19,11 +19,13 @@ import java.util.function.Consumer;
 public class CommandBuilder {
 
     private final String name;
+    @SuppressWarnings("UnstableApiUsage")
     private LiteralArgumentBuilder<CommandSourceStack> root;
     NodeWrapper commandNode;
     String[] aliases = {};
     String description = "Command created with the ElvenideCore library.";
 
+    @SuppressWarnings("UnstableApiUsage")
     CommandBuilder(String name) {
         this.name = name;
         this.root = Commands.literal(name);
@@ -132,6 +134,7 @@ public class CommandBuilder {
         return addSubCommand(new BuiltinHelpCommand(this));
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     LiteralCommandNode<CommandSourceStack> build() {
         return root.build();
     }
@@ -140,7 +143,7 @@ public class CommandBuilder {
 
     /* <editor-fold defaultstate="collapsed" desc="Command Execution Functions"> */
 
-    @SuppressWarnings("SameReturnValue")
+    @SuppressWarnings({"SameReturnValue", "UnstableApiUsage"})
     private int validatedExecutor(NodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
             ctx.reply(Core.lang.common.NOT_PLAYER);
@@ -166,11 +169,12 @@ public class CommandBuilder {
         return Command.SINGLE_SUCCESS;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     private int helpExecutor(CommandContext<CommandSourceStack> rawCtx) {
         return helpExecutor(rawCtx, commandNode);
     }
 
-    @SuppressWarnings("SameReturnValue")
+    @SuppressWarnings({"SameReturnValue", "UnstableApiUsage"})
     private int helpExecutor(CommandContext<CommandSourceStack> rawCtx, @NotNull NodeWrapper wrapper) {
         SubCommandContext ctx = new SubCommandContext(rawCtx, new SubCommandBuilder(), this, 0);
 
@@ -199,6 +203,7 @@ public class CommandBuilder {
 
     /* <editor-fold defaultstate="collapsed" desc="Command Tree Generation"> */
 
+    @SuppressWarnings("UnstableApiUsage")
     private RequiredArgumentBuilder<CommandSourceStack, ?> getArgumentTree(LinkedList<SubArgumentBuilder> remainingArgs, NodeWrapper wrapper, SubCommandBuilder argBuilder, int specifiedArgs) {
         // Pop subargument from remaining list
         final SubArgumentBuilder arg = remainingArgs.pop();
@@ -232,6 +237,7 @@ public class CommandBuilder {
         return argNode;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     private LiteralArgumentBuilder<CommandSourceStack> getNodeTree(@NotNull NodeWrapper wrapper) {
         // Create subcommand literal
         LiteralArgumentBuilder<CommandSourceStack> current = Commands.literal(wrapper.asSubNode().label());
