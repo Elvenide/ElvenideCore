@@ -12,6 +12,7 @@ import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.task.TaskProvider;
 import com.elvenide.core.providers.text.TextProvider;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -125,7 +126,20 @@ public class Core {
      * @param listener Bukkit listener
      * @since 0.0.15
      */
+    @PublicAPI
     public static void registerListener(Listener listener) {
         INSTANCE.plugin.getServer().getPluginManager().registerEvents(listener, INSTANCE.plugin);
+    }
+
+    /**
+     * Utility method to check if a given plugin is the one currently using ElvenideCore.
+     * Requires plugin to be initialized through {@link #setPlugin(JavaPlugin)} or extending {@link CorePlugin}.
+     * @param plugin Plugin
+     * @return True if plugin is your current plugin
+     * @since 0.0.15
+     */
+    @PublicAPI
+    public static boolean isYourPlugin(Plugin plugin) {
+        return INSTANCE.plugin == plugin;
     }
 }
