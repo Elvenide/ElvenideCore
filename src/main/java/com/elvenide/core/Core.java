@@ -11,6 +11,7 @@ import com.elvenide.core.providers.perm.PermProvider;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import com.elvenide.core.providers.task.TaskProvider;
 import com.elvenide.core.providers.text.TextProvider;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -117,4 +118,14 @@ public class Core {
      */
     @PublicAPI
     public static final LogProvider log = new LogProvider(INSTANCE);
+
+    /**
+     * Utility method to register a Bukkit event listener without the need for a plugin instance.
+     * Requires plugin to be initialized through {@link #setPlugin(JavaPlugin)} or extending {@link CorePlugin}.
+     * @param listener Bukkit listener
+     * @since 0.0.15
+     */
+    public static void registerListener(Listener listener) {
+        INSTANCE.plugin.getServer().getPluginManager().registerEvents(listener, INSTANCE.plugin);
+    }
 }
