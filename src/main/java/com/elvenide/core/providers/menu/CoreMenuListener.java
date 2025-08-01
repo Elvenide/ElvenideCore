@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 
 class CoreMenuListener implements Listener {
 
@@ -67,6 +68,14 @@ class CoreMenuListener implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         HandlerList.unregisterAll(this);
+    }
+
+    @EventHandler
+    public void onPluginDisable(PluginDisableEvent event) {
+        if (!Core.isYourPlugin(event.getPlugin()))
+            return;
+        coreMenu.restoreBottomInv();
+        coreMenu.onClose();
     }
 
 }
