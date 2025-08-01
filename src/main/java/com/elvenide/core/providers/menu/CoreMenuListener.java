@@ -19,7 +19,7 @@ class CoreMenuListener implements Listener {
 
     @EventHandler
     public void onTopAction(InventoryClickEvent event) {
-        if (event.getInventory() != coreMenu.getInv()) return;
+        if (event.getInventory() != coreMenu.top.getInv()) return;
 
         // Cancel all actions
         event.setCancelled(true);
@@ -38,7 +38,7 @@ class CoreMenuListener implements Listener {
 
     @EventHandler
     public void onBottomAction(InventoryClickEvent event) {
-        if (event.getInventory() != coreMenu.getViewer().getInventory()) return;
+        if (event.getInventory() != coreMenu.bottom.getInv()) return;
 
         // Cancel all actions
         event.setCancelled(true);
@@ -57,7 +57,7 @@ class CoreMenuListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryClickEvent event) {
-        if (event.getInventory() != coreMenu.getInv()) return;
+        if (event.getInventory() != coreMenu.top.getInv()) return;
         HandlerList.unregisterAll(this);
         coreMenu.restoreBottomInv();
         coreMenu.onClose();

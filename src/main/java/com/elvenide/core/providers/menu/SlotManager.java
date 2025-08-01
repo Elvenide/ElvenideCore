@@ -2,6 +2,7 @@ package com.elvenide.core.providers.menu;
 
 import com.elvenide.core.api.PublicAPI;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -70,6 +71,18 @@ public class SlotManager {
     public void toPrevPage() {
         if (page == 1) return;
         setPage(page - 1);
+    }
+
+    /**
+     * Returns the underlying Bukkit Inventory.
+     * @return Inventory
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public Inventory getInv() {
+        if (isTop)
+            return coreMenu.inventory;
+        return coreMenu.getViewer().getInventory();
     }
 
     /**

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Contract;
 public abstract class CoreMenu {
 
     private final int rows;
-    private final Inventory inventory;
+    final Inventory inventory;
     private Player viewer;
     private ItemStack[] bottomCache = null;
 
@@ -102,16 +102,6 @@ public abstract class CoreMenu {
     @PublicAPI
     public void close() {
         inventory.close();
-    }
-
-    /**
-     * Returns the menu's underlying Bukkit Inventory.
-     * @return Inventory
-     */
-    @PublicAPI
-    @Contract(pure = true)
-    public Inventory getInv() {
-        return inventory;
     }
 
     /**
