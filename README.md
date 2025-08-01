@@ -322,7 +322,30 @@ Features:
 Easily create powerful commands that take advantage of Minecraft's brigadier command API, while avoiding the redundancy 
 and non-object-oriented approach of the brigadier API.
 
-<!-- TODO -->
+In-depth documentation is a work in progress.
+For now, simply view the in-code documentation on `SubCommand` and `Core.commands.create(String)` and `Core.commands.register()`.
+
+### CoreMenu (v0.0.15+)
+Create and manage GUI menus with less boilerplate and no need for slot/index/pagination math.
+
+Features:
+- Create feature-complete menus by extending `CoreMenu`
+- Define the menu's title and size
+- Supports both top (chest) and bottom (player) inventories in a single menu
+- Control both the top and bottom inventories of the menu using `CoreMenu#top` and `CoreMenu#bottom`
+- Run code when the menu is opened, closed, or refreshed
+- Methods to open, close, and refresh the menu
+- Automatically register and unregister all Bukkit listeners needed for the menu
+- Built-in support for pagination
+- Top and bottom inventories independently paginated
+- Easily check if a slot is within a range or region of slot numbers
+- Easily fetch an index from a slot number, based on pagination and slot range/region
+- Easily populate ranges and regions of slots with a paginated list of items
+- Easily populate a rectangular region's border slots with an item
+- Easily create next-page buttons that automatically prevent exceeding last page
+- Easily create previous-page buttons that automatically prevent exceeding first page
+- Automatically saves players' inventories before opening menus and restores after closing
+- Directly assign click handlers to any item, range of items, or region of items
 
 ## Further Documentation
 Most features are directly documented via JavaDoc in the code 
