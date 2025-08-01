@@ -75,7 +75,7 @@ public abstract class CoreMenu implements InventoryHolder {
     @ApiStatus.Internal
     void restoreBottomInv() {
         // Restore the bottom inventory cached contents
-        viewer.getInventory().clear();
+        viewer.getInventory().setStorageContents(new ItemStack[0]);
         if (bottomCache == null) return;
         viewer.getInventory().setStorageContents(bottomCache);
     }
