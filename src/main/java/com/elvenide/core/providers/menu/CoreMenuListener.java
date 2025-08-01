@@ -6,6 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 class CoreMenuListener implements Listener {
@@ -56,7 +57,7 @@ class CoreMenuListener implements Listener {
     }
 
     @EventHandler
-    public void onClose(InventoryClickEvent event) {
+    public void onClose(InventoryCloseEvent event) {
         if (event.getInventory() != coreMenu.top.getInv()) return;
         HandlerList.unregisterAll(this);
         coreMenu.restoreBottomInv();
