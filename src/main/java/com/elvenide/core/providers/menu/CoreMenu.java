@@ -5,9 +5,11 @@ import com.elvenide.core.api.PublicAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A powerful yet simple 2-inventory GUI menu system.
@@ -17,7 +19,7 @@ import org.jetbrains.annotations.Contract;
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
  */
-public abstract class CoreMenu {
+public abstract class CoreMenu implements InventoryHolder {
 
     Inventory inventory = null;
     private Player viewer;
@@ -66,6 +68,7 @@ public abstract class CoreMenu {
     /**
      * Called when the menu is closed.
      */
+    @SuppressWarnings("EmptyMethod")
     @ApiStatus.OverrideOnly
     protected void onClose() {}
 
@@ -83,11 +86,16 @@ public abstract class CoreMenu {
      */
     @PublicAPI
     public void open(Player player) {
+        // Manually close any existing CoreMenu the player is currently viewing
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof CoreMenu)
+            player.closeInventory();
+
+        // Save the viewer, cache the bottom inventory, create the top inventory if needed, and open the menu
         this.viewer = player;
         if (bottomCache == null)
             bottomCache = player.getInventory().getStorageContents();
         if (inventory == null)
-            this.inventory = Bukkit.createInventory(null, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
+            this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
         player.openInventory(inventory);
         refresh();
         new CoreMenuListener(this);
@@ -122,4 +130,16 @@ public abstract class CoreMenu {
         return viewer;
     }
 
+    /**
+     * Returns the top Bukkit Inventory of the menu.
+     * <p>
+     * This method is used internally to implement the InventoryHolder interface.
+     * For use in your plugin, use {@link SlotManager#getInv() #top.getInv()} instead.
+     * @return Inventory (top inventory)
+     */
+    @ApiStatus.Internal
+    @Override
+    public final @NotNull Inventory getInventory() {
+        return inventory;
+    }
 }
