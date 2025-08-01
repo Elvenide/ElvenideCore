@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.menu;
 
+import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -182,17 +183,19 @@ public class MenuSlot {
      */
     @PublicAPI
     public void setNextPageButton(@NotNull ItemStack icon, Supplier<Integer> maxPaginatedIconsPerPage, Supplier<List<Integer>> iconListSizes) {
-        setIcon(icon, clickedSlot -> {
-            int maxIconListSize = iconListSizes.get().stream().mapToInt(i -> i).max().orElse(0);
-            int maxIconsPerPage = maxPaginatedIconsPerPage.get();
+        int maxIconListSize = iconListSizes.get().stream().mapToInt(i -> i).max().orElse(0);
+        int maxIconsPerPage = Math.max(maxPaginatedIconsPerPage.get(), 1);
 
-            // If max icons per page is 0 or less, ignore
-            if (maxIconsPerPage <= 0)
-                return;
+        // Calculate max page
+        int maxPage = (maxIconListSize + maxIconsPerPage - 1) / maxIconsPerPage;
+        int remainingPages = Math.max(1, maxPage - slotManager.getPage() + 1);
 
-            // Calculate max page
-            int maxPage = (maxIconListSize + maxIconsPerPage - 1) / maxIconsPerPage;
+        // Adjust icon to have page count
+        ItemStack adjustedIcon = icon.clone();
+        Core.items.builder(adjustedIcon)
+            .amount(remainingPages);
 
+        setIcon(adjustedIcon, clickedSlot -> {
             // Prevent player from going beyond last page
             if (slotManager.getPage() >= maxPage)
                 return;
@@ -205,7 +208,7 @@ public class MenuSlot {
      * Automatically prevents the player from going beyond the last page.
      * <p>
      * If you solely used the <code>populate</code> methods for adding paginated items to the menu,
-     * then this method will fully automatically calculate the max page to prevent exceeding.
+     * then this method will fully automatically calculate the max page that should not be exceeded.
      * If not, then you need to use {@link #setNextPageButton(ItemStack, Supplier, Supplier)} instead.
      * @param icon The icon
      */
@@ -221,7 +224,15 @@ public class MenuSlot {
      */
     @PublicAPI
     public void setPrevPageButton(@NotNull ItemStack icon) {
-        setIcon(icon, clickedSlot -> {
+        // Calculate previous pages
+        int previousPages = slotManager.getPage();
+
+        // Adjust icon to have page count
+        ItemStack adjustedIcon = icon.clone();
+        Core.items.builder(adjustedIcon)
+            .amount(previousPages);
+
+        setIcon(adjustedIcon, clickedSlot -> {
             // Prevent player from going beyond first page
             if (slotManager.getPage() <= 1)
                 return;
