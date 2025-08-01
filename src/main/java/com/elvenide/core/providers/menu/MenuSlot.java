@@ -178,24 +178,25 @@ public class MenuSlot {
      * <p>
      * Requires manually providing the max number of icons in any paginated area and the sizes of each paginated icon list.
      * @param icon The icon
+     * @param fallbackIcon Fallback icon to display if the player is on the last page
      * @param maxPaginatedIconsPerPage Function that returns the maximum number of icons in any paginated area per page
      * @param iconListSizes Function that returns the sizes of each icon list being used to populate this inventory
      */
     @PublicAPI
-    public void setNextPageButton(@NotNull ItemStack icon, Supplier<Integer> maxPaginatedIconsPerPage, Supplier<List<Integer>> iconListSizes) {
+    public void setNextPageButton(@NotNull ItemStack icon, @Nullable ItemStack fallbackIcon, Supplier<Integer> maxPaginatedIconsPerPage, Supplier<List<Integer>> iconListSizes) {
         int maxIconListSize = iconListSizes.get().stream().mapToInt(i -> i).max().orElse(0);
         int maxIconsPerPage = Math.max(maxPaginatedIconsPerPage.get(), 1);
 
         // Calculate max page
         int maxPage = (maxIconListSize + maxIconsPerPage - 1) / maxIconsPerPage;
-        int remainingPages = Math.max(1, maxPage - slotManager.getPage() + 1);
 
-        // Adjust icon to have page count
-        ItemStack adjustedIcon = icon.clone();
-        Core.items.builder(adjustedIcon)
-            .amount(remainingPages);
+        // If at max page, use fallback icon
+        if (slotManager.getPage() >= maxPage) {
+            setIcon(fallbackIcon);
+            return;
+        }
 
-        setIcon(adjustedIcon, clickedSlot -> {
+        setIcon(icon, clickedSlot -> {
             // Prevent player from going beyond last page
             if (slotManager.getPage() >= maxPage)
                 return;
@@ -209,30 +210,30 @@ public class MenuSlot {
      * <p>
      * If you solely used the <code>populate</code> methods for adding paginated items to the menu,
      * then this method will fully automatically calculate the max page that should not be exceeded.
-     * If not, then you need to use {@link #setNextPageButton(ItemStack, Supplier, Supplier)} instead.
+     * If not, then you need to use {@link #setNextPageButton(ItemStack, ItemStack, Supplier, Supplier)} instead.
      * @param icon The icon
+     * @param fallbackIcon Fallback icon to display if the player is on the last page
      */
     @PublicAPI
-    public void setNextPageButton(@NotNull ItemStack icon) {
-        setNextPageButton(icon, slotManager.maxPopulatedIconsPerPage::get, () -> slotManager.populatedItems);
+    public void setNextPageButton(@NotNull ItemStack icon, @Nullable ItemStack fallbackIcon) {
+        setNextPageButton(icon, fallbackIcon, slotManager.maxPopulatedIconsPerPage::get, () -> slotManager.populatedItems);
     }
 
     /**
      * Sets the current slot as a button that goes to the previous page.
      * Automatically prevents the player from going beyond the first page.
      * @param icon The icon
+     * @param fallbackIcon Fallback icon to display if the player is on the first page
      */
     @PublicAPI
-    public void setPrevPageButton(@NotNull ItemStack icon) {
-        // Calculate previous pages
-        int previousPages = slotManager.getPage();
+    public void setPrevPageButton(@NotNull ItemStack icon, @Nullable ItemStack fallbackIcon) {
+        // If at first page, use fallback icon
+        if (slotManager.getPage() <= 1) {
+            setIcon(fallbackIcon);
+            return;
+        }
 
-        // Adjust icon to have page count
-        ItemStack adjustedIcon = icon.clone();
-        Core.items.builder(adjustedIcon)
-            .amount(previousPages);
-
-        setIcon(adjustedIcon, clickedSlot -> {
+        setIcon(icon, clickedSlot -> {
             // Prevent player from going beyond first page
             if (slotManager.getPage() <= 1)
                 return;
