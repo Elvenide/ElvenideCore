@@ -146,7 +146,7 @@ public class MenuSlot {
     @PublicAPI
     @Contract(pure = true)
     public ItemStack icon() {
-        return coreMenu.getInv().getItem(slot);
+        return slotManager.getInv().getItem(slot);
     }
 
     /**
@@ -155,7 +155,7 @@ public class MenuSlot {
      */
     @PublicAPI
     public void setIcon(@Nullable ItemStack icon) {
-        coreMenu.getInv().setItem(slot, icon);
+        slotManager.getInv().setItem(slot, icon);
     }
 
     /**
