@@ -102,6 +102,8 @@ public class SlotManager {
             slot.rangeStart = startSlot;
             slot.rangeEnd = endSlot;
             slot.isRange = true;
+            int length = endSlot - startSlot + 1;
+            slot.maxPage = (icons.size() - 1) / length + 1;
             int index = slot.index();
             if (index < icons.size()) {
                 @Nullable ItemStack icon = icons.get(index);
@@ -110,6 +112,7 @@ public class SlotManager {
                         clickedSlot.rangeStart = startSlot;
                         clickedSlot.rangeEnd = endSlot;
                         clickedSlot.isRange = true;
+                        clickedSlot.maxPage = (icons.size() - 1) / length + 1;;
                         clickHandler.accept(clickedSlot);
                     });
                 else if (icon != null)
@@ -183,6 +186,8 @@ public class SlotManager {
                 slot.populatedAreaTop = row1;
                 slot.populatedAreaBottom = row2;
                 slot.isPopulatedArea = true;
+                int area = (col2 - col1 + 1) * (row2 - row1 + 1);
+                slot.maxPage = (icons.size() - 1) / area + 1;
                 int index = slot.index();
                 if (index < icons.size()) {
                     @Nullable ItemStack icon = icons.get(index);
@@ -193,6 +198,7 @@ public class SlotManager {
                             clickedSlot.populatedAreaTop = row1;
                             clickedSlot.populatedAreaBottom = row2;
                             clickedSlot.isPopulatedArea = true;
+                            clickedSlot.maxPage = (icons.size() - 1) / area + 1;
                             clickHandler.accept(clickedSlot);
                         });
                     else if (icon != null)

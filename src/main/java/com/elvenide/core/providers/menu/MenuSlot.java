@@ -31,6 +31,7 @@ public class MenuSlot {
     int populatedAreaTop = 0;
     int populatedAreaBottom = 0;
     boolean isPopulatedArea = false;
+    int maxPage = Integer.MAX_VALUE;
 
     @ApiStatus.Internal
     MenuSlot(CoreMenu coreMenu, int slot, SlotManager slotManager) {
@@ -117,6 +118,8 @@ public class MenuSlot {
     @PublicAPI
     @Contract(pure = true)
     public int index() {
+        int page = Math.min(maxPage, slotManager.getPage());
+
         // If this slot is in a populated area, then adjust the slot index
         if (isPopulatedArea) {
             int populatedIndex = slot - populatedAreaTop * 9;
@@ -125,18 +128,18 @@ public class MenuSlot {
 
             // Add dimensional area of populated region multiplied by page index to get paginated index
             int area = (populatedAreaRight - populatedAreaLeft + 1) * (populatedAreaBottom - populatedAreaTop + 1);
-            return populatedIndex + (slotManager.getPage()-1) * area;
+            return populatedIndex + (page-1) * area;
         }
 
         // If the slot is in a range, then adjust the slot index
         if (rangeStart != 0) {
             int rangeIndex = slot - rangeStart;
             int length = rangeEnd - rangeStart + 1;
-            return rangeIndex + (slotManager.getPage()-1) * length;
+            return rangeIndex + (page-1) * length;
         }
 
         // Otherwise, return the usual slot index
-        return slot + (slotManager.getPage()-1) * 9 * coreMenu.getRows();
+        return slot + (page-1) * 9 * coreMenu.getRows();
     }
 
     /**
