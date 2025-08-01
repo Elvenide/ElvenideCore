@@ -19,8 +19,7 @@ import org.jetbrains.annotations.Contract;
  */
 public abstract class CoreMenu {
 
-    private final int rows;
-    final Inventory inventory;
+    Inventory inventory = null;
     private Player viewer;
     private ItemStack[] bottomCache = null;
 
@@ -37,19 +36,26 @@ public abstract class CoreMenu {
     public final SlotManager bottom = new SlotManager(this, false);
 
     /**
-     * Creates a new menu.
-     * <p>
-     * This constructor is not meant to be called directly.
-     * Instead, create a subclass extending {@link CoreMenu} and override {@link #onDisplay()} and/or {@link #onClose()}.
-     * @param title The title of the menu, with full ElvenideCore MiniMessage support
-     * @param rows The number of rows in the menu
-     * @param titlePlaceholders Optional placeholder values for the title
+     * Creates a new ElvenideCore GUI menu.
      */
     @PublicAPI
-    public CoreMenu(String title, int rows, Object... titlePlaceholders) {
-        this.rows = rows;
-        this.inventory = Bukkit.createInventory(null, 9 * rows, Core.text.deserialize(title, titlePlaceholders));
-    }
+    public CoreMenu() {}
+
+    /**
+     * Returns the title of the menu.
+     * <p>
+     * Supports a single <code>{}</code> placeholder, which will be replaced with the viewing player's name.
+     * @return String title, with ElvenideCore MiniMessage tag support
+     */
+    @Contract(pure = true)
+    protected abstract String getTitle();
+
+    /**
+     * Returns the number of rows in the menu.
+     * @return Number of rows (between 1 and 6)
+     */
+    @Contract(pure = true)
+    protected abstract int getRows();
 
     /**
      * Called when the menu is opened or refreshed.
@@ -80,6 +86,8 @@ public abstract class CoreMenu {
         this.viewer = player;
         if (bottomCache == null)
             bottomCache = player.getInventory().getStorageContents();
+        if (inventory == null)
+            this.inventory = Bukkit.createInventory(null, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
         player.openInventory(inventory);
         refresh();
         new CoreMenuListener(this);
@@ -112,16 +120,6 @@ public abstract class CoreMenu {
     @Contract(pure = true)
     public Player getViewer() {
         return viewer;
-    }
-
-    /**
-     * Returns the number of rows in the menu.
-     * @return Rows
-     */
-    @PublicAPI
-    @Contract(pure = true)
-    public int getRows() {
-        return rows;
     }
 
 }
