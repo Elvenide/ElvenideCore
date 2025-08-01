@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Event automatically fired when a {@link CorePlugin} is loaded or reloaded.
- * <p></p>
+ * <p>
  * Supports both {@link org.bukkit.event.Listener Bukkit} and {@link com.elvenide.core.providers.event.CoreListener ElvenideCore} listeners.
  */
 @PublicAPI

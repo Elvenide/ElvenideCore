@@ -28,7 +28,7 @@ public class KeyProvider extends Provider {
 
     /**
      * This method is obsolete and will be removed in a future version.
-     * <p></p>
+     * <p>
      * As of v0.0.15, creating a plugin that extends {@link CorePlugin} automatically initializes the key provider and
      * is the recommended alternative to this method.
      * @param plugin Your plugin
@@ -54,7 +54,7 @@ public class KeyProvider extends Provider {
 
     /**
      * Gets the NamespacedKey with a key string generated from the given enum.
-     * <p></p>
+     * <p>
      * Note: The generated key string is dependent on the name of the enum and its declaring class.
      * Changing the name of an enum or declaring class will produce a different key.
      * @param key The enum

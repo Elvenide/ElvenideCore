@@ -131,7 +131,7 @@ public class Task {
 
     /**
      * Repeatedly executes the task asynchronously with the given delay and period.
-     * <p></p>
+     * <p>
      * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in ticks
      * @param period Period, in ticks
@@ -148,7 +148,7 @@ public class Task {
 
     /**
      * Executes the task asynchronously with the given delay.
-     * <p></p>
+     * <p>
      * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in ticks
      * @return Bukkit task representation
@@ -186,7 +186,7 @@ public class Task {
 
     /**
      * Repeatedly executes the task asynchronously with the given delay and period.
-     * <p></p>
+     * <p>
      * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in seconds
      * @param period Period, in seconds
@@ -200,7 +200,7 @@ public class Task {
 
     /**
      * Executes the task asynchronously with the given delay.
-     * <p></p>
+     * <p>
      * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @param delay Delay, in seconds
      * @return Bukkit task representation
@@ -223,7 +223,7 @@ public class Task {
 
     /**
      * Executes the task asynchronously on the next tick.
-     * <p></p>
+     * <p>
      * <b>Warning: Your async task cannot use Bukkit API and needs to be thread safe.</b>
      * @return Bukkit task representation
      * @since 0.0.15

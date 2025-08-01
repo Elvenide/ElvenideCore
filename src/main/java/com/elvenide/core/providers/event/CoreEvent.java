@@ -4,7 +4,7 @@ import com.elvenide.core.api.PublicAPI;
 
 /**
  * Represents a custom ElvenideCore event that can be handled by registered {@link CoreListener CoreListener}s.
- * <p></p>
+ * <p>
  * This interface is a powerful alternative to the Bukkit event system for custom events, as it:
  * <ul>
  *     <li>Eliminates 99% of event boilerplate code</li>

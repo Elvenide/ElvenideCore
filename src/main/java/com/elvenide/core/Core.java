@@ -38,7 +38,7 @@ public class Core {
 
     /**
      * Sets the plugin that is using ElvenideCore.
-     * <p></p>
+     * <p>
      * Required for some features, unless your plugin extends the {@link CorePlugin} class
      * (which automatically calls this method).
      * @param plugin Plugin
@@ -87,7 +87,7 @@ public class Core {
 
     /**
      * Easily manage your plugin's NamespacedKeys.
-     * <p></p>
+     * <p>
      * To function, this feature requires ONE of the following:
      * <ul>
      *     <li>Use of plugin extending {@link CorePlugin} (automatic initialization)</li>

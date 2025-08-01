@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotates {@link CoreEvent} handler methods within a {@link CoreListener}.
- * <p></p>
+ * <p>
  * Similar to Bukkit's {@link org.bukkit.event.EventHandler @EventHandler}.
  * @author <a href="https://elvenide.com">Elvenide</a>
  * @since 0.0.15
@@ -23,7 +23,7 @@ public @interface CoreEventHandler {
 
     /**
      * The priority of the event.
-     * <p></p>
+     * <p>
      * The priorities are executed from first to last in the following order:
      * <ol>
      *     <li>EARLIEST
