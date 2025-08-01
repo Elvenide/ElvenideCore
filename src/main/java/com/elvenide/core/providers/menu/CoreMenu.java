@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A powerful yet simple 2-inventory GUI menu system.
- * <p>
+ * <p></p>
  * Create a subclass of {@link CoreMenu} and implement {@link #onDisplay()}.
  * Use the {@link #top} and {@link #bottom} fields to access the respective inventories of the menu.
  * @author <a href="https://elvenide.com">Elvenide</a>
@@ -45,7 +45,7 @@ public abstract class CoreMenu implements InventoryHolder {
 
     /**
      * Returns the title of the menu.
-     * <p>
+     * <p></p>
      * Supports a single <code>{}</code> placeholder, which will be replaced with the viewing player's name.
      * @return String title, with ElvenideCore MiniMessage tag support
      */
@@ -136,7 +136,7 @@ public abstract class CoreMenu implements InventoryHolder {
 
     /**
      * Returns the top Bukkit Inventory of the menu.
-     * <p>
+     * <p></p>
      * This method is used internally to implement the InventoryHolder interface.
      * For use in your plugin, use {@link SlotManager#getInv() #top.getInv()} instead.
      * @return Inventory (top inventory)

@@ -46,10 +46,10 @@ public class CommandProvider extends Provider {
 
     /**
      * Registers all commands created by {@link #create(String)}.
-     * <p>
+     * <p></p>
      * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link Core#setPlugin(JavaPlugin) manual initialization}
      * before using the register method.
-     * <p>
+     * <p></p>
      * <b>If you ARE using {@link CorePlugin}</b>: you do not need to use the register method, as commands are registered automatically.
      * @see #create(String)
      * @since 0.0.15

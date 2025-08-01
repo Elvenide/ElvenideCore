@@ -353,7 +353,7 @@ public interface ConfigSection extends ConfigurationSection {
 
     /**
      * Gets a ConfigSection from the config.
-     * <p>
+     * <p></p>
      * It is recommended to use {@link #getSection(String)} instead, for consistency and reduced verbosity.
      * @param path Path to the ConfigSection
      * @return ConfigSection, or <code>null</code> if not found
@@ -365,7 +365,7 @@ public interface ConfigSection extends ConfigurationSection {
 
     /**
      * Gets a ConfigSection from the config.
-     * <p>
+     * <p></p>
      * Shorter alias for {@link #getConfigurationSection(String)}.
      * @param path Path to the ConfigSection
      * @return ConfigurationSection, or <code>null</code> if not found

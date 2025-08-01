@@ -187,7 +187,7 @@ public class ItemBuilder {
 
     /**
      * Adds a 1.21+ data component to the item.
-     * <p>
+     * <p></p>
      * <i>Considered unstable API due to the underlying unstable Paper implementation.</i>
      * @param type Data component type
      * @param builder Data component builder

@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * Annotates code that is considered public API, i.e. usable in an external plugin or library.
  * Can annotate methods, constructors, fields, classes, interfaces, enums, records, record components, and other annotations.
- * <p>
+ * <p></p>
  * In an ouroboros fashion, since this annotation is itself public API, it annotates itself with <code>@PublicAPI</code>.
  * @author <a href="https://elvenide.com">Elvenide</a>
  */
