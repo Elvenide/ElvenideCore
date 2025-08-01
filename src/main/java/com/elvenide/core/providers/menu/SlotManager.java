@@ -279,6 +279,7 @@ public class SlotManager {
     }
 
     protected void click(int slot, ClickType click) {
+        if (!clickHandlers.containsKey(slot)) return;
         clickHandlers.get(slot).accept(new ClickedMenuSlot(coreMenu, slot, this, click));
     }
 }
