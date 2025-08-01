@@ -6,7 +6,7 @@
 
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.15-dev-21</version>
+    <version>0.0.15-dev-25</version>
     <packaging>jar</packaging>
 
     <name>ElvenideCore</name>
