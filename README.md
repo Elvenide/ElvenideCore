@@ -207,6 +207,7 @@ Features:
   - Java format placeholders (e.g. `%s`, `%d`) and ElvenideCore placeholders (e.g. `{}`) are supported
   - Uses Objects instead of Strings to allow using non-String types without explicit type casting
 - Assert conditions and automatically log the result using `Core.log.asserts()`
+- Assert value equality and automatically log the result using `Core.log.assertEqual()`
 - Enable/disable debug logging and assertion logging using `Core.log.setDebugModeEnabled()`
 - Enable/disable logging entirely using `Core.log.setLoggerEnabled()`
 
