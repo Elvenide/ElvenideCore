@@ -109,6 +109,10 @@ public abstract class CoreMenu implements InventoryHolder {
         // Clear the inventories
         inventory.clear();
         viewer.getInventory().setStorageContents(new ItemStack[0]);
+        top.populatedItems.clear();
+        bottom.populatedItems.clear();
+        top.maxPopulatedIconsPerPage.set(0);
+        bottom.maxPopulatedIconsPerPage.set(0);
         onDisplay();
     }
 

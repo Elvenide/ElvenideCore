@@ -9,8 +9,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 /**
@@ -26,6 +28,8 @@ public class SlotManager {
     private final CoreMenu coreMenu;
     private int page = 1;
     private final HashMap<Integer, Consumer<ClickedMenuSlot>> clickHandlers = new HashMap<>();
+    final ArrayList<List<ItemStack>> populatedItems = new ArrayList<>();
+    final AtomicInteger maxPopulatedIconsPerPage = new AtomicInteger(0);
 
     @ApiStatus.Internal
     SlotManager(CoreMenu coreMenu, boolean isTop) {
@@ -97,12 +101,15 @@ public class SlotManager {
     }
 
     private void populateRangeInternal(int startSlot, int endSlot, List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon, @Nullable Consumer<ClickedMenuSlot> clickHandler) {
+        int length = endSlot - startSlot + 1;
+        maxPopulatedIconsPerPage.set(Math.max(maxPopulatedIconsPerPage.get(), length));
+        populatedItems.add(icons);
+
         for (int i = startSlot; i <= endSlot; i++) {
             MenuSlot slot = slot(i);
             slot.rangeStart = startSlot;
             slot.rangeEnd = endSlot;
             slot.isRange = true;
-            int length = endSlot - startSlot + 1;
             slot.maxPage = (icons.size() - 1) / length + 1;
             int index = slot.index();
             if (index < icons.size()) {
@@ -178,6 +185,10 @@ public class SlotManager {
     }
 
     private void populateAreaInternal(int col1, int row1, int col2, int row2, List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon, @Nullable Consumer<ClickedMenuSlot> clickHandler) {
+        int area = (col2 - col1 + 1) * (row2 - row1 + 1);
+        maxPopulatedIconsPerPage.set(Math.max(maxPopulatedIconsPerPage.get(), area));
+        populatedItems.add(icons);
+
         for (int y = row1; y <= row2; y++) {
             for (int x = col1; x <= col2; x++) {
                 MenuSlot slot = slot(x + y * 9);
@@ -186,7 +197,6 @@ public class SlotManager {
                 slot.populatedAreaTop = row1;
                 slot.populatedAreaBottom = row2;
                 slot.isPopulatedArea = true;
-                int area = (col2 - col1 + 1) * (row2 - row1 + 1);
                 slot.maxPage = (icons.size() - 1) / area + 1;
                 int index = slot.index();
                 if (index < icons.size()) {
