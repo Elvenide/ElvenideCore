@@ -1,6 +1,5 @@
 package com.elvenide.core.providers.menu;
 
-import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;

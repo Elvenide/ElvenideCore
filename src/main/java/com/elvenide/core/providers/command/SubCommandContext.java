@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class SubCommandContext {
 
+    @SuppressWarnings("UnstableApiUsage")
     final CommandContext<CommandSourceStack> ctx;
     final SubCommandBuilder subCommandData;
     final int specifiedArgs;
@@ -36,6 +37,7 @@ public class SubCommandContext {
     @Deprecated(since = "0.0.15", forRemoval = true)
     public final Variables vars = new Variables();
 
+    @SuppressWarnings("UnstableApiUsage")
     SubCommandContext(CommandContext<CommandSourceStack> ctx, SubCommandBuilder subCommandData, CommandBuilder root, int specifiedArgs) {
         this.ctx = ctx;
         this.subCommandData = subCommandData;
@@ -48,6 +50,7 @@ public class SubCommandContext {
      * Gets the command executor if one exists, or otherwise gets the command sender.
      * @return The executor or sender
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     @Contract(pure = true)
     public @NotNull CommandSender executor() {
@@ -71,6 +74,7 @@ public class SubCommandContext {
      * Gets the location the command is being executed at, usually the location of the executing player.
      * @return Location
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     @Contract(pure = true)
     public Location location() {
@@ -113,6 +117,7 @@ public class SubCommandContext {
      * @param message String in MiniMessage format
      * @param optionalPlaceholders Optional placeholders
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     public void replyToSender(Object message, Object... optionalPlaceholders) {
         ctx.getSource().getSender().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
@@ -149,6 +154,7 @@ public class SubCommandContext {
      * @deprecated Use {@link #getCommandTreeNode(SubCommand) getCommandTreeNode(null).generateUsage(CommandSender)}
      *             to get the root command usage message
      */
+    @SuppressWarnings("UnstableApiUsage")
     @PublicAPI
     @Deprecated(forRemoval = true, since = "0.0.15")
     public void sendCommandUsage() {
