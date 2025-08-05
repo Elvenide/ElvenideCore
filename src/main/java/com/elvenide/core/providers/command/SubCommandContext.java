@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -127,6 +128,16 @@ public class SubCommandContext {
     @PublicAPI
     public void performConsoleCommand(String command) {
         executor().getServer().dispatchCommand(executor().getServer().getConsoleSender(), command);
+    }
+
+    /**
+     * Gets the plugin that registered this subcommand.
+     * @return JavaPlugin instance
+     * @since 0.0.16
+     */
+    @PublicAPI
+    public JavaPlugin plugin() {
+        return CommandProvider.coreInstance.plugin;
     }
 
     /**

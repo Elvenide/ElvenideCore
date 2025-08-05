@@ -16,9 +16,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommandProvider extends Provider {
 
+    static Core coreInstance;
+
     @ApiStatus.Internal
     public CommandProvider(@Nullable Core core) {
         super(core);
+        CommandProvider.coreInstance = core;
     }
 
     /**
