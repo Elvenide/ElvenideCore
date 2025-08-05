@@ -30,25 +30,6 @@ public class ConfigProvider extends Provider {
         return core.plugin;
     }
 
-    /**
-     * Gets a config in the provided path relative to your plugin's data folder.
-     * @param plugin Your plugin
-     * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
-     * @return The config
-     * @deprecated Use {@link #get(String)} with initialization instead.
-     */
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    @PublicAPI
-    public @NotNull Config get(JavaPlugin plugin, String relativePath) {
-        if (configs.containsKey(relativePath))
-            return configs.get(relativePath);
-
-        File file = new File(plugin.getDataFolder(), relativePath);
-        Config config = new Config(this, file);
-        configs.put(relativePath, config);
-        return config;
-    }
-
     @Override
     protected void ensureInitialized() throws IllegalStateException {
         // Ensure plugin is initialized
