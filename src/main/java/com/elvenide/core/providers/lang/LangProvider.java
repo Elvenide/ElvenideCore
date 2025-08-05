@@ -160,10 +160,11 @@ public class LangProvider extends Provider {
 
         /**
          * The command header, displayed above command usage information.
+         * As of v0.0.16, by default, this is a red gradient with the name of your plugin.
          * @since 0.0.8
          */
         @PublicAPI
-        public final LangKey COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>ElvenideCore-Based Plugin");
+        public final LangKey COMMAND_HEADER = setCommandHeader("<gradient:red:dark_red>{}");
 
         /**
          * The command usage prefix, displayed at the start of each command help line.
