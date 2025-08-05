@@ -3,9 +3,7 @@ package com.elvenide.core.providers.key;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.plugin.CorePlugin;
 import org.bukkit.NamespacedKey;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -24,20 +22,6 @@ public class KeyProvider extends Provider {
 
     private String generateKeyStringFromEnum(@NotNull Enum<?> key) {
         return key.getDeclaringClass().getSimpleName().toLowerCase() + "/" + key.name().toLowerCase();
-    }
-
-    /**
-     * This method is obsolete and will be removed in a future version.
-     * <p>
-     * As of v0.0.15, creating a plugin that extends {@link CorePlugin} automatically initializes the key provider and
-     * is the recommended alternative to this method.
-     * @param plugin Your plugin
-     * @deprecated Use {@link CorePlugin} or {@link Core#setPlugin(JavaPlugin)} instead
-     */
-    @PublicAPI
-    @Deprecated(forRemoval = true, since = "0.0.15")
-    public void init(@NotNull JavaPlugin plugin) {
-        Core.setPlugin(plugin);
     }
 
     /**

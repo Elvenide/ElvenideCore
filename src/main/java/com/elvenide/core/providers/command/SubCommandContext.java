@@ -8,12 +8,11 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
 
 public class SubCommandContext {
 
@@ -25,16 +24,6 @@ public class SubCommandContext {
     /// The parsed arguments of the subcommand.
     @PublicAPI
     public final SubArgumentContext args;
-
-    /**
-     * Custom lambda-usable variable management.
-     * <p>
-     * Deprecated in favor of Java's built-in atomic objects, which are just as easy to use while providing extra features.
-     * @deprecated Use atomic objects instead (e.g. {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger}, {@link java.util.concurrent.atomic.AtomicReference AtomicReference})
-     */
-    @PublicAPI
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    public final Variables vars = new Variables();
 
     SubCommandContext(CommandContext<CommandSourceStack> ctx, SubCommandBuilder subCommandData, CommandBuilder root, int specifiedArgs) {
         this.ctx = ctx;
@@ -142,17 +131,13 @@ public class SubCommandContext {
     }
 
     /**
-     * Sends command help information to the sender (and not the executor).
-     * <p>
-     * <i>Deprecated in favor of direct access to the underlying NodeWrapper implementation that
-     * generates the command usage message.</i>
-     * @deprecated Use {@link #getCommandTreeNode(SubCommand) getCommandTreeNode(null).generateUsage(CommandSender)}
-     *             to get the root command usage message
+     * Gets the plugin that registered this subcommand.
+     * @return JavaPlugin instance
+     * @since 0.0.16
      */
     @PublicAPI
-    @Deprecated(forRemoval = true, since = "0.0.15")
-    public void sendCommandUsage() {
-        replyToSender(getCommandTreeNode(null).generateUsage(ctx.getSource().getSender()));
+    public JavaPlugin plugin() {
+        return CommandProvider.coreInstance.plugin;
     }
 
     /**
@@ -171,85 +156,6 @@ public class SubCommandContext {
         if (subCommand == null)
             return root.commandNode;
         return root.commandNode.getNodeWrapper(subCommand);
-    }
-
-    /// See {@link SubCommandContext#vars} for deprecation reason.
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    public static class Variables {
-
-        private static final HashMap<Class<?>, Class<?>> PRIMITIVES = new HashMap<>();
-
-        static {
-            PRIMITIVES.put(boolean.class, Boolean.class);
-            PRIMITIVES.put(int.class, Integer.class);
-            PRIMITIVES.put(long.class, Long.class);
-            PRIMITIVES.put(float.class, Float.class);
-            PRIMITIVES.put(double.class, Double.class);
-            PRIMITIVES.put(short.class, Short.class);
-            PRIMITIVES.put(byte.class, Byte.class);
-            PRIMITIVES.put(char.class, Character.class);
-        }
-
-        private final HashMap<String, Object> vars = new HashMap<>();
-
-        private Variables() {}
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public <T> void set(String key, T value) {
-            vars.put(key, value);
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        @SuppressWarnings("unchecked")
-        public <T> T get(String key, Class<T> type) {
-            final Object result = vars.get(key);
-            if (PRIMITIVES.getOrDefault(type, type).isAssignableFrom(result.getClass()))
-                return (T) result;
-            return null;
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        @SuppressWarnings("unchecked")
-        public <T> T get(String key, T def) {
-            final Object result = vars.getOrDefault(key, def);
-            if (PRIMITIVES.getOrDefault(def.getClass(), def.getClass()).isAssignableFrom(result.getClass()))
-                return (T) result;
-            return def;
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public void add(String key, int value) {
-            set(key, get(key, 0) + value);
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public void add(String key, double value) {
-            set(key, get(key, 0D) + value);
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public void add(String key, long value) {
-            set(key, get(key, 0L) + value);
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public void add(String key, float value) {
-            set(key, get(key, 0F) + value);
-        }
-
-        /// See {@link SubCommandContext#vars} for deprecation reason.
-        @Deprecated(since = "0.0.15", forRemoval = true)
-        public void add(String key, String value) {
-            set(key, get(key, "") + value);
-        }
-
     }
 
 }

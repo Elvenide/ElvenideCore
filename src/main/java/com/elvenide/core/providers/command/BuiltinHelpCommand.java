@@ -50,13 +50,14 @@ class BuiltinHelpCommand implements SubCommand {
 
         // Send command header
         ctx.reply(" ");
-        ctx.reply(Core.lang.common.COMMAND_HEADER);
+        ctx.reply(Core.lang.common.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
 
         // Send description
         if (wrapper.isSubCommand()) {
-            wrapper.asSubCommand().setup(ctx.subCommandData);
-            if (ctx.subCommandData.description != null)
-                ctx.reply(ctx.subCommandData.description);
+            SubCommandBuilder builder = new SubCommandBuilder();
+            wrapper.asSubCommand().setup(builder);
+            if (builder.description != null)
+                ctx.reply(builder.description);
             else
                 ctx.reply(commandDescription);
         }

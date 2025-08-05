@@ -176,7 +176,7 @@ public class CommandBuilder {
 
         // Send command header
         ctx.reply(" ");
-        ctx.reply(Core.lang.common.COMMAND_HEADER);
+        ctx.reply(Core.lang.common.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
 
         // Send description
         if (wrapper.isSubCommand()) {
