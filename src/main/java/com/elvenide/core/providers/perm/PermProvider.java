@@ -3,7 +3,6 @@ package com.elvenide.core.providers.perm;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -22,29 +21,6 @@ public class PermProvider extends Provider {
     @ApiStatus.Internal
     public PermProvider(@Nullable Core core) {
         super(core);
-    }
-
-    /**
-     * Checks if a sender explicitly has a permission.
-     * <p>
-     * <i>This method is deprecated due to its previous support for negated permissions.
-     * There is no such thing as "explicitly not having" a permission; that is simply the same as "not having" it.</i>h
-     * @param sender Sender (player or console)
-     * @param permission Permission, optionally negated
-     * @return Boolean
-     * @deprecated Use {@link #has(Permissible, String)} with the explicit-prefix ("#") at the start of the permission
-     */
-    @PublicAPI
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    @Contract(pure = true)
-    public boolean hasExplicitly(CommandSender sender, String permission) {
-        if (permission.startsWith("-")) {
-            Permission permNode = new Permission(permission.substring(1), PermissionDefault.FALSE);
-            return !sender.hasPermission(permNode);
-        }
-
-        Permission permNode = new Permission(permission, PermissionDefault.FALSE);
-        return sender.hasPermission(permNode);
     }
 
     @Contract(pure = true)
@@ -67,6 +43,7 @@ public class PermProvider extends Provider {
      * <ul>
      * <li>"-" checks if the user doesn't have the permission</li>
      * <li>"#" checks if the user explicitly has the permission set (ignores op)</li>
+     * <li>"-#" or "#-" checks if the user doesn't explicitly have the permission set (ignores op)</li>
      * </ul>
      * <p>
      * You can use backslashes ("\") as escape characters to prevent the prefix special behavior.
@@ -81,9 +58,9 @@ public class PermProvider extends Provider {
         if (permission.startsWith("-"))
             return hasNegated(user, permission.substring(1));
 
-        // Negated-Explicit (just an alias for Negated)
+        // Negated-Explicit
         else if (permission.startsWith("#-") || permission.startsWith("-#"))
-            return hasNegated(user, permission.substring(2));
+            return !hasExplicit(user, permission.substring(2));
 
         // Explicit
         else if (permission.startsWith("#"))
