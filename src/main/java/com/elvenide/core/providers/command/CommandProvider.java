@@ -16,9 +16,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommandProvider extends Provider {
 
+    static Core coreInstance;
+
     @ApiStatus.Internal
     public CommandProvider(@Nullable Core core) {
         super(core);
+        CommandProvider.coreInstance = core;
     }
 
     /**
@@ -30,18 +33,6 @@ public class CommandProvider extends Provider {
     @PublicAPI
     public CommandBuilder create(String name) {
         return CommandRegistry.command(core, name);
-    }
-
-    /**
-     * Registers all commands created by {@link #create(String)}.
-     * @param plugin Your plugin
-     * @see #create(String)
-     * @deprecated Use {@link #register()} with initialization instead.
-     */
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    @PublicAPI
-    public void register(JavaPlugin plugin) {
-        CommandRegistry.register(core, plugin);
     }
 
     /**
