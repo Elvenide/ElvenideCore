@@ -54,9 +54,10 @@ class BuiltinHelpCommand implements SubCommand {
 
         // Send description
         if (wrapper.isSubCommand()) {
-            wrapper.asSubCommand().setup(ctx.subCommandData);
-            if (ctx.subCommandData.description != null)
-                ctx.reply(ctx.subCommandData.description);
+            SubCommandBuilder builder = new SubCommandBuilder();
+            wrapper.asSubCommand().setup(builder);
+            if (builder.description != null)
+                ctx.reply(builder.description);
             else
                 ctx.reply(commandDescription);
         }
