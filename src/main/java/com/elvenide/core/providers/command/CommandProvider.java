@@ -34,18 +34,6 @@ public class CommandProvider extends Provider {
 
     /**
      * Registers all commands created by {@link #create(String)}.
-     * @param plugin Your plugin
-     * @see #create(String)
-     * @deprecated Use {@link #register()} with initialization instead.
-     */
-    @Deprecated(since = "0.0.15", forRemoval = true)
-    @PublicAPI
-    public void register(JavaPlugin plugin) {
-        CommandRegistry.register(core, plugin);
-    }
-
-    /**
-     * Registers all commands created by {@link #create(String)}.
      * <p>
      * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link Core#setPlugin(JavaPlugin) manual initialization}
      * before using the register method.
