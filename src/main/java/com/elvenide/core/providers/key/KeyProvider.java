@@ -27,20 +27,6 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * This method is obsolete and will be removed in a future version.
-     * <p>
-     * As of v0.0.15, creating a plugin that extends {@link CorePlugin} automatically initializes the key provider and
-     * is the recommended alternative to this method.
-     * @param plugin Your plugin
-     * @deprecated Use {@link CorePlugin} or {@link Core#setPlugin(JavaPlugin)} instead
-     */
-    @PublicAPI
-    @Deprecated(forRemoval = true, since = "0.0.15")
-    public void init(@NotNull JavaPlugin plugin) {
-        Core.setPlugin(plugin);
-    }
-
-    /**
      * Gets the NamespacedKey with the given key string.
      * @param key The key string
      * @return The NamespacedKey
