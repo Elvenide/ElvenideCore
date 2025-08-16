@@ -158,8 +158,8 @@ public class CommandBuilder {
         catch (InvalidArgumentException e) {
             ctx.ctx.getSource().getSender()
                 .sendMessage(
-                    Core.text.deserialize("<red>{}", e.getMessage())
-                        .hoverEvent(HoverEvent.showText(Core.text.deserialize(commandWrapper.generateUsage(ctx.executor()))))
+                    Core.text.from("<red>{}", e.getMessage())
+                        .hoverEvent(HoverEvent.showText(Core.text.from(commandWrapper.generateUsage(ctx.executor()))))
                 );
         }
 
@@ -220,7 +220,7 @@ public class CommandBuilder {
                         .stream()
                         .filter(entry -> entry.toLowerCase().startsWith(builder.getRemainingLowerCase()))
                         .forEach(entry -> builder.suggest(entry, MessageComponentSerializer.message().serialize(
-                                Core.text.deserialize("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
+                                Core.text.from("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
                         )));
                 return builder.buildFuture();
             });

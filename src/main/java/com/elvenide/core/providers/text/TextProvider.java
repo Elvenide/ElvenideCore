@@ -14,7 +14,9 @@ import net.kyori.adventure.text.minimessage.tag.TagPattern;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -286,6 +288,38 @@ public class TextProvider extends Provider {
     }
 
     /**
+     * @deprecated Use {@link #toText(Component)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull String serialize(Component component) {
+        return toText(component);
+    }
+
+    /**
+     * @deprecated Use {@link #toPlainText(Component)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull String serializeWithoutEscaping(Component component) {
+        return toPlainText(component);
+    }
+
+    /**
+     * @deprecated Use {@link #from(Object, Object...)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
+        return from(text, optionalPlaceholders);
+    }
+
+    /**
+     * @deprecated Use {@link #from(Object, Player, BiFunction)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        return from(text, player, placeholderResolver);
+    }
+
+    /**
      * Serializes a MiniMessage Component to a String in MiniMessage format.
      * Automatically escapes any tags present within the component.
      * <p>
@@ -298,24 +332,36 @@ public class TextProvider extends Provider {
      * </ul>
      * @param component The component
      * @return Serialized text
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String serialize(Component component) {
+    public final @NotNull String toText(Component component) {
         return resolver().serialize(component);
     }
 
     /**
-     * Serializes a MiniMessage Component to a String in MiniMessage format.
-     * Does not escape any tags present within the component.
+     * Serializes a MiniMessage Component to a plain text String without component tags.
      * @param component The component
      * @return Serialized text
-     * @since 0.0.15
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String serializeWithoutEscaping(Component component) {
+    public final @NotNull String toPlainText(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
+    }
+
+    /**
+     * Serializes a MiniMessage Component to a legacy text String (with <code>§</code> codes).
+     * @param component The component
+     * @return Serialized text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String toLegacyText(Component component) {
+        return LegacyComponentSerializer.legacySection().serialize(component);
     }
 
     /**
@@ -331,13 +377,14 @@ public class TextProvider extends Provider {
      * @param text The String text
      * @param optionalPlaceholders Optional placeholders
      * @return Deserialized MiniMessage component
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
+    public final @NotNull Component from(Object text, Object... optionalPlaceholders) {
         return resolver().deserialize(
-                preParsing(valueOf(text), optionalPlaceholders),
-                customColorResolver.build()
+            preParsing(valueOf(text), optionalPlaceholders),
+            customColorResolver.build()
         );
     }
 
@@ -352,18 +399,30 @@ public class TextProvider extends Provider {
      * @param player The optional player
      * @param placeholderResolver The placeholder resolver
      * @return Deserialized MiniMessage component
-     * @see #deserialize(Object, Object...)
-     * @since 0.0.15
+     * @see #from(Object, Object...)
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+    public final @NotNull Component from(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         text = placeholderResolver.apply(player, valueOf(text));
-        return deserialize(text);
+        return from(text);
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player, group,
+     * Strips all valid MiniMessage/ElvenideCore tags from a String.
+     * @param text The String text
+     * @return Plain text without component tags
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String stripTags(@NotNull String text) {
+        return toPlainText(from(text));
+    }
+
+    /**
+     * Convenience method to send a message using {@link #from(Object, Object...)} to a player, group,
      * console, or the entire server.
      * @param audience The audience (e.g. player)
      * @param text String text
@@ -372,11 +431,11 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     public final void send(Audience audience, Object text, Object... optionalPlaceholders) {
-        audience.sendMessage(deserialize(text, optionalPlaceholders));
+        audience.sendMessage(from(text, optionalPlaceholders));
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player
+     * Convenience method to send a message using {@link #from(Object, Object...)} to a player
      * with support for a third-party placeholder plugin.
      * @param player The player
      * @param text String text
@@ -385,11 +444,61 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     public final void send(Player player, Object text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        player.sendMessage(deserialize(text, player, placeholderResolver));
+        player.sendMessage(from(text, player, placeholderResolver));
     }
 
     /**
-     * Adds a custom color tag parseable by {@link #deserialize(Object, Object...)}.
+     * Convenience method to send a title using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param title Title text
+     * @param subtitle Subtitle text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendTitle(Audience audience, Object title, Object subtitle) {
+        audience.showTitle(Title.title(
+            from(title),
+            from(subtitle)
+        ));
+    }
+
+    /**
+     * Convenience method to send a title using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param title Title text
+     * @param subtitle Subtitle text
+     * @param fadeInTicks Tick duration to fade title in
+     * @param stayTicks Tick duration to show title
+     * @param fadeOutTicks Tick duration to fade title out
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendTitle(Audience audience, Object title, Object subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
+        audience.showTitle(Title.title(
+            from(title),
+            from(subtitle),
+            fadeInTicks,
+            stayTicks,
+            fadeOutTicks
+        ));
+    }
+
+    /**
+     * Convenience method to send an action bar using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param text String text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendActionBar(Audience audience, Object text) {
+        audience.sendActionBar(from(text));
+    }
+
+    /**
+     * Adds a custom color tag parseable by {@link #from(Object, Object...)}.
      * <p>
      * For example:<br/>
      * <code>addColorTag("bright_red", "#ff0000")</code> will add
