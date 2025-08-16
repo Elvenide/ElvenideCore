@@ -42,12 +42,12 @@ class UsageGenerator {
     }
 
     private String displaySubGroup(SubGroup group) {
-        return Core.lang.common.SUBGROUP_HELP_FORMATTING.formatted(group.label());
+        return Core.lang.SUBGROUP_HELP_FORMATTING.get(group.label());
     }
 
     private String displaySubCommand(SubCommand command) {
         StringBuilder argUsages = new StringBuilder();
-        String output = Core.lang.common.SUBCOMMAND_HELP_FORMATTING.formatted(command.label()) + " ";
+        String output = Core.lang.SUBCOMMAND_HELP_FORMATTING.get(command.label()) + " ";
 
         // Add all arguments
         SubCommandBuilder argBuilder = new SubCommandBuilder();
@@ -90,7 +90,7 @@ class UsageGenerator {
             usages.add(prefix + " " + displaySubNode(child));
         }
 
-        String missingPermsMessage = Core.lang.common.COMMANDS_HIDDEN_BY_PERMS.formatted(missingPerms);
+        String missingPermsMessage = Core.lang.COMMANDS_HIDDEN_BY_PERMS.get(missingPerms);
         if (usages.isEmpty()) {
             if (missingPerms > 0)
                 return List.of(missingPermsMessage);
@@ -110,7 +110,7 @@ class UsageGenerator {
             "<br>",
             generateUsages(self, executor)
                 .stream()
-                .map(line -> Core.lang.common.COMMAND_USAGE_PREFIX + line)
+                .map(line -> Core.lang.COMMAND_USAGE_PREFIX + line)
                 .toList()
         );
     }

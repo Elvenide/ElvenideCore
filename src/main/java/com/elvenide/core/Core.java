@@ -5,7 +5,7 @@ import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
-import com.elvenide.core.providers.lang.LangProvider;
+import com.elvenide.core.providers.lang.LangKey;
 import com.elvenide.core.providers.log.LogProvider;
 import com.elvenide.core.providers.perm.PermProvider;
 import com.elvenide.core.providers.plugin.CorePlugin;
@@ -29,7 +29,9 @@ public class Core {
     public JavaPlugin plugin;
 
     @ApiStatus.Internal
-    Core() { increment(); }
+    Core() {
+        increment();
+    }
     private static final Core INSTANCE = new Core();
     private void increment() {
         if (counter > 0)
@@ -62,15 +64,6 @@ public class Core {
      */
     @PublicAPI
     public static final ConfigProvider config = new ConfigProvider(INSTANCE);
-
-    /**
-     * Define your plugin's messaging in a central system, then access it in any MiniMessage format
-     * text using <code>&lt;elang&gt;</code> tags.
-     * @since 0.0.3
-     */
-    @PublicAPI
-    public static final LangProvider lang = new LangProvider(INSTANCE);
-    static { lang.common = new LangProvider.CommonLangKeys(); }
 
     /**
      * Check different kinds of permissions with extreme ease.
@@ -141,5 +134,190 @@ public class Core {
     @PublicAPI
     public static boolean isYourPlugin(Plugin plugin) {
         return INSTANCE.plugin == plugin;
+    }
+
+    /**
+     * Built-in language keys to customize and configure plugin messaging.
+     * Some can be used to customize default messages for ElvenideCore.
+     * A few common keys are also provided for use by your plugin.
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public enum lang implements LangKey {
+        /**
+         * Error message shown to non-player command senders trying to use player-only commands.
+         * @since 0.0.8
+         */
+        @PublicAPI
+        NOT_PLAYER("<red>You must be a player to use this."),
+
+        /**
+         * Error message shown to command senders trying to use commands they do not have permission for.
+         * @since 0.0.8
+         */
+        @PublicAPI
+        NO_PERMISSION("<red>You do not have permission to use this."),
+
+        /**
+         * The command header, displayed above command usage information.
+         * As of v0.0.16, by default, this is a red gradient with the name of your plugin.
+         * @since 0.0.8
+         */
+        @PublicAPI
+        COMMAND_HEADER("<gradient:red:dark_red>{}"),
+
+        /**
+         * The command usage prefix, displayed at the start of each command help line.
+         * Can be used to color the slash (/) in the command usage display.
+         * @since 0.0.10
+         */
+        @PublicAPI
+        COMMAND_USAGE_PREFIX("<gray>"),
+
+        /**
+         * Error message shown when a required argument is missing.
+         * Has a single String placeholder (%s).
+         * @since 0.0.13
+         */
+        @PublicAPI
+        MISSING_ARGUMENT("Missing argument: '%s'. Hover to see command syntax."),
+
+        /**
+         * Error message shown when an argument has an invalid datatype.
+         * Has a single String placeholder (%s).
+         * @since 0.0.13
+         */
+        @PublicAPI
+        INVALID_TYPE("Invalid value provided for argument: '%s'. Hover to see command syntax."),
+
+        /**
+         * Error message shown when an argument specifies an invalid player.
+         * Has a single String placeholder (%s).
+         * @since 0.0.13
+         */
+        @PublicAPI
+        INVALID_PLAYER("Invalid player selector/username provided for argument: '%s'. Hover to see command syntax."),
+
+        /**
+         * The formatting of subgroups and base-level commands in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        SUBGROUP_HELP_FORMATTING("<gray>{}</gray>"),
+
+        /**
+         * The formatting of subcommands in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        SUBCOMMAND_HELP_FORMATTING("<gray>{}</gray>"),
+
+        /**
+         * The formatting of boolean arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        BOOL_ARGUMENT_HELP_FORMATTING("<gold>{}</gold>"),
+
+        /**
+         * The formatting of string and unknown arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        STRING_ARGUMENT_HELP_FORMATTING("<dark_green>{}</dark_green>"),
+
+        /**
+         * The formatting of numeric arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        NUMBER_ARGUMENT_HELP_FORMATTING("<dark_aqua>{}</dark_aqua>"),
+
+        /**
+         * The formatting of player arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        PLAYER_ARGUMENT_HELP_FORMATTING("<dark_purple>{}</dark_purple>"),
+
+        /**
+         * The formatting of item arguments in the command help message.
+         * Has a single String placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        ITEM_ARGUMENT_HELP_FORMATTING("<blue>{}</blue>"),
+
+        /**
+         * Message shown when commands are hidden in the help message due to missing permissions.
+         * Has a single Integer placeholder ({}).
+         * @since 0.0.15
+         */
+        @PublicAPI
+        COMMANDS_HIDDEN_BY_PERMS("<dark_gray>{} commands were hidden due to lack of permissions."),
+
+        /**
+         * Customizable START message provided for your plugin.
+         * Not used by ElvenideCore.
+         * @since 0.0.17
+         */
+        @PublicAPI
+        START("<green>Starting..."),
+
+        /**
+         * Customizable STOP message provided for your plugin.
+         * Not used by ElvenideCore.
+         * @since 0.0.17
+         */
+        @PublicAPI
+        STOP("<red>Stopping..."),
+
+        /**
+         * Customizable RESTART message provided for your plugin.
+         * Not used by ElvenideCore.
+         * @since 0.0.17
+         */
+        @PublicAPI
+        RESTART("<yellow>Restarting..."),
+
+        /**
+         * Customizable RELOAD message provided for your plugin.
+         * Not used by ElvenideCore.
+         * @since 0.0.17
+         */
+        @PublicAPI
+        RELOAD("<gold>Reloading..."),
+
+
+        /**
+         * Customizable JOIN message provided for your plugin.
+         * Not used by ElvenideCore.
+         * Has a single String placeholder ({}).
+         * @since 0.0.17
+         */
+        @PublicAPI
+        JOIN("<green>{} joined the game."),
+
+
+        /**
+         * Customizable LEAVE message provided for your plugin.
+         * Not used by ElvenideCore.
+         * Has a single String placeholder ({}).
+         * @since 0.0.17
+         */
+        @PublicAPI
+        LEAVE("<red>{} left the game."),
+
+        ;
+
+        lang(String value) {
+            set(value);
+        }
     }
 }

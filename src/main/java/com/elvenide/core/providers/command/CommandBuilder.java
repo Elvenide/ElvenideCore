@@ -143,12 +143,12 @@ public class CommandBuilder {
     @SuppressWarnings("SameReturnValue")
     private int validatedExecutor(NodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
-            ctx.reply(Core.lang.common.NOT_PLAYER);
+            ctx.reply(Core.lang.NOT_PLAYER);
             return Command.SINGLE_SUCCESS;
         }
 
         if (ctx.subCommandData.permission != null && !ctx.hasPermission(ctx.subCommandData.permission)) {
-            ctx.reply(Core.lang.common.NO_PERMISSION);
+            ctx.reply(Core.lang.NO_PERMISSION);
             return Command.SINGLE_SUCCESS;
         }
 
@@ -176,7 +176,7 @@ public class CommandBuilder {
 
         // Send command header
         ctx.reply(" ");
-        ctx.reply(Core.lang.common.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
+        ctx.reply(Core.lang.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
 
         // Send description
         if (wrapper.isSubCommand()) {
