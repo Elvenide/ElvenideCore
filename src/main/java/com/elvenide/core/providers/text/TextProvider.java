@@ -393,7 +393,7 @@ public class TextProvider extends Provider {
      * <p>
      * Example:
      * <code>
-     *     deserialize("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
+     *     from("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
      * </code>
      * @param text The String text
      * @param player The optional player
