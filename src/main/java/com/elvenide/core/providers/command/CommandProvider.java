@@ -3,7 +3,6 @@ package com.elvenide.core.providers.command;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.lang.LangProvider;
 import com.elvenide.core.providers.plugin.CorePlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -53,12 +52,12 @@ public class CommandProvider extends Provider {
     /**
      * Sets the command header, displayed above command usage information.
      * @param header The command header
-     * @see LangProvider.CommonLangKeys#COMMAND_HEADER
+     * @see Core.lang#COMMAND_HEADER
      * @since 0.0.9
      */
     @PublicAPI
     public void setHeader(String header) {
-        Core.lang.common.setCommandHeader(header);
+        Core.lang.COMMAND_HEADER.set(header);
     }
 
 }

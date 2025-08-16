@@ -102,18 +102,18 @@ public class SubArgumentBuilder {
         output += closeBracket;
 
         if (isBool())
-            return Core.lang.common.BOOL_ARGUMENT_HELP_FORMATTING.formatted(output);
+            return Core.lang.BOOL_ARGUMENT_HELP_FORMATTING.get(output);
 
         if (isNumeric())
-            return Core.lang.common.NUMBER_ARGUMENT_HELP_FORMATTING.formatted(output);
+            return Core.lang.NUMBER_ARGUMENT_HELP_FORMATTING.get(output);
 
         if (isPlayer())
-            return Core.lang.common.PLAYER_ARGUMENT_HELP_FORMATTING.formatted(output);
+            return Core.lang.PLAYER_ARGUMENT_HELP_FORMATTING.get(output);
 
         if (isItem())
-            return Core.lang.common.ITEM_ARGUMENT_HELP_FORMATTING.formatted(output);
+            return Core.lang.ITEM_ARGUMENT_HELP_FORMATTING.get(output);
 
-        return Core.lang.common.STRING_ARGUMENT_HELP_FORMATTING.formatted(output);
+        return Core.lang.STRING_ARGUMENT_HELP_FORMATTING.get(output);
     }
 
     String getTypeName() {

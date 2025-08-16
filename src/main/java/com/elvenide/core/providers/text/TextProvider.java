@@ -3,7 +3,7 @@ package com.elvenide.core.providers.text;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.lang.LangProvider;
+import com.elvenide.core.providers.lang.LangKey;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -16,13 +16,11 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
-import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -90,7 +88,6 @@ public class TextProvider extends Provider {
         miniMessage = MiniMessage.builder()
                 .editTags(builder ->
                     builder.resolver(StandardTags.defaults())
-                        .tag("elang", TextProvider::createElangTag)
                         .tag("egradient", TextProvider::createEgradientTag)
                         .tag("escape", TextProvider::createEscapeTag)
                         .tag("eshadow", TextProvider::createEshadowTag)
@@ -164,19 +161,6 @@ public class TextProvider extends Provider {
         ));
     }
 
-    /// @since 0.0.3
-    private static Tag createElangTag(final ArgumentQueue args, final Context ignored) {
-        final @Subst("key") String key = args.popOr("The <elang> tag requires at least one argument, the key to replace with a lang value.").value();
-        final String value = Core.lang.get(key);
-
-        ArrayList<String> placeholders = new ArrayList<>();
-        while (args.hasNext()) {
-            placeholders.add(args.pop().value());
-        }
-
-        return Tag.preProcessParsed(TextProvider.preParsing(value, placeholders.toArray(String[]::new)));
-    }
-
     /// @since 0.0.11
     private static Tag createEgradientTag(final ArgumentQueue args, final Context ignored) {
         final String first = args.popOr("The <egradient> tag requires at least two color arguments; none were provided.").value();
@@ -223,6 +207,21 @@ public class TextProvider extends Provider {
     }
 
     /**
+     * Converts any object to a string.
+     * <p>
+     * If the object is a {@link LangKey}, it will return the key's value.<br/>
+     * Otherwise, it will return the object's toString() value or "null".<br/>
+     * @param rawText The object to convert
+     * @return The string representation of the object
+     * @since 0.0.17
+     */
+    public final @NotNull String valueOf(Object rawText) {
+        if (rawText instanceof LangKey key)
+            return key.get();
+        return String.valueOf(rawText);
+    }
+
+    /**
      * Formats text with any number of placeholders.<br/>
      * Supports all Java format placeholders (e.g. %s, %d).<br/>
      * Supports custom placeholders (e.g. {}).
@@ -239,7 +238,7 @@ public class TextProvider extends Provider {
     @PublicAPI
     @Contract(pure = true)
     public final @NotNull String format(Object rawText, Object... placeholders) {
-        String text = String.valueOf(rawText);
+        String text = valueOf(rawText);
 
         // Return text if there are no placeholders
         if (placeholders.length == 0)
@@ -275,7 +274,7 @@ public class TextProvider extends Provider {
             else if (placeholders[i] instanceof Character)
                 formatLetter = 'c';
             else if (!(placeholders[i] instanceof String))
-                placeholders[i] = String.valueOf(placeholders[i]);
+                placeholders[i] = valueOf(placeholders[i]);
 
             output[matcher.start()] = '%';
             output[matcher.start() + 1] = formatLetter;
@@ -283,7 +282,7 @@ public class TextProvider extends Provider {
         }
 
         // Format text using java placeholder system
-        return String.valueOf(output).formatted(placeholders);
+        return valueOf(output).formatted(placeholders);
     }
 
     /**
@@ -292,7 +291,6 @@ public class TextProvider extends Provider {
      * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
-     *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
@@ -325,7 +323,6 @@ public class TextProvider extends Provider {
      * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
-     *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
@@ -339,7 +336,7 @@ public class TextProvider extends Provider {
     @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
         return resolver().deserialize(
-                preParsing(String.valueOf(text), optionalPlaceholders),
+                preParsing(valueOf(text), optionalPlaceholders),
                 customColorResolver.build()
         );
     }
@@ -361,7 +358,7 @@ public class TextProvider extends Provider {
     @PublicAPI
     @Contract(pure = true)
     public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        text = placeholderResolver.apply(player, String.valueOf(text));
+        text = placeholderResolver.apply(player, valueOf(text));
         return deserialize(text);
     }
 

@@ -180,7 +180,7 @@ Features:
 - Get and set lang messages using `Core.lang`
 - Access lang messages using `<elang>` tags in any MiniMessage-compatible features of ElvenideCore
 - Lang messages support custom placeholders in Java (e.g. `%s`, `%d`) or ElvenideCore (`{}`) formats
-- Several built-in lang messages in `Core.lang.common`, allowing you to customize various ElvenideCore messages
+- Several built-in lang messages in `Core.lang`, allowing you to customize various ElvenideCore messages
 - `LangKeySupplier` that can return `LangKey` objects directly usable in the Text Provider 
 
 ### Text Provider
