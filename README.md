@@ -271,6 +271,7 @@ Features:
   - For example:
     - Renaming `YourKeys` to `OurKeys` in the above example will change the `ITEM`, `BLOCK`, and `HEROBRINE` keys
     - Renaming `HEROBRINE` to `HEROBRINES` in the above example will change the `HEROBRINE` key
+- Use plugin or custom string as namespace
 
 ### Item Provider (v0.0.15+)
 Build, edit, and manipulate complex `ItemStack`s with ease.
