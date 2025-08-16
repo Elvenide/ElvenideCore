@@ -95,7 +95,7 @@ public abstract class CoreMenu implements InventoryHolder {
         if (bottomCache == null)
             bottomCache = player.getInventory().getStorageContents();
         if (inventory == null)
-            this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
+            this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.from(getTitle(), viewer.getName()));
         player.openInventory(inventory);
         refresh();
         new CoreMenuListener(this);

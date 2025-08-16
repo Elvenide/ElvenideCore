@@ -278,13 +278,13 @@ public class ItemBuilder {
     private TextComponent nonItalicWithItalicSupport(String text, Object[] placeholders) {
         return Component.text("")
             .decoration(TextDecoration.ITALIC, false)
-            .append(Core.text.deserialize(text, placeholders));
+            .append(Core.text.from(text, placeholders));
     }
 
     private TextComponent nonItalicWithItalicSupport(String text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         return Component.text("")
             .decoration(TextDecoration.ITALIC, false)
-            .append(Core.text.deserialize(text, placeholderResolver));
+            .append(Core.text.from(text, placeholderResolver));
     }
 
     /**
