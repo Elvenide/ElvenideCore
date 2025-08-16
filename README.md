@@ -177,11 +177,10 @@ Easily centralize your plugin's messaging, enabling you to allow end users to co
 messages (e.g. through a config file like `lang.yml`) while maintaining simple in-code access.
 
 Features:
-- Get and set lang messages using `Core.lang`
-- Access lang messages using `<elang>` tags in any MiniMessage-compatible features of ElvenideCore
+- Create, get, and set lang messages using `LangKey`
 - Lang messages support custom placeholders in Java (e.g. `%s`, `%d`) or ElvenideCore (`{}`) formats
 - Several built-in lang messages in `Core.lang`, allowing you to customize various ElvenideCore messages
-- `LangKeySupplier` that can return `LangKey` objects directly usable in the Text Provider 
+- Several built-in lang messages in `Core.lang` for common plugin uses
 
 ### Text Provider
 Provides a simple way to convert between Strings and MiniMessage components, and to utilize both.
