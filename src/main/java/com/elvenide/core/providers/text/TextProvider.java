@@ -288,19 +288,19 @@ public class TextProvider extends Provider {
     }
 
     /**
-     * @deprecated Use {@link #toText(Component)} instead.
+     * @deprecated Use {@link #toString(Component)} instead.
      */
     @Deprecated(since = "0.0.17", forRemoval = true)
     public final @NotNull String serialize(Component component) {
-        return toText(component);
+        return toString(component);
     }
 
     /**
-     * @deprecated Use {@link #toPlainText(Component)} instead.
+     * @deprecated Use {@link #toPlainString(Component)} instead.
      */
     @Deprecated(since = "0.0.17", forRemoval = true)
     public final @NotNull String serializeWithoutEscaping(Component component) {
-        return toPlainText(component);
+        return toPlainString(component);
     }
 
     /**
@@ -336,7 +336,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toText(Component component) {
+    public final @NotNull String toString(Component component) {
         return resolver().serialize(component);
     }
 
@@ -348,7 +348,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toPlainText(Component component) {
+    public final @NotNull String toPlainString(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
@@ -360,7 +360,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toLegacyText(Component component) {
+    public final @NotNull String toLegacyString(Component component) {
         return LegacyComponentSerializer.legacySection().serialize(component);
     }
 
@@ -418,7 +418,7 @@ public class TextProvider extends Provider {
     @PublicAPI
     @Contract(pure = true)
     public final @NotNull String stripTags(@NotNull String text) {
-        return toPlainText(from(text));
+        return toPlainString(from(text));
     }
 
     /**

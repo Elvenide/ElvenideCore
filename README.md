@@ -186,15 +186,18 @@ Features:
 Provides a simple way to convert between Strings and MiniMessage components, and to utilize both.
 
 Features:
-- Convert between Strings and MiniMessage components using `Core.text.deserialize()` and `Core.text.serialize()`
+- Convert between Strings and MiniMessage Components using `Core.text.from()` and `Core.text.toString()`
+- Convert MiniMessage Components to legacy ChatColor-coded Strings using `Core.text.toLegacyString()`
+- Remove MiniMessage tags from Strings/Components using `Core.text.stripTags()` or `Core.text.toPlainString()`
 - Directly send messages to audiences using `Core.text.send()`
   - Use of `Audience` allows you to send messages to a single player, group of players, or an entire server at once
   - Supports Java and ElvenideCore placeholders
   - Message and placeholders are Objects, not Strings
     - Allows sending ints, doubles, booleans, and more without explicit type casting
     - Allows sending `LangKey` instances (see [Lang Provider](#lang-provider))
+- Directly send titles to audiences using `Core.text.sendTitle()`
+- Directly send action bars to audiences using `Core.text.sendActionBar()`
 - Supports all standard MiniMessage tags
-- Custom `<elang>` tag (see [Lang Provider](#lang-provider))
 - Custom `<escape>` tag to escape MiniMessage tags
 - Various built-in custom color tag packages that can optionally be registered via `Core.text.packages`
 - Register your own custom color tags using `Core.text.addColorTag()`
