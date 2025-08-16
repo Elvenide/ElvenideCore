@@ -49,4 +49,30 @@ public class KeyProvider extends Provider {
     public @NotNull NamespacedKey get(@NotNull Enum<?> key) {
         return get(generateKeyStringFromEnum(key));
     }
+
+    /**
+     * Gets the NamespacedKey with the given namespace and key string.
+     * @param namespace The namespace
+     * @param key The key string
+     * @return The NamespacedKey
+     */
+    @PublicAPI
+    public @NotNull NamespacedKey get(@NotNull String namespace, @NotNull String key) {
+        ensureInitialized();
+        return new NamespacedKey(namespace, key);
+    }
+
+    /**
+     * Gets the NamespacedKey with the given namespace and key string generated from the given enum.
+     * <p>
+     * Note: The generated key string is dependent on the name of the enum and its declaring class.
+     * Changing the name of an enum or declaring class will produce a different key.
+     * @param namespace The namespace
+     * @param key The enum
+     * @return The NamespacedKey
+     */
+    @PublicAPI
+    public @NotNull NamespacedKey get(@NotNull String namespace, @NotNull Enum<?> key) {
+        return get(namespace, generateKeyStringFromEnum(key));
+    }
 }
