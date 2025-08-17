@@ -201,6 +201,7 @@ Features:
 - Custom `<escape>` tag to escape MiniMessage tags
 - Various built-in custom color tag packages that can optionally be registered via `Core.text.packages`
 - Register your own custom color tags using `Core.text.addColorTag()`
+- Convert strings to title case using `Core.text.toTitleCase()`
 - Text formatter that supports both Java (e.g. `%s`, `%d`) and ElvenideCore (`{}`) placeholders
   - ElvenideCore placeholders support the same form `{}` for all datatypes
   - Example: `Core.text.format("Hello, {} {}!", "world", 5)` -> `Hello, world 5!`
@@ -213,6 +214,7 @@ Features:
   - MiniMessage and custom ElvenideCore tags are supported
   - Java format placeholders (e.g. `%s`, `%d`) and ElvenideCore placeholders (e.g. `{}`) are supported
   - Uses Objects instead of Strings to allow using non-String types without explicit type casting
+- Optionally attach throwable errors to error logs
 - Assert conditions and automatically log the result using `Core.log.asserts()`
 - Assert value equality and automatically log the result using `Core.log.assertEqual()`
 - Enable/disable debug logging and assertion logging using `Core.log.setDebugModeEnabled()`
@@ -275,6 +277,7 @@ Features:
     - Renaming `YourKeys` to `OurKeys` in the above example will change the `ITEM`, `BLOCK`, and `HEROBRINE` keys
     - Renaming `HEROBRINE` to `HEROBRINES` in the above example will change the `HEROBRINE` key
 - Use plugin or custom string as namespace
+- Also supports creating `GoalKey`s using string and enum keys
 
 ### Item Provider (v0.0.15+)
 Build, edit, and manipulate complex `ItemStack`s with ease.

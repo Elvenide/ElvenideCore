@@ -84,6 +84,22 @@ public class LogProvider extends Provider {
     }
 
     /**
+     * Logs an error message to console along with a throwable error, if logging is enabled (enabled by default).
+     * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
+     * <p>
+     * Placeholders can be inserted using Java format placeholders (e.g. %s, %d) or custom placeholders (e.g. {}).
+     * @param text String text
+     * @param throwable Throwable error
+     * @param optionalPlaceholders Optional placeholders
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void err(Object text, Throwable throwable, Object... optionalPlaceholders) {
+        if (enableLogger)
+            core.plugin.getComponentLogger().error(Core.text.from(text, optionalPlaceholders), throwable);
+    }
+
+    /**
      * Logs a debug message to console, if logging is enabled and debug mode is enabled (both enabled by default).
      * Supports a limited subset of MiniMessage and custom ElvenideCore tags.
      * <p>
