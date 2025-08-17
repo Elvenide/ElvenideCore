@@ -359,6 +359,17 @@ Features:
 - Automatically saves players' inventories before opening menus and restores after closing
 - Directly assign click handlers to any item, range of items, or region of items
 
+### CoreMap (v0.0.17+)
+Powerful hashmap utility with chainable methods.
+
+Features:
+- Extends `LinkedHashMap`
+  - Allows use as a drop-in replacement for `Map`, `HashMap`, or `LinkedHashMap`
+  - Allows key-based insertion, modification, and removal (like a `HashMap`)
+  - Allows maintenance of and iteration in insertion order (like a `LinkedList`)
+- Chainable methods for easily adding and updating entries in the map
+- Clone the map using `clone()`
+
 ## Further Documentation
 Most features are directly documented via JavaDoc in the code 
 (obtainable in IntelliJ IDEA via `Maven > Download Sources and/or Documentation`).
