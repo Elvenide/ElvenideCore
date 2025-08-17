@@ -217,7 +217,7 @@ public class TextProvider extends Provider {
      * @return The string representation of the object
      * @since 0.0.17
      */
-    public final @NotNull String valueOf(Object rawText) {
+    public final @NotNull String valueOf(@Nullable Object rawText) {
         if (rawText instanceof LangKey key)
             return key.get();
         return String.valueOf(rawText);
@@ -239,7 +239,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String format(Object rawText, Object... placeholders) {
+    public final @NotNull String format(@Nullable Object rawText, @Nullable Object... placeholders) {
         String text = valueOf(rawText);
 
         // Return text if there are no placeholders
@@ -336,7 +336,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toString(Component component) {
+    public final @NotNull String toString(@NotNull Component component) {
         return resolver().serialize(component);
     }
 
@@ -348,7 +348,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toPlainString(Component component) {
+    public final @NotNull String toPlainString(@NotNull Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
@@ -360,8 +360,28 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String toLegacyString(Component component) {
+    public final @NotNull String toLegacyString(@NotNull Component component) {
         return LegacyComponentSerializer.legacySection().serialize(component);
+    }
+
+    /**
+     * Converts a string to title case.
+     * <p>
+     * Example: <code>hello world</code> -> <code>Hello World</code>
+     * @param text The string
+     * @return The title-cased string
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String toTitleCase(@NotNull String text) {
+        if (text.isEmpty())
+            return text;
+
+        if (text.length() == 1)
+            return text.toUpperCase();
+
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 
     /**
@@ -381,7 +401,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component from(Object text, Object... optionalPlaceholders) {
+    public final @NotNull Component from(@Nullable Object text, @Nullable Object... optionalPlaceholders) {
         return resolver().deserialize(
             preParsing(valueOf(text), optionalPlaceholders),
             customColorResolver.build()
@@ -404,7 +424,7 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component from(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+    public final @NotNull Component from(@Nullable Object text, @Nullable Player player, @NotNull BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         text = placeholderResolver.apply(player, valueOf(text));
         return from(text);
     }
@@ -418,7 +438,7 @@ public class TextProvider extends Provider {
     @PublicAPI
     @Contract(pure = true)
     public final @NotNull String stripTags(@NotNull String text) {
-        return toPlainString(from(text));
+        return resolver().stripTags(text);
     }
 
     /**
@@ -430,7 +450,7 @@ public class TextProvider extends Provider {
      * @since 0.0.15
      */
     @PublicAPI
-    public final void send(Audience audience, Object text, Object... optionalPlaceholders) {
+    public final void send(@NotNull Audience audience, @Nullable Object text, @Nullable Object... optionalPlaceholders) {
         audience.sendMessage(from(text, optionalPlaceholders));
     }
 
@@ -443,7 +463,7 @@ public class TextProvider extends Provider {
      * @since 0.0.15
      */
     @PublicAPI
-    public final void send(Player player, Object text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+    public final void send(@NotNull Player player, @Nullable Object text, @NotNull BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         player.sendMessage(from(text, player, placeholderResolver));
     }
 
@@ -456,7 +476,7 @@ public class TextProvider extends Provider {
      * @since 0.0.17
      */
     @PublicAPI
-    public final void sendTitle(Audience audience, Object title, Object subtitle) {
+    public final void sendTitle(@NotNull Audience audience, @NotNull Object title, @NotNull Object subtitle) {
         audience.showTitle(Title.title(
             from(title),
             from(subtitle)
@@ -475,7 +495,7 @@ public class TextProvider extends Provider {
      * @since 0.0.17
      */
     @PublicAPI
-    public final void sendTitle(Audience audience, Object title, Object subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
+    public final void sendTitle(@NotNull Audience audience, @NotNull Object title, @NotNull Object subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
         audience.showTitle(Title.title(
             from(title),
             from(subtitle),
@@ -493,7 +513,7 @@ public class TextProvider extends Provider {
      * @since 0.0.17
      */
     @PublicAPI
-    public final void sendActionBar(Audience audience, Object text) {
+    public final void sendActionBar(@NotNull Audience audience, @NotNull Object text) {
         audience.sendActionBar(from(text));
     }
 
@@ -507,7 +527,7 @@ public class TextProvider extends Provider {
      * @param color The color of the tag
      */
     @PublicAPI
-    public final void addColorTag(@TagPattern String name, String color) {
+    public final void addColorTag(@NotNull @TagPattern String name, @NotNull String color) {
         customColorResolver.resolver(createCustomColorResolver(name, color));
     }
 
