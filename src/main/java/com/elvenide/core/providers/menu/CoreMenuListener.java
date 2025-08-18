@@ -2,7 +2,6 @@ package com.elvenide.core.providers.menu;
 
 import com.elvenide.core.Core;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,7 +15,7 @@ class CoreMenuListener implements Listener {
 
     CoreMenuListener(CoreMenu coreMenu) {
         this.coreMenu = coreMenu;
-        Core.registerListener(this);
+        Core.plugin.registerListeners(this);
     }
 
     @EventHandler
@@ -60,19 +59,19 @@ class CoreMenuListener implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         if (event.getInventory() != coreMenu.top.getInv()) return;
-        HandlerList.unregisterAll(this);
+        Core.plugin.unregisterListeners(this);
         coreMenu.restoreBottomInv();
         coreMenu.onClose();
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        HandlerList.unregisterAll(this);
+        Core.plugin.unregisterListeners(this);
     }
 
     @EventHandler
     public void onPluginDisable(PluginDisableEvent event) {
-        if (!Core.isYourPlugin(event.getPlugin()))
+        if (Core.plugin.get() != event.getPlugin())
             return;
         coreMenu.restoreBottomInv();
         coreMenu.onClose();

@@ -69,39 +69,51 @@ And add the following to your pom.xml to shade ElvenideCore into your plugin jar
 </build>
 ```
 
+## Documentation
+Select the version of ElvenideCore you would like to view the documentation for.
+
+- [v0.0.17](#getting-started)
+- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started)
+- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#getting-started)
+- v0.0.14 - no in-depth documentation
+- v0.0.13 and earlier - no documentation
+
 ## Getting Started
 You can now start using ElvenideCore.
 
-### CorePlugin (v0.0.15+)
-Initialize your plugin by extending the `CorePlugin` class instead of `JavaPlugin`.
-`CorePlugin` extends `JavaPlugin` and provides many useful utility methods.
-
-The use of `CorePlugin` is optional, but extra initialization may be necessary to use certain ElvenideCore features without it.
+### Initializing with Plugin Provider (new in v0.0.17)
+Initialize your plugin using the `Core.plugin.set(JavaPlugin)` method.
+This replaces the previous method of initializing via `CorePlugin`, which is now deprecated as of v0.0.17.
 
 ```java
-import com.elvenide.core.providers.plugin.CorePlugin;
+import com.elvenide.core.Core;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class YourPlugin extends CorePlugin {
-    @Override
-    public void onEnabled() {
-        // Plugin start up functionality
-    }
+public class YourPlugin extends JavaPlugin {
+  @Override
+  public void onEnable() {
+    // Initialize ElvenideCore with your plugin
+    Core.plugin.set(this);
+    
+    // ... {your plugin start up functionality here}
+    
+    // If you have commands, register them here
+    Core.commands.register();
+  }
 
-    @Override
-    public void onDisabled() {
-        // Plugin shut down functionality
-    }
+  @Override
+  public void onDisable() {
+    // Plugin shut down functionality
+  }
 }
 ```
 
 Features:
-- Extends `JavaPlugin`, and can be used wherever `JavaPlugin` can be used
-- Static methods to register/unregister Bukkit listeners without needing plugin instance
-- Static `registerConfigSuppliers(ConfigSupplier...)` method to register Core configs
-  - Registered Core configs will automatically be loaded right after the plugin is enabled
-  - Registered Core configs can all be reloaded at once using static `reload()` method
+- Initialize ElvenideCore using `Core.plugin.set(JavaPlugin)`
+- Easily get your initialized plugin instance anywhere using `Core.plugin.get()`
+- Static methods to register/unregister Bukkit listeners without needing to give your plugin as an argument
 
-### CoreEvent (v0.0.15+)
+### CoreEvent
 Creating custom events using the Bukkit event system is very verbose, with lots of unnecessary boilerplate.
 ElvenideCore provides the `CoreEvent` interface, which is a powerful, simple, yet familiar alternative for custom events.
 
@@ -173,6 +185,8 @@ Features:
 - Core listeners that can be registered/unregistered without needing plugin instance
 
 ### Lang Provider
+(Completely reworked in v0.0.17!)
+
 Easily centralize your plugin's messaging, enabling you to allow end users to configure
 messages (e.g. through a config file like `lang.yml`) while maintaining simple in-code access.
 
@@ -206,7 +220,7 @@ Features:
   - ElvenideCore placeholders support the same form `{}` for all datatypes
   - Example: `Core.text.format("Hello, {} {}!", "world", 5)` -> `Hello, world 5!`
 
-### Log Provider (v0.0.15+)
+### Log Provider
 Send various component-enabled logs to the console with low verbosity.
 
 Features:
@@ -220,7 +234,7 @@ Features:
 - Enable/disable debug logging and assertion logging using `Core.log.setDebugModeEnabled()`
 - Enable/disable logging entirely using `Core.log.setLoggerEnabled()`
 
-### Task Provider (v0.0.15+)
+### Task Provider
 Provides a builder to easily create and schedule tasks without needing a plugin instance.
 
 Features:
@@ -248,7 +262,7 @@ Features:
   - Not guaranteed to be accurate or up-to-date
   - Get guaranteed accurate information by using a dedicated permission plugin API instead
 
-### Key Provider (v0.0.14+)
+### Key Provider
 Easily manage your plugin's `NamespacedKey`s.
 
 Generate a `NamespacedKey` from a String:
@@ -279,7 +293,7 @@ Features:
 - Use plugin or custom string as namespace
 - Also supports creating `GoalKey`s using string and enum keys
 
-### Item Provider (v0.0.15+)
+### Item Provider
 Build, edit, and manipulate complex `ItemStack`s with ease.
 
 Features:
@@ -328,7 +342,10 @@ Features:
     - `Particle`
     - `Color` (from hex/rgb format)
     - `Component` (using ElvenideCore's text provider)
-- Easily reload multiple configs by registering a `ConfigSupplier` and using `Core.reload()` (see [Core Plugin](#coreplugin-v0015) section)
+- `registerSuppliers(ConfigSupplier...)` method to register Core configs
+  - Implement the `ConfigSupplier` interface and register it with the config provider
+  - Each supplier can contain any number of Core configs
+  - Registered suppliers, and all of their configs, can all be reloaded at once using `reloadSuppliers()`
 
 ### Command Provider
 Easily create powerful commands that take advantage of Minecraft's brigadier command API, while avoiding the redundancy 
@@ -337,7 +354,7 @@ and non-object-oriented approach of the brigadier API.
 In-depth documentation is a work in progress.
 For now, simply view the in-code documentation on `SubCommand` and `Core.commands.create(String)` and `Core.commands.register()`.
 
-### CoreMenu (v0.0.15+)
+### CoreMenu
 Create and manage GUI menus with less boilerplate and no need for slot/index/pagination math.
 
 Features:
@@ -359,7 +376,7 @@ Features:
 - Automatically saves players' inventories before opening menus and restores after closing
 - Directly assign click handlers to any item, range of items, or region of items
 
-### CoreMap (v0.0.17+)
+### CoreMap (new in v0.0.17)
 Powerful hashmap utility with chainable methods.
 
 Features:

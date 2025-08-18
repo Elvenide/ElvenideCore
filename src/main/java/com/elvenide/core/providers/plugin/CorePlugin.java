@@ -1,50 +1,39 @@
 package com.elvenide.core.providers.plugin;
 
 import com.elvenide.core.Core;
-import com.elvenide.core.api.PublicAPI;
+import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.config.ConfigSupplier;
-import com.elvenide.core.providers.event.CoreListener;
-import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.HashSet;
-import java.util.List;
-
 /**
- * ElvenideCore's powerful extension of the {@link JavaPlugin} class.
- * @author <a href="https://elvenide.com">Elvenide</a>
- * @since 0.0.15
+ * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+ *             Initialize your plugin using {@link PluginProvider#set(JavaPlugin) Core.plugin.set(JavaPlugin)} instead.
  */
-@PublicAPI
+@Deprecated(since = "0.0.17", forRemoval = true)
 public abstract class CorePlugin extends JavaPlugin {
 
-    private static CorePlugin instance = null;
-    private final HashSet<ConfigSupplier> configSuppliers = new HashSet<>();
-
-    /// Only for internal use. Use {@link #onLoaded()} instead.
+    /// Only for internal use.
     @ApiStatus.OverrideOnly
     @ApiStatus.Internal
     @Override
     public final void onLoad() {
-        instance = this;
-        Core.setPlugin(this);
+        Core.plugin.set(this);
         this.onLoaded();
     }
 
-    /// Only for internal use. Use {@link #onEnabled()} instead.
+    /// Only for internal use.
     @ApiStatus.OverrideOnly
     @ApiStatus.Internal
     @Override
     public final void onEnable() {
         this.onEnabled();
-        reload();
+        Core.config.reloadSuppliers();
         Core.commands.register();
     }
 
-    /// Only for internal use. Use {@link #onDisabled()} instead.
+    /// Only for internal use.
     @ApiStatus.OverrideOnly
     @ApiStatus.Internal
     @Override
@@ -53,102 +42,71 @@ public abstract class CorePlugin extends JavaPlugin {
     }
 
     /**
-     * Code run when the plugin is first loaded.
-     * This method is executed before {@link #onEnabled() enabling}
-     * (Load >> Enable >> Reload).
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
      */
     @SuppressWarnings("EmptyMethod")
     @ApiStatus.OverrideOnly
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public void onLoaded() {}
 
     /**
-     * Code run when the plugin is enabled.
-     * This method is executed before the first {@link #reload() reload}
-     * (Load >> Enable >> Reload).
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
      */
     @ApiStatus.OverrideOnly
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public abstract void onEnabled();
 
     /**
-     * Code run when the plugin is disabled.
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
      */
     @SuppressWarnings("EmptyMethod")
     @ApiStatus.OverrideOnly
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public void onDisabled() {}
 
     /**
-     * @return Plugin version as defined in plugin.yml or paper-plugin.yml
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+     *             Use {@link JavaPlugin#getPluginMeta()} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public final String getPluginVersion() {
         return getPluginMeta().getVersion();
     }
 
     /**
-     * Registers one or more config suppliers.
-     * Registered config suppliers will be automatically reloaded when {@link #reload()} is called.
-     * @param suppliers Config suppliers
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+     *             Use {@link ConfigProvider#registerSuppliers(ConfigSupplier...)} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public final void registerConfigSuppliers(ConfigSupplier... suppliers) {
-        configSuppliers.addAll(List.of(suppliers));
+        Core.config.registerSuppliers(suppliers);
     }
 
     /**
-     * Registers one or more Bukkit event listeners.
-     * <p>
-     * Note: Does not register {@link CoreListener CoreListener}s; use {@link CoreListener#register()} to do so.
-     * @param listeners Listeners
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+     *             Use {@link PluginProvider#registerListeners(Listener...)} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static void registerListeners(Listener... listeners) {
-        if (instance == null)
-            throw new IllegalStateException("Plugin has not been initialized yet.");
-
-        for (Listener listener : listeners)
-            instance.getServer().getPluginManager().registerEvents(listener, instance);
+        Core.plugin.registerListeners(listeners);
     }
 
     /**
-     * Unregisters one or more Bukkit event listeners.
-     * <p>
-     * Note: Does not unregister {@link CoreListener CoreListener}s; use {@link CoreListener#unregister()} to do so.
-     * @param listeners Listeners
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+     *             Use {@link PluginProvider#unregisterListeners(Listener...)} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static void unregisterListeners(Listener... listeners) {
-        if (instance == null)
-            throw new IllegalStateException("Plugin has not been initialized yet.");
-
-        for (Listener listener : listeners)
-            HandlerList.unregisterAll(listener);
+        Core.plugin.unregisterListeners(listeners);
     }
 
     /**
-     * Manually reloads the plugin (e.g. to reload config files).
-     * Emits a {@link CoreReloadEvent} and reloads all registered {@link #registerConfigSuppliers(ConfigSupplier...) config suppliers}.
-     * @since 0.0.15
+     * @deprecated The CorePlugin class is being phased out of ElvenideCore.
+     *             Use {@link ConfigProvider#reloadSuppliers()} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static void reload() {
-        if (instance == null)
-            throw new IllegalStateException("Plugin has not been initialized yet.");
-
-        // Reload config suppliers
-        for (ConfigSupplier supplier : instance.configSuppliers)
-            supplier.reload();
-
-        // Emit reload event
-        CoreReloadEvent event = new CoreReloadEvent(instance);
-        event.callEvent(); // Emit Bukkit event
-        event.callCoreEvent(); // Emit ElvenideCore event
+        Core.config.reloadSuppliers();
     }
 
 }
