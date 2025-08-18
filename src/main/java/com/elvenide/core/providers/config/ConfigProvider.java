@@ -55,7 +55,7 @@ public class ConfigProvider extends Provider {
             return configs.get(relativePath);
 
         File file = new File(Core.plugin.get().getDataFolder(), relativePath);
-        Config config = new Config(this, file);
+        Config config = new Config(file);
         configs.put(relativePath, config);
         return config;
     }
@@ -100,7 +100,7 @@ public class ConfigProvider extends Provider {
 
         // Create config with resource
         File file = new File(Core.plugin.get().getDataFolder(), relativePath);
-        Config config = new Config(this, file, resourcePath);
+        Config config = new Config(file, resourcePath);
         configs.put(relativePath, config);
         return config;
     }
