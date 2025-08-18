@@ -137,7 +137,7 @@ public class SubCommandContext {
      */
     @PublicAPI
     public JavaPlugin plugin() {
-        return CommandProvider.coreInstance.plugin;
+        return Core.plugin.get();
     }
 
     /**

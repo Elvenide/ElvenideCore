@@ -3,7 +3,7 @@ package com.elvenide.core.providers.command;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.plugin.CorePlugin;
+import com.elvenide.core.providers.plugin.PluginProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -15,12 +15,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommandProvider extends Provider {
 
-    static Core coreInstance;
-
     @ApiStatus.Internal
     public CommandProvider(@Nullable Core core) {
         super(core);
-        CommandProvider.coreInstance = core;
     }
 
     /**
@@ -37,16 +34,13 @@ public class CommandProvider extends Provider {
     /**
      * Registers all commands created by {@link #create(String)}.
      * <p>
-     * <b>If you ARE NOT using {@link CorePlugin}</b>: you must do {@link Core#setPlugin(JavaPlugin) manual initialization}
-     * before using the register method.
-     * <p>
-     * <b>If you ARE using {@link CorePlugin}</b>: you do not need to use the register method, as commands are registered automatically.
+     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
      * @see #create(String)
      * @since 0.0.15
      */
     @PublicAPI
     public void register() {
-        CommandRegistry.register(core, core.plugin);
+        CommandRegistry.register(core, Core.plugin.get());
     }
 
     /**

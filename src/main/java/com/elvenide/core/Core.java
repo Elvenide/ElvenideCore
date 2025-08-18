@@ -8,7 +8,7 @@ import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangKey;
 import com.elvenide.core.providers.log.LogProvider;
 import com.elvenide.core.providers.perm.PermProvider;
-import com.elvenide.core.providers.plugin.CorePlugin;
+import com.elvenide.core.providers.plugin.PluginProvider;
 import com.elvenide.core.providers.task.TaskProvider;
 import com.elvenide.core.providers.text.TextProvider;
 import org.bukkit.event.Listener;
@@ -26,9 +26,6 @@ public class Core {
     private static int counter = 0;
 
     @ApiStatus.Internal
-    public JavaPlugin plugin;
-
-    @ApiStatus.Internal
     Core() {
         increment();
     }
@@ -40,15 +37,11 @@ public class Core {
     }
 
     /**
-     * Sets the plugin that is using ElvenideCore.
-     * <p>
-     * Required for some features, unless your plugin extends the {@link CorePlugin} class
-     * (which automatically calls this method).
-     * @param plugin Plugin
+     * @deprecated Use {@link PluginProvider#set(JavaPlugin) Core.plugin.set()} instead.
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static void setPlugin(JavaPlugin plugin) {
-        INSTANCE.plugin = plugin;
+        Core.plugin.set(plugin);
     }
 
     /**
@@ -80,13 +73,7 @@ public class Core {
     public static final CommandProvider commands = new CommandProvider(INSTANCE);
 
     /**
-     * Easily manage your plugin's NamespacedKeys.
-     * <p>
-     * To function, this feature requires ONE of the following:
-     * <ul>
-     *     <li>Use of plugin extending {@link CorePlugin} (automatic initialization)</li>
-     *     <li>{@link #setPlugin(JavaPlugin) Manual initialization}</li>
-     * </ul>
+     * Easily manage your plugin's NamespacedKeys and GoalKeys.
      * @since 0.0.14
      */
     @PublicAPI
@@ -114,26 +101,27 @@ public class Core {
     public static final LogProvider log = new LogProvider(INSTANCE);
 
     /**
-     * Utility method to register a Bukkit event listener without the need for a plugin instance.
-     * Requires plugin to be initialized through {@link #setPlugin(JavaPlugin)} or extending {@link CorePlugin}.
-     * @param listener Bukkit listener
-     * @since 0.0.15
+     * Manage the ElvenideCore plugin instance, and utilize various plugin-dependent utilities.
+     * @since 0.0.17
      */
     @PublicAPI
+    public static final PluginProvider plugin = new PluginProvider(INSTANCE);
+
+    /**
+     * @deprecated Use {@link PluginProvider#registerListeners(Listener...) Core.plugin.registerListeners()} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static void registerListener(Listener listener) {
-        INSTANCE.plugin.getServer().getPluginManager().registerEvents(listener, INSTANCE.plugin);
+        Core.plugin.registerListeners(listener);
     }
 
     /**
-     * Utility method to check if a given plugin is the one currently using ElvenideCore.
-     * Requires plugin to be initialized through {@link #setPlugin(JavaPlugin)} or extending {@link CorePlugin}.
-     * @param plugin Plugin
-     * @return True if plugin is your current plugin
-     * @since 0.0.15
+     * @deprecated Compare the plugin with {@link PluginProvider#get() Core.plugin.get()} instead.
+     *             For example: <code>Core.plugin.get() == somePlugin</code>
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public static boolean isYourPlugin(Plugin plugin) {
-        return INSTANCE.plugin == plugin;
+        return Core.plugin.get() == plugin;
     }
 
     /**

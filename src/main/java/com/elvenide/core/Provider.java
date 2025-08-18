@@ -22,8 +22,8 @@ public class Provider {
     }
 
     protected void ensureInitialized() throws IllegalStateException {
-        if (core.plugin == null)
-            throw new IllegalStateException("Your plugin is using ElvenideCore features that require initialization, please do so via Core.setPlugin()");
+        if (!Core.plugin.isSet())
+            throw new IllegalStateException("Your plugin is using ElvenideCore features that require initialization, please do so via Core.plugin.set()");
     }
 
 }

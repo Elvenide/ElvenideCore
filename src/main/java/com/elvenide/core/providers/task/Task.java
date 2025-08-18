@@ -87,9 +87,6 @@ public class Task {
 
     @ApiStatus.Internal
     private synchronized void setup() {
-        if (core.plugin == null)
-            throw new IllegalStateException("Your plugin is using ElvenideCore features that require initialization, please do so via Core.setPlugin()");
-
         if (runnable != null)
             runnable.cancel();
 
@@ -113,7 +110,7 @@ public class Task {
         setup();
         this.ticksPassed += delay;
         this.tickInterval = period;
-        return runnable.runTaskTimer(core.plugin, delay, period);
+        return runnable.runTaskTimer(Core.plugin.get(), delay, period);
     }
 
     /**
@@ -126,7 +123,7 @@ public class Task {
     public synchronized BukkitTask delay(long delay) {
         setup();
         this.tickInterval = delay;
-        return runnable.runTaskLater(core.plugin, delay);
+        return runnable.runTaskLater(Core.plugin.get(), delay);
     }
 
     /**
@@ -143,7 +140,7 @@ public class Task {
         setup();
         this.ticksPassed += delay;
         this.tickInterval = period;
-        return runnable.runTaskTimerAsynchronously(core.plugin, delay, period);
+        return runnable.runTaskTimerAsynchronously(Core.plugin.get(), delay, period);
     }
 
     /**
@@ -158,7 +155,7 @@ public class Task {
     public synchronized BukkitTask delayAsync(long delay) {
         setup();
         this.tickInterval = delay;
-        return runnable.runTaskLaterAsynchronously(core.plugin, delay);
+        return runnable.runTaskLaterAsynchronously(Core.plugin.get(), delay);
     }
 
     /**
@@ -218,7 +215,7 @@ public class Task {
      */
     @PublicAPI
     public synchronized BukkitTask schedule() {
-        return runnable.runTask(core.plugin);
+        return runnable.runTask(Core.plugin.get());
     }
 
     /**
@@ -230,6 +227,6 @@ public class Task {
      */
     @PublicAPI
     public synchronized BukkitTask scheduleAsync() {
-        return runnable.runTaskAsynchronously(core.plugin);
+        return runnable.runTaskAsynchronously(Core.plugin.get());
     }
 }

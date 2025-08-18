@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.config;
 
+import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import com.google.common.base.Charsets;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -56,7 +57,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
      */
     @PublicAPI
     public void reload() {
-        InputStream resource = resourcePath != null ? system.plugin().getResource(resourcePath) : null;
+        InputStream resource = resourcePath != null ? Core.plugin.get().getResource(resourcePath) : null;
         if (resourcePath != null && resource == null)
             throw new RuntimeException("Failed to load resource: " + resourcePath);
 

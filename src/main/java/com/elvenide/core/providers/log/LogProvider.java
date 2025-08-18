@@ -50,7 +50,7 @@ public class LogProvider extends Provider {
     @PublicAPI
     public void info(Object text, Object... optionalPlaceholders) {
         if (enableLogger)
-            core.plugin.getComponentLogger().info(Core.text.from(text, optionalPlaceholders));
+            Core.plugin.get().getComponentLogger().info(Core.text.from(text, optionalPlaceholders));
     }
 
     /**
@@ -65,7 +65,7 @@ public class LogProvider extends Provider {
     @PublicAPI
     public void warn(Object text, Object... optionalPlaceholders) {
         if (enableLogger)
-            core.plugin.getComponentLogger().warn(Core.text.from(text, optionalPlaceholders));
+            Core.plugin.get().getComponentLogger().warn(Core.text.from(text, optionalPlaceholders));
     }
 
     /**
@@ -80,7 +80,7 @@ public class LogProvider extends Provider {
     @PublicAPI
     public void err(Object text, Object... optionalPlaceholders) {
         if (enableLogger)
-            core.plugin.getComponentLogger().error(Core.text.from(text, optionalPlaceholders));
+            Core.plugin.get().getComponentLogger().error(Core.text.from(text, optionalPlaceholders));
     }
 
     /**
@@ -96,7 +96,7 @@ public class LogProvider extends Provider {
     @PublicAPI
     public void err(Object text, Throwable throwable, Object... optionalPlaceholders) {
         if (enableLogger)
-            core.plugin.getComponentLogger().error(Core.text.from(text, optionalPlaceholders), throwable);
+            Core.plugin.get().getComponentLogger().error(Core.text.from(text, optionalPlaceholders), throwable);
     }
 
     /**
@@ -111,7 +111,7 @@ public class LogProvider extends Provider {
     @PublicAPI
     public void debug(Object text, Object... optionalPlaceholders) {
         if (enableDebug && enableLogger)
-            core.plugin.getComponentLogger().debug(Core.text.from(text, optionalPlaceholders));
+            Core.plugin.get().getComponentLogger().debug(Core.text.from(text, optionalPlaceholders));
     }
 
     /**

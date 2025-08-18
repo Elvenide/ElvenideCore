@@ -2,7 +2,9 @@ package com.elvenide.core.providers.task;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.providers.plugin.PluginProvider;
 import com.elvenide.core.api.PublicAPI;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -29,11 +31,14 @@ public class TaskProvider extends Provider {
     @Contract(pure = true)
     @Deprecated(since = "0.0.17", forRemoval = true)
     public Task builder() {
+        ensureInitialized();
         return new Task(core);
     }
 
     /**
      * Creates a new scheduled task builder with the given executable action.
+     * <p>
+     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
      * @param consumer Consumer
      * @return Task
      * @since 0.0.17
@@ -41,6 +46,7 @@ public class TaskProvider extends Provider {
     @PublicAPI
     @Contract(pure = true)
     public Task create(Consumer<Task> consumer) {
+        ensureInitialized();
         return new Task(core).then(consumer);
     }
 }
