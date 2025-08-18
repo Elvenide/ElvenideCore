@@ -32,7 +32,7 @@ public class TaskProvider extends Provider {
     @Deprecated(since = "0.0.17", forRemoval = true)
     public Task builder() {
         ensureInitialized();
-        return new Task(core);
+        return new Task();
     }
 
     /**
@@ -47,6 +47,6 @@ public class TaskProvider extends Provider {
     @Contract(pure = true)
     public Task create(Consumer<Task> consumer) {
         ensureInitialized();
-        return new Task(core).then(consumer);
+        return new Task().then(consumer);
     }
 }
