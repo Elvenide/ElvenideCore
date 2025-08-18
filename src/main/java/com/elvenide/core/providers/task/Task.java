@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class Task {
 
-    private final Core core;
     private BukkitRunnable runnable = null;
     private long executions = 0;
     private long ticksPassed = 0;
@@ -22,13 +21,7 @@ public class Task {
     };
 
     @ApiStatus.Internal
-    Task(Core core) {
-        super();
-
-        if (core == null)
-            throw new IllegalArgumentException("ElvenideCore cannot be null");
-        this.core = core;
-    }
+    Task() {}
 
     /**
      * Adds an executable action to the task.
