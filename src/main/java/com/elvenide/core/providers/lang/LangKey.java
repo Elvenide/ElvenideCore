@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Represents a lang key in ElvenideCore.
  * Lang keys are used to store and retrieve centralized, configurable messages for your plugin.
- * <p>
+ * @apiNote
  * There are two ways of creating lang keys:
  * <ul>
  *     <li>Creating an enum that implements this interface (each enum field becomes a lang key)</li>
