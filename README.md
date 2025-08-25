@@ -378,7 +378,7 @@ Features:
 - Easily check if a slot is within a range or region of slot numbers
 - Easily fetch an index from a slot number, based on pagination and slot range/region
 - Easily populate ranges and regions of slots with a paginated list of items
-- Easily populate a rectangular region's border slots with an item
+- Easily assign a single item to ranges, regions, and borders of slots
 - Easily create next-page buttons that automatically prevent exceeding last page
 - Easily create previous-page buttons that automatically prevent exceeding first page
 - Automatically saves players' inventories before opening menus and restores after closing
