@@ -193,7 +193,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds multiple enchantments to the item, with vanilla enchantment checks.
+     * Sets all enchantments on the item, with vanilla enchantment checks.
      * @param enchantmentLevels Map of enchantments to their levels
      * @param ignoreLevelLimit Whether to ignore level limit
      * @return This
@@ -201,6 +201,7 @@ public class ItemBuilder {
      */
     @PublicAPI
     public ItemBuilder enchants(Map<Enchantment, Integer> enchantmentLevels, boolean ignoreLevelLimit) {
+        meta(ItemMeta::removeEnchantments);
         enchantmentLevels.forEach((ench, level) -> enchant(ench, level, ignoreLevelLimit));
         return this;
     }
@@ -219,13 +220,14 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds multiple enchantments to the item, with no checks for level limit, enchantment conflicts, or whether applicable to the item.
+     * Sets all enchantments on the item, with no checks for level limit, enchantment conflicts, or whether applicable to the item.
      * @param enchantmentLevels Map of enchantments to their levels
      * @return This
      * @since 0.0.17
      */
     @PublicAPI
     public ItemBuilder unsafeEnchants(Map<Enchantment, Integer> enchantmentLevels) {
+        meta(ItemMeta::removeEnchantments);
         enchantmentLevels.forEach(this::unsafeEnchant);
         return this;
     }
