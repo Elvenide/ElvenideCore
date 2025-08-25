@@ -25,7 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
@@ -192,6 +194,19 @@ public class ItemBuilder {
     }
 
     /**
+     * Adds multiple enchantments to the item, with vanilla enchantment checks.
+     * @param enchantmentLevels Map of enchantments to their levels
+     * @param ignoreLevelLimit Whether to ignore level limit
+     * @return This
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public ItemBuilder enchants(Map<Enchantment, Integer> enchantmentLevels, boolean ignoreLevelLimit) {
+        enchantmentLevels.forEach((ench, level) -> enchant(ench, level, ignoreLevelLimit));
+        return this;
+    }
+
+    /**
      * Adds an enchantment to the item, with no checks for level limit, enchantment conflicts, or whether applicable to the item.
      * @param enchantment Enchantment
      * @param level Enchantment level
@@ -201,6 +216,18 @@ public class ItemBuilder {
     @PublicAPI
     public ItemBuilder unsafeEnchant(Enchantment enchantment, int level) {
         item.addUnsafeEnchantment(enchantment, level);
+        return this;
+    }
+
+    /**
+     * Adds multiple enchantments to the item, with no checks for level limit, enchantment conflicts, or whether applicable to the item.
+     * @param enchantmentLevels Map of enchantments to their levels
+     * @return This
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public ItemBuilder unsafeEnchants(Map<Enchantment, Integer> enchantmentLevels) {
+        enchantmentLevels.forEach(this::unsafeEnchant);
         return this;
     }
 
