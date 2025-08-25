@@ -284,6 +284,78 @@ public class SlotManager {
     }
 
     /**
+     * Populates the specified rectangular region of slots with the provided icons, using rectangular width and height.
+     * @param startSlot First slot in the area, zero-indexed (top-left corner)
+     * @param width Width of the area, in slots
+     * @param height Height of the area, in slots
+     * @param icons Icons to populate the area with, in order from top-left to bottom-right
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void populateArea(int startSlot, int width, int height, @NotNull List<@Nullable ItemStack> icons) {
+        int col1 = startSlot % 9;
+        int row1 = startSlot / 9;
+        int col2 = col1 + width - 1;
+        int row2 = row1 + height - 1;
+        populateArea(col1, row1, col2, row2, icons);
+    }
+
+    /**
+     * Populates the specified rectangular region of slots with the provided icons, using rectangular width and height.
+     * @param startSlot First slot in the area, zero-indexed (top-left corner)
+     * @param width Width of the area, in slots
+     * @param height Height of the area, in slots
+     * @param icons Icons to populate the area with, in order from top-left to bottom-right
+     * @param clickHandler Click handler for every non-null/non-fallback icon in the area
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void populateArea(int startSlot, int width, int height, @NotNull List<@Nullable ItemStack> icons, @NotNull Consumer<ClickedMenuSlot> clickHandler) {
+        int col1 = startSlot % 9;
+        int row1 = startSlot / 9;
+        int col2 = col1 + width - 1;
+        int row2 = row1 + height - 1;
+        populateArea(col1, row1, col2, row2, icons, clickHandler);
+    }
+
+    /**
+     * Populates the specified rectangular region of slots with the provided icons, using rectangular width and height.
+     * @param startSlot First slot in the area, zero-indexed (top-left corner)
+     * @param width Width of the area, in slots
+     * @param height Height of the area, in slots
+     * @param icons Icons to populate the area with, in order from top-left to bottom-right
+     * @param fallbackIcon Fallback/background icon used in parts of the area that are not populated by the icons list
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void populateArea(int startSlot, int width, int height, @NotNull List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon) {
+        int col1 = startSlot % 9;
+        int row1 = startSlot / 9;
+        int col2 = col1 + width - 1;
+        int row2 = row1 + height - 1;
+        populateArea(col1, row1, col2, row2, icons, fallbackIcon);
+    }
+
+    /**
+     * Populates the specified rectangular region of slots with the provided icons, using rectangular width and height.
+     * @param startSlot First slot in the area, zero-indexed (top-left corner)
+     * @param width Width of the area, in slots
+     * @param height Height of the area, in slots
+     * @param icons Icons to populate the area with, in order from top-left to bottom-right
+     * @param fallbackIcon Fallback/background icon used in parts of the area that are not populated by the icons list
+     * @param clickHandler Click handler for every non-null/non-fallback icon in the area
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void populateArea(int startSlot, int width, int height, @NotNull List<@Nullable ItemStack> icons, @Nullable ItemStack fallbackIcon, @NotNull Consumer<ClickedMenuSlot> clickHandler) {
+        int col1 = startSlot % 9;
+        int row1 = startSlot / 9;
+        int col2 = col1 + width - 1;
+        int row2 = row1 + height - 1;
+        populateArea(col1, row1, col2, row2, icons, fallbackIcon, clickHandler);
+    }
+
+    /**
      * Deprecated to separate naming of pagination-supported methods (populate methods) from single-item methods (assign methods).
      * @deprecated Use {@link #assignBorder(int, int, int, int, ItemStack)} instead.
      */
@@ -344,6 +416,23 @@ public class SlotManager {
                 slot.setIcon(icon);
             }
         }
+    }
+
+    /**
+     * Assigns the provided icon to the specified rectangular region's inner area slots, using rectangular width and height.
+     * @param startSlot First slot in the area, zero-indexed (top-left corner)
+     * @param width Width of the area, in slots
+     * @param height Height of the area, in slots
+     * @param icon Icon to assign to the area
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void assignArea(int startSlot, int width, int height, @Nullable ItemStack icon) {
+        int col1 = startSlot % 9;
+        int row1 = startSlot / 9;
+        int col2 = col1 + width - 1;
+        int row2 = row1 + height - 1;
+        assignArea(col1, row1, col2, row2, icon);
     }
 
     protected void addClickHandler(int slot, Consumer<ClickedMenuSlot> handler) {
