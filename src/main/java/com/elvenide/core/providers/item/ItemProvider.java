@@ -3,6 +3,7 @@ package com.elvenide.core.providers.item;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -51,6 +52,21 @@ public class ItemProvider extends Provider {
     @PublicAPI
     public ItemBuilder create(@NotNull Material material) {
         return new ItemBuilder(core, material);
+    }
+
+    /**
+     * Returns a builder to create a new item with the given item string.
+     * <p>
+     * The string should be in the item format expected by Minecraft's <code>/give</code> command (e.g. <code>diamond_sword</code>).
+     * It can be either a plain Material name or a Material name with specified 1.21+ item components.
+     * @param materialWithOptionalComponents Material with optional components
+     * @return Item builder
+     * @since 0.0.17
+     */
+    @Contract(pure = true)
+    @PublicAPI
+    public ItemBuilder create(@NotNull String materialWithOptionalComponents) {
+        return edit(Bukkit.getItemFactory().createItemStack(materialWithOptionalComponents));
     }
 
     /**
