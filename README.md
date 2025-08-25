@@ -297,8 +297,8 @@ Features:
 Build, edit, and manipulate complex `ItemStack`s with ease.
 
 Features:
-- Build a new `ItemStack` using `Core.items.builder(Material)`
-- Edit an existing `ItemStack` using `Core.items.builder(ItemStack)`
+- Build a new `ItemStack` using `Core.items.create(Material)`
+- Edit an existing `ItemStack` using `Core.items.edit(ItemStack)`
 - Manipulate new and existing `ItemStack`s using `ItemBuilder`
   - Set amount
   - Set name
