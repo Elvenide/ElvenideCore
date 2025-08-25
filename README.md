@@ -299,6 +299,7 @@ Build, edit, and manipulate complex `ItemStack`s with ease.
 Features:
 - Build a new `ItemStack` using `Core.items.create(Material)`
 - Edit an existing `ItemStack` using `Core.items.edit(ItemStack)`
+- Build a new `ItemStack` from a material-with-components string using `Core.items.create(String)`
 - Manipulate new and existing `ItemStack`s using `ItemBuilder`
   - Set amount
   - Set name
@@ -310,7 +311,12 @@ Features:
   - Set max stack size
   - Set owner of player head (to set its skin)
   - Set color of leather armor and leather horse armor
-  - Set 1.21+ item components
+  - Set or add enchantments
+    - Supports safe and unsafe enchantments
+  - Various helper methods to add 1.21+ item components
+    - Non-experimental API, but provides limited functionality
+  - Directly set 1.21+ item components using Paper Component API
+    - Experimental API, but provides full functionality
   - Set persistent data using a String-based or Enum-based namespaced key
   - Directly edit item meta via `ItemBuilder#meta()` for properties not covered by this builder
 - Use `Core.items.getData()` to access persistent data added to an item
