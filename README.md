@@ -195,6 +195,7 @@ Features:
 - Lang messages support custom placeholders in Java (e.g. `%s`, `%d`) or ElvenideCore (`{}`) formats
 - Several built-in lang messages in `Core.lang`, allowing you to customize various ElvenideCore messages
 - Several built-in lang messages in `Core.lang` for common plugin uses
+- Import lang messages from a config into an enum using `Core.lang.fromConfig()`
 
 ### Text Provider
 Provides a simple way to convert between Strings and MiniMessage components, and to utilize both.

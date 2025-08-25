@@ -3,6 +3,7 @@ package com.elvenide.core;
 import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
+import com.elvenide.core.providers.config.ConfigSection;
 import com.elvenide.core.providers.item.ItemProvider;
 import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangKey;
@@ -306,6 +307,29 @@ public class Core {
 
         lang(String value) {
             set(value);
+        }
+
+        /**
+         * Imports lang keys from a config into an array of LangKey enum values.
+         * @apiNote
+         * If you have an enum class that implements <code>LangKey</code> (e.g. named <code>YourEnum</code>),
+         * you can get an array of LangKey enum values using <code>YourEnum.values()</code>
+         * for use as the second argument to this method.
+         * @param langConfig The config or config section to import lang key values from
+         * @param langKeyEnums Enum values to store lang key values in
+         * @throws IllegalArgumentException If any of the provided enums do not implement LangKey
+         * @since 0.0.17
+         */
+        @PublicAPI
+        public static void fromConfig(ConfigSection langConfig, Enum<?>[] langKeyEnums) throws IllegalArgumentException {
+            for (Enum<?> enumKey : langKeyEnums) {
+                if (!(enumKey instanceof LangKey langKey))
+                    throw new IllegalArgumentException("To import lang keys from config into enums, the provided enums must implement LangKey.");
+
+                String value = langConfig.getString(enumKey.name());
+                if (value != null)
+                    langKey.set(value);
+            }
         }
     }
 }
