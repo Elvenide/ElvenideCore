@@ -24,27 +24,45 @@ public class ItemProvider extends Provider {
     }
 
     /**
-     * Returns a builder to create a new item with the given material.
-     * @param material Material
-     * @return Item builder
-     * @since 0.0.15
+     * Formerly used to create items.
+     * @deprecated Use {@link #create(Material)} instead.
      */
-    @Contract(pure = true)
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public ItemBuilder builder(@NotNull Material material) {
         return new ItemBuilder(core, material);
     }
 
     /**
-     * Returns a builder to modify an existing item.
-     * The given item will be mutated by the methods on the builder.
-     * @param item Item
+     * Formerly used to modify items.
+     * @deprecated Use {@link #edit(ItemStack)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public ItemBuilder builder(@NotNull ItemStack item) {
+        return new ItemBuilder(core, item);
+    }
+
+    /**
+     * Returns a builder to create a new item with the given material.
+     * @param material Material
      * @return Item builder
-     * @since 0.0.15
+     * @since 0.0.17
      */
     @Contract(pure = true)
     @PublicAPI
-    public ItemBuilder builder(@NotNull ItemStack item) {
+    public ItemBuilder create(@NotNull Material material) {
+        return new ItemBuilder(core, material);
+    }
+
+    /**
+     * Returns a builder to modify an existing item.
+     * The given item will be directly mutated by the methods on the builder.
+     * @param item Item
+     * @return Item builder
+     * @since 0.0.17
+     */
+    @Contract(pure = true)
+    @PublicAPI
+    public ItemBuilder edit(@NotNull ItemStack item) {
         return new ItemBuilder(core, item);
     }
 
