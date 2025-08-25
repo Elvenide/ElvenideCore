@@ -157,6 +157,9 @@ public class MenuSlot {
      */
     @PublicAPI
     public void setIcon(@Nullable ItemStack icon) {
+        if (!coreMenu.shouldUseBottomInv() && !slotManager.isTop)
+            throw new UnsupportedOperationException("This CoreMenu has shouldUseBottomInv() set to false, so it cannot set icons in the bottom inventory.");
+
         slotManager.getInv().setItem(slot, icon);
     }
 
