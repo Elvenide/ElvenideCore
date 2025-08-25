@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -127,7 +126,7 @@ public class ItemBuilder {
      * @since 0.0.15
      */
     @PublicAPI
-    public ItemBuilder lores(@NotNull ArrayList<String> lore) {
+    public ItemBuilder lores(@NotNull List<String> lore) {
         return meta(m -> m.lore(lore.stream().map(this::nonItalicWithItalicSupport).toList()));
     }
 
@@ -138,7 +137,7 @@ public class ItemBuilder {
      * @since 0.0.15
      */
     @PublicAPI
-    public ItemBuilder lores(@NotNull ArrayList<String> lore, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+    public ItemBuilder lores(@NotNull List<String> lore, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
         return meta(m -> m.lore(lore.stream().map(s -> nonItalicWithItalicSupport(s, placeholderResolver)).toList()));
     }
 
@@ -741,7 +740,7 @@ public class ItemBuilder {
 
     /**
      * Builds the item.
-     * Always returns a completely new ItemStack instance.
+     * Always returns a completely new (cloned) ItemStack instance.
      * @return Built item
      * @since 0.0.15
      */
