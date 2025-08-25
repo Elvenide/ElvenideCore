@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -164,6 +165,17 @@ public class MenuSlot {
     }
 
     /**
+     * Sets the icon of the current slot, or uses the fallback icon if the icon is null.
+     * @param icon The icon
+     * @param fallbackIcon The fallback icon
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void setIcon(@Nullable ItemStack icon, @NotNull ItemStack fallbackIcon) {
+        setIcon(Objects.requireNonNullElse(icon, fallbackIcon));
+    }
+
+    /**
      * Sets the icon of the current slot and adds a click handler.
      * @param icon The icon
      * @param clickHandler The click handler
@@ -172,6 +184,21 @@ public class MenuSlot {
     public void setIcon(@NotNull ItemStack icon, @NotNull Consumer<ClickedMenuSlot> clickHandler) {
         setIcon(icon);
         slotManager.addClickHandler(slot, clickHandler);
+    }
+
+    /**
+     * Sets the icon of the current slot and adds a click handler,
+     * or uses the fallback icon with no click handler if the icon is null.
+     * @param icon The icon
+     * @param fallbackIcon The fallback icon
+     * @param clickHandler The click handler
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public void setIcon(@Nullable ItemStack icon, @NotNull ItemStack fallbackIcon, @NotNull Consumer<ClickedMenuSlot> clickHandler) {
+        setIcon(icon, fallbackIcon);
+        if (icon != null)
+            slotManager.addClickHandler(slot, clickHandler);
     }
 
     /**
