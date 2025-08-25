@@ -368,6 +368,7 @@ Features:
 - Create feature-complete menus by extending `CoreMenu`
 - Define the menu's title and size
 - Supports both top (chest) and bottom (player) inventories in a single menu
+  - Optionally override `CoreMenu#shouldUseBottomInv()` to disable bottom inventory
 - Control both the top and bottom inventories of the menu using `CoreMenu#top` and `CoreMenu#bottom`
 - Run code when the menu is opened, closed, or refreshed
 - Methods to open, close, and refresh the menu
