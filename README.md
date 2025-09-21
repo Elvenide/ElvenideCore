@@ -21,7 +21,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>ver/0.0.17-dev-4-SNAPSHOT</version>
+    <version>dev~0.0.17-dev-4-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
