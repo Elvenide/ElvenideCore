@@ -86,14 +86,17 @@ public abstract class CoreMenu implements InventoryHolder {
      */
     @PublicAPI
     public void open(Player player) {
-        // Manually close any existing CoreMenu the player is currently viewing
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof CoreMenu)
+        // Manually close any existing CoreMenu the player is currently viewing and copy its bottom cache
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof CoreMenu otherMenu) {
+            bottomCache = otherMenu.bottomCache;
             player.closeInventory();
-
-        // Save the viewer, cache the bottom inventory, create the top inventory if needed, and open the menu
-        this.viewer = player;
-        if (bottomCache == null)
+        }
+        // Cache bottom inventory
+        else if (bottomCache == null)
             bottomCache = player.getInventory().getStorageContents();
+
+        // Save the viewer, create the top inventory if needed, and open the menu
+        this.viewer = player;
         if (inventory == null)
             this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
         player.openInventory(inventory);
