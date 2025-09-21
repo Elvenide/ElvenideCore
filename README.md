@@ -27,10 +27,13 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.16-1.21.4</version>
+    <version>ver/0.0.16-1.21.4-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
+
+> **Critical note:** I have made post-release patches for 0.0.16-1.21.4.
+> You should use the SNAPSHOT version shown above, rather than the official 0.0.16-1.21.4 release.
 
 And add the following to your pom.xml to shade ElvenideCore into your plugin jar (replacing `com.your.path` with your own package path):
 ```xml
