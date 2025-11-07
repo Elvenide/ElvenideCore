@@ -94,7 +94,7 @@ public class SubCommandContext {
      */
     @PublicAPI
     public void reply(Object message, Object... optionalPlaceholders) {
-        executor().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
+        Core.text.send(executor(), message, optionalPlaceholders);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SubCommandContext {
      */
     @PublicAPI
     public void replyToSender(Object message, Object... optionalPlaceholders) {
-        ctx.getSource().getSender().sendMessage(Core.text.deserialize(message, optionalPlaceholders));
+        Core.text.send(ctx.getSource().getSender(), message, optionalPlaceholders);
     }
 
     /**
@@ -137,7 +137,7 @@ public class SubCommandContext {
      */
     @PublicAPI
     public JavaPlugin plugin() {
-        return CommandProvider.coreInstance.plugin;
+        return Core.plugin.get();
     }
 
     /**

@@ -1,15 +1,14 @@
 package com.elvenide.core.providers.config;
 
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.plugin.CorePlugin;
 
 import java.util.List;
 
 /**
  * When registered in a CorePlugin, all configs supplied by this ConfigSupplier will automatically
- * be reloaded when the plugin is reloaded by {@link CorePlugin#reload()}.
+ * be reloaded when the plugin is reloaded by {@link ConfigProvider#reloadSuppliers() Core.config.reloadSuppliers()}.
  * <p>
- * Can be registered within a CorePlugin instance using {@link CorePlugin#registerConfigSuppliers(ConfigSupplier...)}.
+ * Can be registered within a CorePlugin instance using {@link ConfigProvider#registerSuppliers(ConfigSupplier...) Core.config.registerSuppliers()}.
  * @since 0.0.15
  */
 @PublicAPI
@@ -24,7 +23,7 @@ public interface ConfigSupplier {
 
     /**
      * Manually reloads all configs supplied by this ConfigSupplier.
-     * Should not be used in most cases, as {@link CorePlugin#reload()} calls this method automatically.
+     * Should not be used in most cases, as {@link ConfigProvider#reloadSuppliers()} calls this method automatically.
      * @since 0.0.15
      */
     default void reload() {
