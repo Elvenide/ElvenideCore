@@ -3,14 +3,20 @@ ElvenideCore is a powerful library for PaperMC plugins, primarily used in many o
 It is not a standalone plugin, and must be shaded into your own plugin.
 
 ## Versions
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16) for Paper 1.21.8 (latest)
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16-1.21.4) for Paper 1.21.4 (latest)
+
+Latest: [v0.0.17](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.17) for Paper 1.21.8 - 1.21.10
+
+<details>
+<summary>Older Versions</summary>
+
+- [v0.0.16](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16) for Paper 1.21.8
+- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16-1.21.4) for Paper 1.21.4
 - [v0.0.15](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15) for Paper 1.21.8
 - [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15-1.21.4) for Paper 1.21.4
 - [v0.0.14](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.14) for Paper 1.21.4
 - [v0.0.13](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.13) for Paper 1.21.4
-
-Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported. Outdated versions of Paper (such as 1.21.4) will eventually lose support.
+> Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
+</details>
 
 ## Installation
 
@@ -27,12 +33,15 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.16</version>
+    <version>0.0.17</version>
     <scope>compile</scope>
 </dependency>
 ```
 
 And add the following to your pom.xml to shade ElvenideCore into your plugin jar (replacing `com.your.path` with your own package path):
+<details>
+<summary>Click to Expand</summary>
+
 ```xml
 <build>
     <plugins>
@@ -68,6 +77,7 @@ And add the following to your pom.xml to shade ElvenideCore into your plugin jar
     </plugins>
 </build>
 ```
+</details>
 
 ## Documentation
 Select the version of ElvenideCore you would like to view the documentation for.
