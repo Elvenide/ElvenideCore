@@ -3,6 +3,7 @@ package com.elvenide.core.providers.item;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,27 +25,60 @@ public class ItemProvider extends Provider {
     }
 
     /**
-     * Returns a builder to create a new item with the given material.
-     * @param material Material
-     * @return Item builder
-     * @since 0.0.15
+     * Formerly used to create items.
+     * @deprecated Use {@link #create(Material)} instead.
      */
-    @Contract(pure = true)
-    @PublicAPI
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public ItemBuilder builder(@NotNull Material material) {
         return new ItemBuilder(core, material);
     }
 
     /**
-     * Returns a builder to modify an existing item.
-     * The given item will be mutated by the methods on the builder.
-     * @param item Item
+     * Formerly used to modify items.
+     * @deprecated Use {@link #edit(ItemStack)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public ItemBuilder builder(@NotNull ItemStack item) {
+        return new ItemBuilder(core, item);
+    }
+
+    /**
+     * Returns a builder to create a new item with the given material.
+     * @param material Material
      * @return Item builder
-     * @since 0.0.15
+     * @since 0.0.17
      */
     @Contract(pure = true)
     @PublicAPI
-    public ItemBuilder builder(@NotNull ItemStack item) {
+    public ItemBuilder create(@NotNull Material material) {
+        return new ItemBuilder(core, material);
+    }
+
+    /**
+     * Returns a builder to create a new item with the given item string.
+     * <p>
+     * The string should be in the item format expected by Minecraft's <code>/give</code> command (e.g. <code>diamond_sword</code>).
+     * It can be either a plain Material name or a Material name with specified 1.21+ item components.
+     * @param materialWithOptionalComponents Material with optional components
+     * @return Item builder
+     * @since 0.0.17
+     */
+    @Contract(pure = true)
+    @PublicAPI
+    public ItemBuilder create(@NotNull String materialWithOptionalComponents) {
+        return edit(Bukkit.getItemFactory().createItemStack(materialWithOptionalComponents));
+    }
+
+    /**
+     * Returns a builder to modify an existing item.
+     * The given item will be directly mutated by the methods on the builder.
+     * @param item Item
+     * @return Item builder
+     * @since 0.0.17
+     */
+    @Contract(pure = true)
+    @PublicAPI
+    public ItemBuilder edit(@NotNull ItemStack item) {
         return new ItemBuilder(core, item);
     }
 

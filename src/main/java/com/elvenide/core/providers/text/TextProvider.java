@@ -3,7 +3,7 @@ package com.elvenide.core.providers.text;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.lang.LangProvider;
+import com.elvenide.core.providers.lang.LangKey;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -14,15 +14,15 @@ import net.kyori.adventure.text.minimessage.tag.TagPattern;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
-import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -90,7 +90,6 @@ public class TextProvider extends Provider {
         miniMessage = MiniMessage.builder()
                 .editTags(builder ->
                     builder.resolver(StandardTags.defaults())
-                        .tag("elang", TextProvider::createElangTag)
                         .tag("egradient", TextProvider::createEgradientTag)
                         .tag("escape", TextProvider::createEscapeTag)
                         .tag("eshadow", TextProvider::createEshadowTag)
@@ -164,19 +163,6 @@ public class TextProvider extends Provider {
         ));
     }
 
-    /// @since 0.0.3
-    private static Tag createElangTag(final ArgumentQueue args, final Context ignored) {
-        final @Subst("key") String key = args.popOr("The <elang> tag requires at least one argument, the key to replace with a lang value.").value();
-        final String value = Core.lang.get(key);
-
-        ArrayList<String> placeholders = new ArrayList<>();
-        while (args.hasNext()) {
-            placeholders.add(args.pop().value());
-        }
-
-        return Tag.preProcessParsed(TextProvider.preParsing(value, placeholders.toArray(String[]::new)));
-    }
-
     /// @since 0.0.11
     private static Tag createEgradientTag(final ArgumentQueue args, final Context ignored) {
         final String first = args.popOr("The <egradient> tag requires at least two color arguments; none were provided.").value();
@@ -223,6 +209,21 @@ public class TextProvider extends Provider {
     }
 
     /**
+     * Converts any object to a string.
+     * <p>
+     * If the object is a {@link LangKey}, it will return the key's value.<br/>
+     * Otherwise, it will return the object's toString() value or "null".<br/>
+     * @param rawText The object to convert
+     * @return The string representation of the object
+     * @since 0.0.17
+     */
+    public final @NotNull String valueOf(@Nullable Object rawText) {
+        if (rawText instanceof LangKey key)
+            return key.get();
+        return String.valueOf(rawText);
+    }
+
+    /**
      * Formats text with any number of placeholders.<br/>
      * Supports all Java format placeholders (e.g. %s, %d).<br/>
      * Supports custom placeholders (e.g. {}).
@@ -238,8 +239,8 @@ public class TextProvider extends Provider {
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String format(Object rawText, Object... placeholders) {
-        String text = String.valueOf(rawText);
+    public final @NotNull String format(@Nullable Object rawText, @Nullable Object... placeholders) {
+        String text = valueOf(rawText);
 
         // Return text if there are no placeholders
         if (placeholders.length == 0)
@@ -275,7 +276,7 @@ public class TextProvider extends Provider {
             else if (placeholders[i] instanceof Character)
                 formatLetter = 'c';
             else if (!(placeholders[i] instanceof String))
-                placeholders[i] = String.valueOf(placeholders[i]);
+                placeholders[i] = valueOf(placeholders[i]);
 
             output[matcher.start()] = '%';
             output[matcher.start() + 1] = formatLetter;
@@ -283,7 +284,39 @@ public class TextProvider extends Provider {
         }
 
         // Format text using java placeholder system
-        return String.valueOf(output).formatted(placeholders);
+        return valueOf(output).formatted(placeholders);
+    }
+
+    /**
+     * @deprecated Use {@link #toString(Component)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull String serialize(Component component) {
+        return toString(component);
+    }
+
+    /**
+     * @deprecated Use {@link #toPlainString(Component)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull String serializeWithoutEscaping(Component component) {
+        return toPlainString(component);
+    }
+
+    /**
+     * @deprecated Use {@link #from(Object, Object...)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
+        return from(text, optionalPlaceholders);
+    }
+
+    /**
+     * @deprecated Use {@link #from(Object, Player, BiFunction)} instead.
+     */
+    @Deprecated(since = "0.0.17", forRemoval = true)
+    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        return from(text, player, placeholderResolver);
     }
 
     /**
@@ -292,7 +325,6 @@ public class TextProvider extends Provider {
      * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
-     *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
@@ -300,24 +332,56 @@ public class TextProvider extends Provider {
      * </ul>
      * @param component The component
      * @return Serialized text
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String serialize(Component component) {
+    public final @NotNull String toString(@NotNull Component component) {
         return resolver().serialize(component);
     }
 
     /**
-     * Serializes a MiniMessage Component to a String in MiniMessage format.
-     * Does not escape any tags present within the component.
+     * Serializes a MiniMessage Component to a plain text String without component tags.
      * @param component The component
      * @return Serialized text
-     * @since 0.0.15
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull String serializeWithoutEscaping(Component component) {
+    public final @NotNull String toPlainString(@NotNull Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
+    }
+
+    /**
+     * Serializes a MiniMessage Component to a legacy text String (with <code>§</code> codes).
+     * @param component The component
+     * @return Serialized text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String toLegacyString(@NotNull Component component) {
+        return LegacyComponentSerializer.legacySection().serialize(component);
+    }
+
+    /**
+     * Converts a string to title case.
+     * <p>
+     * Example: <code>hello world</code> -> <code>Hello World</code>
+     * @param text The string
+     * @return The title-cased string
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String toTitleCase(@NotNull String text) {
+        if (text.isEmpty())
+            return text;
+
+        if (text.length() == 1)
+            return text.toUpperCase();
+
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 
     /**
@@ -325,7 +389,6 @@ public class TextProvider extends Provider {
      * <p>
      * Supports custom ElvenideCore tags:
      * <ul>
-     *     <li><code>&lt;elang:{key}&gt;</code> tags provided by the {@link LangProvider}</li>
      *     <li>Custom color tags created by you with {@link #addColorTag(String, String)}</li>
      *     <li><code>&lt;egradient:{color1}:{color2...}:[phase]&gt;</code> tags that support your custom colors</li>
      *     <li><code>&lt;escape:'{text}'&gt;</code> tags that escape any MiniMessage tags in them</li>
@@ -334,13 +397,14 @@ public class TextProvider extends Provider {
      * @param text The String text
      * @param optionalPlaceholders Optional placeholders
      * @return Deserialized MiniMessage component
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
+    public final @NotNull Component from(@Nullable Object text, @Nullable Object... optionalPlaceholders) {
         return resolver().deserialize(
-                preParsing(String.valueOf(text), optionalPlaceholders),
-                customColorResolver.build()
+            preParsing(valueOf(text), optionalPlaceholders),
+            customColorResolver.build()
         );
     }
 
@@ -349,24 +413,36 @@ public class TextProvider extends Provider {
      * <p>
      * Example:
      * <code>
-     *     deserialize("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
+     *     from("Hi %player_name%", player, PlaceholderAPI::setPlaceholders);
      * </code>
      * @param text The String text
      * @param player The optional player
      * @param placeholderResolver The placeholder resolver
      * @return Deserialized MiniMessage component
-     * @see #deserialize(Object, Object...)
-     * @since 0.0.15
+     * @see #from(Object, Object...)
+     * @since 0.0.17
      */
     @PublicAPI
     @Contract(pure = true)
-    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        text = placeholderResolver.apply(player, String.valueOf(text));
-        return deserialize(text);
+    public final @NotNull Component from(@Nullable Object text, @Nullable Player player, @NotNull BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        text = placeholderResolver.apply(player, valueOf(text));
+        return from(text);
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player, group,
+     * Strips all valid MiniMessage/ElvenideCore tags from a String.
+     * @param text The String text
+     * @return Plain text without component tags
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public final @NotNull String stripTags(@NotNull String text) {
+        return resolver().stripTags(text);
+    }
+
+    /**
+     * Convenience method to send a message using {@link #from(Object, Object...)} to a player, group,
      * console, or the entire server.
      * @param audience The audience (e.g. player)
      * @param text String text
@@ -374,12 +450,12 @@ public class TextProvider extends Provider {
      * @since 0.0.15
      */
     @PublicAPI
-    public final void send(Audience audience, Object text, Object... optionalPlaceholders) {
-        audience.sendMessage(deserialize(text, optionalPlaceholders));
+    public final void send(@NotNull Audience audience, @Nullable Object text, @Nullable Object... optionalPlaceholders) {
+        audience.sendMessage(from(text, optionalPlaceholders));
     }
 
     /**
-     * Convenience method to send a message using {@link #deserialize(Object, Object...)} to a player
+     * Convenience method to send a message using {@link #from(Object, Object...)} to a player
      * with support for a third-party placeholder plugin.
      * @param player The player
      * @param text String text
@@ -387,12 +463,62 @@ public class TextProvider extends Provider {
      * @since 0.0.15
      */
     @PublicAPI
-    public final void send(Player player, Object text, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        player.sendMessage(deserialize(text, player, placeholderResolver));
+    public final void send(@NotNull Player player, @Nullable Object text, @NotNull BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
+        player.sendMessage(from(text, player, placeholderResolver));
     }
 
     /**
-     * Adds a custom color tag parseable by {@link #deserialize(Object, Object...)}.
+     * Convenience method to send a title using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param title Title text
+     * @param subtitle Subtitle text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendTitle(@NotNull Audience audience, @NotNull Object title, @NotNull Object subtitle) {
+        audience.showTitle(Title.title(
+            from(title),
+            from(subtitle)
+        ));
+    }
+
+    /**
+     * Convenience method to send a title using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param title Title text
+     * @param subtitle Subtitle text
+     * @param fadeInTicks Tick duration to fade title in
+     * @param stayTicks Tick duration to show title
+     * @param fadeOutTicks Tick duration to fade title out
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendTitle(@NotNull Audience audience, @NotNull Object title, @NotNull Object subtitle, int fadeInTicks, int stayTicks, int fadeOutTicks) {
+        audience.showTitle(Title.title(
+            from(title),
+            from(subtitle),
+            fadeInTicks,
+            stayTicks,
+            fadeOutTicks
+        ));
+    }
+
+    /**
+     * Convenience method to send an action bar using {@link #from(Object, Object...)} to a player, group,
+     * or the entire server.
+     * @param audience The audience (e.g. player)
+     * @param text String text
+     * @since 0.0.17
+     */
+    @PublicAPI
+    public final void sendActionBar(@NotNull Audience audience, @NotNull Object text) {
+        audience.sendActionBar(from(text));
+    }
+
+    /**
+     * Adds a custom color tag parseable by {@link #from(Object, Object...)}.
      * <p>
      * For example:<br/>
      * <code>addColorTag("bright_red", "#ff0000")</code> will add
@@ -401,7 +527,7 @@ public class TextProvider extends Provider {
      * @param color The color of the tag
      */
     @PublicAPI
-    public final void addColorTag(@TagPattern String name, String color) {
+    public final void addColorTag(@NotNull @TagPattern String name, @NotNull String color) {
         customColorResolver.resolver(createCustomColorResolver(name, color));
     }
 

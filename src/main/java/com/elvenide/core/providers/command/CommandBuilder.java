@@ -143,12 +143,12 @@ public class CommandBuilder {
     @SuppressWarnings("SameReturnValue")
     private int validatedExecutor(NodeWrapper commandWrapper, SubCommandContext ctx) {
         if (ctx.subCommandData.playerOnly && !ctx.isPlayer()) {
-            ctx.reply(Core.lang.common.NOT_PLAYER);
+            ctx.reply(Core.lang.NOT_PLAYER);
             return Command.SINGLE_SUCCESS;
         }
 
         if (ctx.subCommandData.permission != null && !ctx.hasPermission(ctx.subCommandData.permission)) {
-            ctx.reply(Core.lang.common.NO_PERMISSION);
+            ctx.reply(Core.lang.NO_PERMISSION);
             return Command.SINGLE_SUCCESS;
         }
 
@@ -158,8 +158,8 @@ public class CommandBuilder {
         catch (InvalidArgumentException e) {
             ctx.ctx.getSource().getSender()
                 .sendMessage(
-                    Core.text.deserialize("<red>{}", e.getMessage())
-                        .hoverEvent(HoverEvent.showText(Core.text.deserialize(commandWrapper.generateUsage(ctx.executor()))))
+                    Core.text.from("<red>{}", e.getMessage())
+                        .hoverEvent(HoverEvent.showText(Core.text.from(commandWrapper.generateUsage(ctx.executor()))))
                 );
         }
 
@@ -176,7 +176,7 @@ public class CommandBuilder {
 
         // Send command header
         ctx.reply(" ");
-        ctx.reply(Core.lang.common.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
+        ctx.reply(Core.lang.COMMAND_HEADER, ctx.plugin().getPluginMeta().getName());
 
         // Send description
         if (wrapper.isSubCommand()) {
@@ -220,7 +220,7 @@ public class CommandBuilder {
                         .stream()
                         .filter(entry -> entry.toLowerCase().startsWith(builder.getRemainingLowerCase()))
                         .forEach(entry -> builder.suggest(entry, MessageComponentSerializer.message().serialize(
-                                Core.text.deserialize("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
+                                Core.text.from("<aqua>\\" + openBracket + arg.label + closeBracket + "</aqua>")
                         )));
                 return builder.buildFuture();
             });

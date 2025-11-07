@@ -60,6 +60,21 @@ public abstract class CoreMenu implements InventoryHolder {
     protected abstract int getRows();
 
     /**
+     * Whether to use the player's inventory (the bottom inventory) in the menu.
+     * @return True to clear inventory, false to keep inventory
+     * @apiNote
+     * <b>If true</b>, the player's inventory will be saved and cleared on menu open, and restored on menu close.
+     * <br/>
+     * <b>If false</b>, setting icons in the bottom inventory will no longer work.
+     * @since 0.0.17
+     */
+    @SuppressWarnings("SameReturnValue")
+    @ApiStatus.OverrideOnly
+    protected boolean shouldUseBottomInv() {
+        return true;
+    }
+
+    /**
      * Called when the menu is opened or refreshed.
      */
     @ApiStatus.OverrideOnly
@@ -74,6 +89,9 @@ public abstract class CoreMenu implements InventoryHolder {
 
     @ApiStatus.Internal
     void restoreBottomInv() {
+        if (!shouldUseBottomInv())
+            return;
+
         // Restore the bottom inventory cached contents
         viewer.getInventory().setStorageContents(new ItemStack[0]);
         if (bottomCache == null) return;
@@ -86,16 +104,19 @@ public abstract class CoreMenu implements InventoryHolder {
      */
     @PublicAPI
     public void open(Player player) {
-        // Manually close any existing CoreMenu the player is currently viewing
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof CoreMenu)
+        // Manually close any existing CoreMenu the player is currently viewing and copy its bottom cache
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof CoreMenu otherMenu) {
+            bottomCache = otherMenu.bottomCache;
             player.closeInventory();
-
-        // Save the viewer, cache the bottom inventory, create the top inventory if needed, and open the menu
-        this.viewer = player;
-        if (bottomCache == null)
+        }
+        // Cache bottom inventory
+        else if (bottomCache == null)
             bottomCache = player.getInventory().getStorageContents();
+
+        // Save the viewer, create the top inventory if needed, and open the menu
+        this.viewer = player;
         if (inventory == null)
-            this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.deserialize(getTitle(), viewer.getName()));
+            this.inventory = Bukkit.createInventory(this, 9 * getRows(), Core.text.from(getTitle(), viewer.getName()));
         player.openInventory(inventory);
         refresh();
         new CoreMenuListener(this);
@@ -108,7 +129,8 @@ public abstract class CoreMenu implements InventoryHolder {
     public void refresh() {
         // Clear the inventories
         inventory.clear();
-        viewer.getInventory().setStorageContents(new ItemStack[0]);
+        if (shouldUseBottomInv())
+            viewer.getInventory().setStorageContents(new ItemStack[0]);
         top.populatedItems.clear();
         bottom.populatedItems.clear();
         top.maxPopulatedIconsPerPage.set(0);

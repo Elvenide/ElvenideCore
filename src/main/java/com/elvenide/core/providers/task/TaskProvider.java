@@ -2,10 +2,14 @@ package com.elvenide.core.providers.task;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
+import com.elvenide.core.providers.plugin.PluginProvider;
 import com.elvenide.core.api.PublicAPI;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 /**
  * This class should not be directly referenced by any plugin.
@@ -19,11 +23,30 @@ public class TaskProvider extends Provider {
 
     /**
      * Returns a builder to create a new scheduled task.
+     * @deprecated All tasks must have at least one executable action.
+     *             Use {@link #create(Consumer)} instead
      * @return Task builder
      */
     @PublicAPI
     @Contract(pure = true)
+    @Deprecated(since = "0.0.17", forRemoval = true)
     public Task builder() {
-        return new Task(core);
+        ensureInitialized();
+        return new Task();
+    }
+
+    /**
+     * Creates a new scheduled task builder with the given executable action.
+     * <p>
+     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
+     * @param consumer Consumer
+     * @return Task
+     * @since 0.0.17
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    public Task create(Consumer<Task> consumer) {
+        ensureInitialized();
+        return new Task().then(consumer);
     }
 }

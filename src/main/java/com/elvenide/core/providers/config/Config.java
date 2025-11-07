@@ -1,5 +1,6 @@
 package com.elvenide.core.providers.config;
 
+import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import com.google.common.base.Charsets;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -20,30 +21,21 @@ import java.util.Objects;
 
 public class Config extends YamlConfiguration implements ConfigSection {
 
-    private final ConfigProvider system;
     private final File file;
     private final @Nullable String resourcePath;
 
-    Config(@Nullable ConfigProvider system, File file) {
+    Config(File file) {
         super();
 
-        if (system == null)
-            throw new IllegalArgumentException("ConfigSystem cannot be null");
-
-        this.system = system;
         this.file = file;
         this.resourcePath = null;
 
         reload();
     }
 
-    Config(@Nullable ConfigProvider system, File file, @NotNull String resource) {
+    Config(File file, @NotNull String resource) {
         super();
 
-        if (system == null)
-            throw new IllegalArgumentException("ConfigSystem cannot be null");
-
-        this.system = system;
         this.file = file;
         this.resourcePath = resource;
 
@@ -56,7 +48,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
      */
     @PublicAPI
     public void reload() {
-        InputStream resource = resourcePath != null ? system.plugin().getResource(resourcePath) : null;
+        InputStream resource = resourcePath != null ? Core.plugin.get().getResource(resourcePath) : null;
         if (resourcePath != null && resource == null)
             throw new RuntimeException("Failed to load resource: " + resourcePath);
 
