@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * Can annotate methods, constructors, fields, classes, interfaces, enums, records, record components, and other annotations.
  * <p>
  * In an ouroboros fashion, since this annotation is itself public API, it annotates itself with <code>@PublicAPI</code>.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  */
 @PublicAPI
 @Documented

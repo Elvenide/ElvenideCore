@@ -11,7 +11,7 @@ import com.elvenide.core.api.PublicAPI;
  *     <li>Allows use of <code>record</code> classes to further reduce verbosity</li>
  *     <li>Follows familiar, Bukkit-like format</li>
  * </ul>
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 @PublicAPI

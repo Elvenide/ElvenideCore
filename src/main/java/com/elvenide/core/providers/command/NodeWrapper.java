@@ -16,7 +16,7 @@ import java.util.List;
  * <p>
  * Mostly used internally for command tree management and command usage generation.
  * @since 0.0.15
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  */
 public class NodeWrapper {
 

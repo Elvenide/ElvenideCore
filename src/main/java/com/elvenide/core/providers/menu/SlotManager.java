@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  * Use {@link #slot(int)} to access a specific slot and, for example, add an item at that slot.
  * Or use the various <code>populate</code> methods to add groups of items to the menu (with pagination support).
  * Or use the various <code>assign</code> methods to add a single item to several slots (without pagination).
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 public class SlotManager {

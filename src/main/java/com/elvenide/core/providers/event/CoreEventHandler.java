@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * Annotates {@link CoreEvent} handler methods within a {@link CoreListener}.
  * <p>
  * Similar to Bukkit's {@link org.bukkit.event.EventHandler @EventHandler}.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 @PublicAPI

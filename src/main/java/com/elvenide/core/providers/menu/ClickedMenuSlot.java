@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Contract;
 
 /**
  * Represents a slot in a CoreMenu that has been clicked.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 public class ClickedMenuSlot extends MenuSlot {

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * Create a subclass of {@link CoreMenu} and implement {@link #onDisplay()}.
  * Use the {@link #top} and {@link #bottom} fields to access the respective inventories of the menu.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 public abstract class CoreMenu implements InventoryHolder {

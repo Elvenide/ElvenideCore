@@ -16,7 +16,7 @@ import java.util.HashMap;
  *     <li>Setting a static field to the result of the {@link #of(String) LangKey.of(String)} method</li>
  * </ul>
  * @since 0.0.17
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  */
 public interface LangKey {
     /**
