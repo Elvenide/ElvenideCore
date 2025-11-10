@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Contract;
 
 /**
  * Represents the result of a {@link CoreEvent} call.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 @PublicAPI

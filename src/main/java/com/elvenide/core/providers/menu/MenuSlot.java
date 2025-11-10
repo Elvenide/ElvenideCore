@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 /**
  * Represents a slot in a CoreMenu, with useful helper utilities.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 public class MenuSlot {

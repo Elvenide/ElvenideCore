@@ -16,7 +16,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 /**
  * ElvenideCore is a powerful library containing numerous features useful in nearly every plugin.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  */
 @PublicAPI
 @ApiStatus.NonExtendable

@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 /**
  * Represents a map with chainable methods in ElvenideCore.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.17
  */
 @PublicAPI
