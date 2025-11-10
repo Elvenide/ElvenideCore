@@ -356,15 +356,6 @@ public class SlotManager {
     }
 
     /**
-     * Deprecated to separate naming of pagination-supported methods (populate methods) from single-item methods (assign methods).
-     * @deprecated Use {@link #assignBorder(int, int, int, int, ItemStack)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public void populateBorder(int col1, int row1, int col2, int row2, @Nullable ItemStack icon) {
-        assignBorder(col1, row1, col2, row2, icon);
-    }
-
-    /**
      * Assigns the provided icon to the specified rectangular region's outer border slots.
      * @param col1 First column, inclusive and zero-indexed (i.e. smallest x coordinate, where leftmost x is 0)
      * @param row1 First row, inclusive and zero-indexed (i.e. smallest y coordinate, where topmost y is 0)

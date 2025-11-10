@@ -288,38 +288,6 @@ public class TextProvider extends Provider {
     }
 
     /**
-     * @deprecated Use {@link #toString(Component)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull String serialize(Component component) {
-        return toString(component);
-    }
-
-    /**
-     * @deprecated Use {@link #toPlainString(Component)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull String serializeWithoutEscaping(Component component) {
-        return toPlainString(component);
-    }
-
-    /**
-     * @deprecated Use {@link #from(Object, Object...)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
-        return from(text, optionalPlaceholders);
-    }
-
-    /**
-     * @deprecated Use {@link #from(Object, Player, BiFunction)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        return from(text, player, placeholderResolver);
-    }
-
-    /**
      * Serializes a MiniMessage Component to a String in MiniMessage format.
      * Automatically escapes any tags present within the component.
      * <p>

@@ -22,20 +22,6 @@ public class TaskProvider extends Provider {
     }
 
     /**
-     * Returns a builder to create a new scheduled task.
-     * @deprecated All tasks must have at least one executable action.
-     *             Use {@link #create(Consumer)} instead
-     * @return Task builder
-     */
-    @PublicAPI
-    @Contract(pure = true)
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public Task builder() {
-        ensureInitialized();
-        return new Task();
-    }
-
-    /**
      * Creates a new scheduled task builder with the given executable action.
      * <p>
      * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>

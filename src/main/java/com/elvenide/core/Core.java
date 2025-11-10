@@ -12,9 +12,6 @@ import com.elvenide.core.providers.perm.PermProvider;
 import com.elvenide.core.providers.plugin.PluginProvider;
 import com.elvenide.core.providers.task.TaskProvider;
 import com.elvenide.core.providers.text.TextProvider;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -35,14 +32,6 @@ public class Core {
         if (counter > 0)
             throw new IllegalStateException("ElvenideCore is already initialized");
         counter++;
-    }
-
-    /**
-     * @deprecated Use {@link PluginProvider#set(JavaPlugin) Core.plugin.set()} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public static void setPlugin(JavaPlugin plugin) {
-        Core.plugin.set(plugin);
     }
 
     /**
@@ -107,23 +96,6 @@ public class Core {
      */
     @PublicAPI
     public static final PluginProvider plugin = new PluginProvider(INSTANCE);
-
-    /**
-     * @deprecated Use {@link PluginProvider#registerListeners(Listener...) Core.plugin.registerListeners()} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public static void registerListener(Listener listener) {
-        Core.plugin.registerListeners(listener);
-    }
-
-    /**
-     * @deprecated Compare the plugin with {@link PluginProvider#get() Core.plugin.get()} instead.
-     *             For example: <code>Core.plugin.get() == somePlugin</code>
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public static boolean isYourPlugin(Plugin plugin) {
-        return Core.plugin.get() == plugin;
-    }
 
     /**
      * Built-in language keys to customize and configure plugin messaging.
