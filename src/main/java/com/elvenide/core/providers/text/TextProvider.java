@@ -154,13 +154,22 @@ public class TextProvider extends Provider {
 
     /// @since 0.0.2
     private static TagResolver createCustomColorResolver(@TagPattern String name, String color) {
-        if (customColorTags.containsKey(name))
+        if (customColorTags.containsKey(name) || customTextTags.containsKey(name))
             throw new IllegalArgumentException("Tag name already in use: " + name);
 
         customColorTags.put(name, color);
         return TagResolver.resolver(name, Tag.styling(
                 Objects.requireNonNull(TextColor.fromHexString(color))
         ));
+    }
+
+    /// @since 0.0.18
+    private static TagResolver createCustomTextResolver(@TagPattern String name, String text) {
+        if (customColorTags.containsKey(name) || customTextTags.containsKey(name))
+            throw new IllegalArgumentException("Tag name already in use: " + name);
+
+        customTextTags.put(name, text);
+        return TagResolver.resolver(name, Tag.preProcessParsed(text));
     }
 
     /// @since 0.0.11
@@ -488,15 +497,34 @@ public class TextProvider extends Provider {
     /**
      * Adds a custom color tag parseable by {@link #from(Object, Object...)}.
      * <p>
-     * For example:<br/>
-     * <code>addColorTag("bright_red", "#ff0000")</code> will add
-     * <code>&lt;bright_red&gt;</code>
+     * Example:<br/>
+     * <code>addColorTag("bright_red", "#ff0000")</code><br/>
+     * will add <code>&lt;bright_red&gt;</code>
      * @param name The name of the tag, in a valid MiniMessage tag name pattern
      * @param color The color of the tag
      */
     @PublicAPI
     public final void addColorTag(@NotNull @TagPattern String name, @NotNull String color) {
         customResolver.resolver(createCustomColorResolver(name, color));
+    }
+
+    /**
+     * Adds a custom text tag parseable by {@link #from(Object, Object...)}.
+     * <p>
+     * Example:<br/>
+     * <code>addTextTag("name", "John Doe")</code><br/>
+     * will add <code>&lt;name&gt;</code> that evaluates to "John Doe".
+     * @param name The name of the tag, in a valid MiniMessage tag name pattern
+     * @param text The text value of the tag
+     * @since 0.0.18
+     * @apiNote
+     * Text values are added as pre-parsed content, so they can contain MiniMessage tags
+     * and other ElvenideCore custom tags. To avoid infinite recursion, avoid
+     * referencing a text tag in its own text.
+     */
+    @PublicAPI
+    public final void addTextTag(@NotNull @TagPattern String name, @NotNull String text) {
+        customResolver.resolver(createCustomTextResolver(name, text));
     }
 
 }
