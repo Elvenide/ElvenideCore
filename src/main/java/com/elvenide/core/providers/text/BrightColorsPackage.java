@@ -1,16 +1,13 @@
 package com.elvenide.core.providers.text;
 
-import org.jetbrains.annotations.ApiStatus;
+import com.elvenide.core.providers.map.CoreMap;
 
-class BrightColorsPackage implements TextPackageSupplier {
-
-    @ApiStatus.Internal
+final class BrightColorsPackage implements TextPackageSupplier {
     @Override
-    public void build(TextProvider textProvider) {
-        textProvider.addColorTag("bright_red", "#ff0000");
-        textProvider.addColorTag("bright_blue", "#0000ff");
-        textProvider.addColorTag("bright_pink", "#ff00ff");
-        textProvider.addColorTag("bright_yellow", "#ffff00");
+    public CoreMap<String, String> getColorTags() {
+        return CoreMap.of("bright_red", "#ff0000")
+            .add("bright_blue", "#0000ff")
+            .add("bright_pink", "#ff00ff")
+            .add("bright_yellow", "#ffff00");
     }
-
 }
