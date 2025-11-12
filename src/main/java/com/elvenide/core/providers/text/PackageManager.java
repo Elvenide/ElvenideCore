@@ -8,10 +8,10 @@ import org.jetbrains.annotations.ApiStatus;
  * This class should not directly be referenced by your code.
  * Use {@link TextProvider#packages Core.text.packages} instead.
  */
-public class BuiltinTextPackages {
+public class PackageManager {
 
     @ApiStatus.Internal
-    BuiltinTextPackages() {}
+    PackageManager() {}
 
     /**
      * Introduces brighter variants of existing colors, including:
@@ -73,8 +73,10 @@ public class BuiltinTextPackages {
      */
     @PublicAPI
     public void install(TextPackageSupplier... textPackages) {
-        for (TextPackageSupplier textPackage : textPackages)
+        for (TextPackageSupplier textPackage : textPackages) {
             textPackage.getColorTags().forEach(Core.text::addColorTag);
+            textPackage.getTextTags().forEach(Core.text::addTextTag);
+        }
     }
 
     /**

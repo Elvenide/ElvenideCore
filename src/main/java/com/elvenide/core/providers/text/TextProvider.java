@@ -48,7 +48,7 @@ public class TextProvider extends Provider {
     private static boolean autoConvertShadowToEshadow = true;
 
     /// A set of built-in text packages that add additional custom tags to MiniMessage
-    public final BuiltinTextPackages packages = new BuiltinTextPackages();
+    public final PackageManager packages = new PackageManager();
 
     @ApiStatus.Internal
     public TextProvider(@Nullable Core core) {
@@ -168,6 +168,7 @@ public class TextProvider extends Provider {
         if (customColorTags.containsKey(name) || customTextTags.containsKey(name))
             throw new IllegalArgumentException("Tag name already in use: " + name);
 
+        text = preParsing(text, new Object[0]);
         customTextTags.put(name, text);
         return TagResolver.resolver(name, Tag.preProcessParsed(text));
     }
