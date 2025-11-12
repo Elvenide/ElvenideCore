@@ -133,6 +133,20 @@ public class CoreMap<K, V> extends LinkedHashMap<K, V> {
     }
 
     /**
+     * Creates a new, implicitly type-safe CoreMap with the provided key and value as the first entry.
+     * @param key The key
+     * @param value The value
+     * @return The map
+     * @param <K> Key datatype
+     * @param <V> Value datatype
+     */
+    @PublicAPI
+    public static <K, V> CoreMap<K, V> of(K key, V value) {
+        return new CoreMap<K, V>()
+            .add(key, value);
+    }
+
+    /**
      * Adds an entry to the end of the map, or updates an existing entry at its current position.
      * @param map The map of keys and values
      * @return The map

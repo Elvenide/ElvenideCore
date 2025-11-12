@@ -2,6 +2,7 @@ package com.elvenide.core.providers.text;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
+import com.elvenide.core.providers.map.CoreMap;
 
 /**
  * When installed, supplies a bundle of custom ElvenideCore tags to {@link Core#text}.
@@ -10,19 +11,9 @@ import com.elvenide.core.api.PublicAPI;
 public interface TextPackageSupplier {
 
     /**
-     * Used internally to create the package.
-     * To install an existing package, use {@link #install()} instead.
-     * @param textProvider The text provider
-     * @see #install()
+     * Used internally to get a set of custom color MiniMessage tags to register in ElvenideCore.
+     * @return Map of tag names (without < and >) to their corresponding hex colors
      */
-    void build(TextProvider textProvider);
-
-    /**
-     * Installs the current package to {@link Core#text}.
-     */
-    @PublicAPI
-    default void install() {
-        build(Core.text);
-    }
+    CoreMap<String, String> getColorTags();
 
 }
