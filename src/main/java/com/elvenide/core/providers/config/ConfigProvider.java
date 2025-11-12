@@ -5,6 +5,7 @@ import com.elvenide.core.Provider;
 import com.elvenide.core.api.PublicAPI;
 import com.elvenide.core.providers.event.builtin.CoreReloadEvent;
 import com.elvenide.core.providers.plugin.PluginProvider;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class should not be directly referenced by any plugin.
@@ -131,5 +133,23 @@ public class ConfigProvider extends Provider {
         CoreReloadEvent event = new CoreReloadEvent();
         event.callEvent(); // Emit Bukkit event
         event.callCoreEvent(); // Emit ElvenideCore event
+    }
+
+    /**
+     * Creates a config section that is not part of any config file.
+     * The orphaned section's parent is always <code>null</code> and its root cannot be saved or reloaded.
+     * @param entries Key paths mapped to their values
+     * @return ConfigSection
+     * @apiNote
+     * For nested sections in the entries, use dot notation keys instead of a single entry for the nested section.
+     * For example, instead of mapping "section_a" to a ConfigSection containing "key" with value 1,
+     * use "section_a.key" mapped to value 1.
+     */
+    @PublicAPI
+    public ConfigSection createOrphanedSection(Map<String, ?> entries) {
+        MemoryConfiguration section = new MemoryConfiguration();
+        for (String key : entries.keySet())
+            section.set(key, entries.get(key));
+        return new ConfigSectionImpl(section, null, new OrphanedConfigImpl());
     }
 }
