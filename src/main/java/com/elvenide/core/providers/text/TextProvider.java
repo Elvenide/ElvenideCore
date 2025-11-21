@@ -35,8 +35,9 @@ import java.util.regex.Pattern;
  */
 public class TextProvider extends Provider {
     private static MiniMessage miniMessage;
-    private static final TagResolver.Builder customColorResolver = TagResolver.builder();
-    private static final HashMap<String, String> customColors = new HashMap<>();
+    private static final TagResolver.Builder customResolver = TagResolver.builder();
+    private static final HashMap<String, String> customColorTags = new HashMap<>();
+    private static final HashMap<String, String> customTextTags = new HashMap<>();
 
     /// Flag that handles whether &lt;gradient&gt; tags should be auto-converted to &lt;egradient&gt;
     @PublicAPI
@@ -47,8 +48,7 @@ public class TextProvider extends Provider {
     private static boolean autoConvertShadowToEshadow = true;
 
     /// A set of built-in text packages that add additional custom tags to MiniMessage
-    @PublicAPI
-    public final CommonTextPackages packages = new CommonTextPackages();
+    public final PackageManager packages = new PackageManager();
 
     @ApiStatus.Internal
     public TextProvider(@Nullable Core core) {
@@ -154,13 +154,23 @@ public class TextProvider extends Provider {
 
     /// @since 0.0.2
     private static TagResolver createCustomColorResolver(@TagPattern String name, String color) {
-        if (customColors.containsKey(name))
+        if (customColorTags.containsKey(name) || customTextTags.containsKey(name))
             throw new IllegalArgumentException("Tag name already in use: " + name);
 
-        customColors.put(name, color);
+        customColorTags.put(name, color);
         return TagResolver.resolver(name, Tag.styling(
                 Objects.requireNonNull(TextColor.fromHexString(color))
         ));
+    }
+
+    /// @since 0.0.18
+    private static TagResolver createCustomTextResolver(@TagPattern String name, String text) {
+        if (customColorTags.containsKey(name) || customTextTags.containsKey(name))
+            throw new IllegalArgumentException("Tag name already in use: " + name);
+
+        text = preParsing(text, new Object[0]);
+        customTextTags.put(name, text);
+        return TagResolver.resolver(name, Tag.preProcessParsed(text));
     }
 
     /// @since 0.0.11
@@ -169,12 +179,12 @@ public class TextProvider extends Provider {
         final String second = args.popOr("The <egradient> tag requires at least two color arguments; only one was provided.").value();
 
         StringBuilder value = new StringBuilder("<gradient:")
-            .append(customColors.getOrDefault(first, first)).append(":")
-            .append(customColors.getOrDefault(second, second));
+            .append(customColorTags.getOrDefault(first, first)).append(":")
+            .append(customColorTags.getOrDefault(second, second));
 
         while (args.hasNext()) {
             String arg = args.pop().value();
-            value.append(":").append(customColors.getOrDefault(arg, arg));
+            value.append(":").append(customColorTags.getOrDefault(arg, arg));
         }
         value.append(">");
 
@@ -183,7 +193,7 @@ public class TextProvider extends Provider {
 
     /// @since 0.0.12
     private static Tag createEscapeTag(final ArgumentQueue args, final Context ignored) {
-        StringBuilder value = new StringBuilder(args.popOr("The <escaped> tag requires exactly one argument, the text to escape.").value());
+        StringBuilder value = new StringBuilder(args.popOr("The <escape> tag requires exactly one argument, the text to escape.").value());
         while (args.hasNext()) {
             String arg = args.pop().value();
             value.append(":").append(arg);
@@ -197,7 +207,7 @@ public class TextProvider extends Provider {
         final String color = args.popOr("The <eshadow> tag requires a color argument.").value();
 
         StringBuilder value = new StringBuilder("<shadow:")
-            .append(customColors.getOrDefault(color, color));
+            .append(customColorTags.getOrDefault(color, color));
 
         if (args.hasNext()) {
             String opacity = args.pop().value();
@@ -288,38 +298,6 @@ public class TextProvider extends Provider {
     }
 
     /**
-     * @deprecated Use {@link #toString(Component)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull String serialize(Component component) {
-        return toString(component);
-    }
-
-    /**
-     * @deprecated Use {@link #toPlainString(Component)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull String serializeWithoutEscaping(Component component) {
-        return toPlainString(component);
-    }
-
-    /**
-     * @deprecated Use {@link #from(Object, Object...)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull Component deserialize(Object text, Object... optionalPlaceholders) {
-        return from(text, optionalPlaceholders);
-    }
-
-    /**
-     * @deprecated Use {@link #from(Object, Player, BiFunction)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public final @NotNull Component deserialize(Object text, @Nullable Player player, BiFunction<@Nullable Player, @NotNull String, @NotNull String> placeholderResolver) {
-        return from(text, player, placeholderResolver);
-    }
-
-    /**
      * Serializes a MiniMessage Component to a String in MiniMessage format.
      * Automatically escapes any tags present within the component.
      * <p>
@@ -404,7 +382,7 @@ public class TextProvider extends Provider {
     public final @NotNull Component from(@Nullable Object text, @Nullable Object... optionalPlaceholders) {
         return resolver().deserialize(
             preParsing(valueOf(text), optionalPlaceholders),
-            customColorResolver.build()
+            customResolver.build()
         );
     }
 
@@ -520,91 +498,34 @@ public class TextProvider extends Provider {
     /**
      * Adds a custom color tag parseable by {@link #from(Object, Object...)}.
      * <p>
-     * For example:<br/>
-     * <code>addColorTag("bright_red", "#ff0000")</code> will add
-     * <code>&lt;bright_red&gt;</code>
+     * Example:<br/>
+     * <code>addColorTag("bright_red", "#ff0000")</code><br/>
+     * will add <code>&lt;bright_red&gt;</code>
      * @param name The name of the tag, in a valid MiniMessage tag name pattern
      * @param color The color of the tag
      */
     @PublicAPI
     public final void addColorTag(@NotNull @TagPattern String name, @NotNull String color) {
-        customColorResolver.resolver(createCustomColorResolver(name, color));
+        customResolver.resolver(createCustomColorResolver(name, color));
     }
 
-    public static class CommonTextPackages implements TextPackageSupplier {
-        private CommonTextPackages() {}
-
-        /**
-         * Introduces brighter variants of existing colors, including:
-         * <ul>
-         *     <li><code>&lt;bright_red&gt;</code> (red)</li>
-         *     <li><code>&lt;bright_blue&gt;</code> (blue)</li>
-         *     <li><code>&lt;bright_pink&gt;</code> (light_purple)</li>
-         *     <li><code>&lt;bright_yellow&gt;</code> (yellow)</li>
-         * </ul>
-         * @since 0.0.10
-         */
-        @PublicAPI
-        public final TextPackageSupplier brightColors = new BrightColorsPackage();
-
-        /**
-         * Introduces aliases for existing colors, including:
-         * <ul>
-         *     <li><code>&lt;pink&gt;</code> (light_purple)</li>
-         *     <li><code>&lt;purple&gt;</code> (dark_purple)</li>
-         *     <li><code>&lt;cyan&gt;</code> (dark_aqua)</li>
-         *     <li><code>&lt;light_blue&gt;</code> (blue)</li>
-         * </ul>
-         * @since 0.0.10
-         */
-        @PublicAPI
-        public final TextPackageSupplier colorAliases = new ColorAliasesPackage();
-
-        /**
-         * Introduces a set of additional MiniMessage colors, including:
-         * <ul>
-         *     <li><code>&lt;brown&gt;</code></li>
-         *     <li><code>&lt;orange&gt;</code></li>
-         *     <li><code>&lt;orange_red&gt;</code></li>
-         *     <li><code>&lt;smooth_purple&gt;</code></li>
-         *     <li><code>&lt;indigo&gt;</code></li>
-         *     <li><code>&lt;smooth_blue&gt;</code></li>
-         * </ul>
-         * @since 0.0.10
-         */
-        @PublicAPI
-        public final TextPackageSupplier moreColors = new MoreColorsPackage();
-
-        @ApiStatus.Internal
-        @Override
-        public void build(TextProvider textProvider) {
-            brightColors.build(textProvider);
-            colorAliases.build(textProvider);
-            moreColors.build(textProvider);
-        }
-
-        /**
-         * Installs all built-in packages, including:
-         * <ul>
-         *     <li>{@link #brightColors Bright Colors}</li>
-         *     <li>{@link #colorAliases Color Aliases}</li>
-         *     <li>{@link #moreColors More Colors}</li>
-         * </ul>
-         */
-        @PublicAPI
-        @Override
-        public void install() {
-            build(Core.text);
-        }
-
-        /**
-         * Installs a provided third-party package.
-         * @param textPackage The package
-         */
-        @PublicAPI
-        public void installExternal(TextPackageSupplier textPackage) {
-            textPackage.build(Core.text);
-        }
+    /**
+     * Adds a custom text tag parseable by {@link #from(Object, Object...)}.
+     * <p>
+     * Example:<br/>
+     * <code>addTextTag("name", "John Doe")</code><br/>
+     * will add <code>&lt;name&gt;</code> that evaluates to "John Doe".
+     * @param name The name of the tag, in a valid MiniMessage tag name pattern
+     * @param text The text value of the tag
+     * @since 0.0.18
+     * @apiNote
+     * Text values are added as pre-parsed content, so they can contain MiniMessage tags
+     * and other ElvenideCore custom tags. To avoid infinite recursion, avoid
+     * referencing a text tag in its own text.
+     */
+    @PublicAPI
+    public final void addTextTag(@NotNull @TagPattern String name, @NotNull String text) {
+        customResolver.resolver(createCustomTextResolver(name, text));
     }
 
 }

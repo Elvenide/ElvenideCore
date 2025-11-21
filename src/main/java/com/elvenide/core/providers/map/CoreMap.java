@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 /**
  * Represents a map with chainable methods in ElvenideCore.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.17
  */
 @PublicAPI
@@ -130,6 +130,20 @@ public class CoreMap<K, V> extends LinkedHashMap<K, V> {
     public CoreMap<K, V> add(K key, V value) {
         this.put(key, value);
         return this;
+    }
+
+    /**
+     * Creates a new, implicitly type-safe CoreMap with the provided key and value as the first entry.
+     * @param key The key
+     * @param value The value
+     * @return The map
+     * @param <K> Key datatype
+     * @param <V> Value datatype
+     */
+    @PublicAPI
+    public static <K, V> CoreMap<K, V> of(K key, V value) {
+        return new CoreMap<K, V>()
+            .add(key, value);
     }
 
     /**

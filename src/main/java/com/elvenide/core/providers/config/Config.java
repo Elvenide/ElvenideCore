@@ -24,6 +24,15 @@ public class Config extends YamlConfiguration implements ConfigSection {
     private final File file;
     private final @Nullable String resourcePath;
 
+    /**
+     * This internal constructor should only be used by MockConfigs.
+     */
+    Config() {
+        super();
+        this.file = null;
+        this.resourcePath = null;
+    }
+
     Config(File file) {
         super();
 

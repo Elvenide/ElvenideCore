@@ -25,24 +25,6 @@ public class ItemProvider extends Provider {
     }
 
     /**
-     * Formerly used to create items.
-     * @deprecated Use {@link #create(Material)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public ItemBuilder builder(@NotNull Material material) {
-        return new ItemBuilder(core, material);
-    }
-
-    /**
-     * Formerly used to modify items.
-     * @deprecated Use {@link #edit(ItemStack)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public ItemBuilder builder(@NotNull ItemStack item) {
-        return new ItemBuilder(core, item);
-    }
-
-    /**
      * Returns a builder to create a new item with the given material.
      * @param material Material
      * @return Item builder
