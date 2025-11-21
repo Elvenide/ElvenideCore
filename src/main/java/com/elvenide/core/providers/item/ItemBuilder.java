@@ -245,8 +245,8 @@ public class ItemBuilder {
     @SuppressWarnings("UnstableApiUsage")
     public ItemBuilder displayTooltip(@Nullable Boolean show) {
         if (show == null)
-            return resetComponent(DataComponentTypes.TOOLTIP_DISPLAY);
-        return component(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplay.tooltipDisplay().hideTooltip(!show));
+            return resetComponent(DataComponentTypes.HIDE_TOOLTIP);
+        return component(DataComponentTypes.HIDE_TOOLTIP);
     }
 
     /**
@@ -262,7 +262,7 @@ public class ItemBuilder {
     public ItemBuilder unbreakable(@Nullable Boolean unbreakable) {
         if (unbreakable == null)
             return resetComponent(DataComponentTypes.UNBREAKABLE);
-        return component(DataComponentTypes.UNBREAKABLE);
+        return component(DataComponentTypes.UNBREAKABLE, Unbreakable.unbreakable());
     }
 
     /**

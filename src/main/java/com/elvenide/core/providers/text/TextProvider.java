@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -477,9 +478,7 @@ public class TextProvider extends Provider {
         audience.showTitle(Title.title(
             from(title),
             from(subtitle),
-            fadeInTicks,
-            stayTicks,
-            fadeOutTicks
+            Title.Times.times(Duration.ofSeconds(fadeInTicks / 20), Duration.ofSeconds(stayTicks / 20), Duration.ofSeconds(fadeOutTicks / 20))
         ));
     }
 

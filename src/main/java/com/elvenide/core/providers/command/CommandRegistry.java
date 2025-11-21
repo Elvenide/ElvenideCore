@@ -14,6 +14,7 @@ import java.util.List;
  * @see Core#commands
  */
 @ApiStatus.Internal
+@SuppressWarnings("UnstableApiUsage")
 final class CommandRegistry {
     private CommandRegistry() {}
 

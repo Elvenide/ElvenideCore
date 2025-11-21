@@ -2,14 +2,18 @@
 ElvenideCore is a powerful library for PaperMC plugins, primarily used in many of my own plugins.
 It is not a standalone plugin, and must be shaded into your own plugin.
 
+> Note: This is a backport of ElvenideCore v0.0.18 to Paper 1.21.4.
+> Feature parity with v0.0.18, which was built for 1.21.10, is not guaranteed.
+
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.18](#installation) for Paper 1.21.10
+Latest: [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#getting-started) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
+- [v0.0.18-1.21.4](#installation) backported to Paper 1.21.4
 - [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#getting-started) for Paper 1.21.8 - 1.21.10
 - [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started) for Paper 1.21.8
 - [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#getting-started) for Paper 1.21.4
@@ -35,7 +39,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.18</version>
+    <version>backport~0.0.18-1.21.4</version>
     <scope>compile</scope>
 </dependency>
 ```

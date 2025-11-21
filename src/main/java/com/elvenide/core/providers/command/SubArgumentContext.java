@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 public class SubArgumentContext {
 
     final SubCommandContext sub;
