@@ -3,18 +3,20 @@ ElvenideCore is a powerful library for PaperMC plugins, primarily used in many o
 It is not a standalone plugin, and must be shaded into your own plugin.
 
 ## Versions
+Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.17](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.17) for Paper 1.21.8 - 1.21.10
+Latest: [v0.0.18](#installation) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16) for Paper 1.21.8
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.16-1.21.4) for Paper 1.21.4
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15) for Paper 1.21.8
-- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.15-1.21.4) for Paper 1.21.4
-- [v0.0.14](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.14) for Paper 1.21.4
-- [v0.0.13](https://github.com/Elvenide/ElvenideCore/releases/tag/0.0.13) for Paper 1.21.4
+- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#getting-started) for Paper 1.21.8 - 1.21.10
+- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started) for Paper 1.21.8
+- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#getting-started) for Paper 1.21.4
+- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#getting-started) for Paper 1.21.8
+- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#getting-started) for Paper 1.21.4
+- v0.0.14 for Paper 1.21.4 (no documentation)
+- v0.0.13 for Paper 1.21.4 (no documentation)
 > Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
 </details>
 
@@ -33,15 +35,12 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.17</version>
+    <version>0.0.18</version>
     <scope>compile</scope>
 </dependency>
 ```
 
 And add the following to your pom.xml to shade ElvenideCore into your plugin jar (replacing `com.your.path` with your own package path):
-<details>
-<summary>Click to Expand</summary>
-
 ```xml
 <build>
     <plugins>
@@ -77,21 +76,11 @@ And add the following to your pom.xml to shade ElvenideCore into your plugin jar
     </plugins>
 </build>
 ```
-</details>
-
-## Documentation
-Select the version of ElvenideCore you would like to view the documentation for.
-
-- [v0.0.17](#getting-started)
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started)
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#getting-started)
-- v0.0.14 - no in-depth documentation
-- v0.0.13 and earlier - no documentation
 
 ## Getting Started
 You can now start using ElvenideCore.
 
-### Initializing with Plugin Provider (new in v0.0.17)
+### Initializing with Plugin Provider
 Initialize your plugin using the `Core.plugin.set(JavaPlugin)` method.
 This replaces the previous method of initializing via `CorePlugin`, which is now deprecated as of v0.0.17.
 
@@ -102,18 +91,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class YourPlugin extends JavaPlugin {
   @Override
   public void onEnable() {
-    // Initialize ElvenideCore with your plugin
+    // Initialize ElvenideCore with your plugin before everything else
     Core.plugin.set(this);
     
     // ... {your plugin start up functionality here}
     
-    // If you have commands, register them here
+    // If you have commands, create and register them here
+    // Core.commands.create("yourcommand")...
     Core.commands.register();
   }
 
   @Override
   public void onDisable() {
     // Plugin shut down functionality
+    // Nothing needed here for ElvenideCore at the moment
   }
 }
 ```
@@ -157,9 +148,10 @@ public record YourCustomEvent(Player player, String message) implements CoreEven
 
 To call your event:
 ```java
-Player player = /* ... */;
-String message = /* ... */;
-new YourCustomEvent(player, message).callCoreEvent();
+public void callingEventExample(Player player) {
+    String message = "your message here";
+    new YourCustomEvent(player, message).callCoreEvent();
+}
 ```
 
 To create a listener for your event:
@@ -184,7 +176,10 @@ public class YourListener implements CoreListener {
 Register your listener:
 
 ```java
-new YourListener().register();
+// Example registering listeners in your plugin's onEnable() method
+public void onEnable() {
+    new YourListener().register();
+}
 ```
 
 Features:
@@ -225,7 +220,8 @@ Features:
 - Supports all standard MiniMessage tags
 - Custom `<escape>` tag to escape MiniMessage tags
 - Various built-in custom color tag packages that can optionally be registered via `Core.text.packages`
-- Register your own custom color tags using `Core.text.addColorTag()`
+- Register your own custom color tags using `Core.text.addColorTag()` or `Core.text.packages.install(TextPackageSupplier)`
+- Register your own custom text tags using `Core.text.addTextTag()` or `Core.text.packages.install(TextPackageSupplier)`
 - Convert strings to title case using `Core.text.toTitleCase()`
 - Text formatter that supports both Java (e.g. `%s`, `%d`) and ElvenideCore (`{}`) placeholders
   - ElvenideCore placeholders support the same form `{}` for all datatypes
@@ -249,7 +245,7 @@ Features:
 Provides a builder to easily create and schedule tasks without needing a plugin instance.
 
 Features:
-- Build tasks using `Core.tasks.builder()`, which returns a new `Task` instance
+- Build tasks using `Core.tasks.create()`, which returns a new `Task` instance
 - Define any number of task handlers using `Task#then()`
 - Schedule tasks to run delayed, repeated, or on the next tick
   - Default form runs synchronously with a time unit of ticks (20 ticks = 1 second)
@@ -363,6 +359,9 @@ Features:
   - Implement the `ConfigSupplier` interface and register it with the config provider
   - Each supplier can contain any number of Core configs
   - Registered suppliers, and all of their configs, can all be reloaded at once using `reloadSuppliers()`
+- Create memory-only config sections using `Core.config.createOrphanedSection(Map)`
+  - Great for creating mock configs or testing config code without needing real config files
+  - Easily import values from any Map using the method's first parameter
 
 ### Command Provider
 Easily create powerful commands that take advantage of Minecraft's brigadier command API, while avoiding the redundancy 
@@ -394,7 +393,7 @@ Features:
 - Automatically saves players' inventories before opening menus and restores after closing
 - Directly assign click handlers to any item, range of items, or region of items
 
-### CoreMap (new in v0.0.17)
+### CoreMap
 Powerful hashmap utility with chainable methods.
 
 Features:
@@ -404,6 +403,7 @@ Features:
   - Allows maintenance of and iteration in insertion order (like a `LinkedList`)
 - Chainable methods for easily adding and updating entries in the map
 - Clone the map using `clone()`
+- Create implicitly type-safe-generic maps using `CoreMap.of(K, V)`
 
 ## Further Documentation
 Most features are directly documented via JavaDoc in the code 

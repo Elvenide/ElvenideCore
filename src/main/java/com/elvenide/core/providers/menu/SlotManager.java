@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  * Use {@link #slot(int)} to access a specific slot and, for example, add an item at that slot.
  * Or use the various <code>populate</code> methods to add groups of items to the menu (with pagination support).
  * Or use the various <code>assign</code> methods to add a single item to several slots (without pagination).
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 public class SlotManager {
@@ -353,15 +353,6 @@ public class SlotManager {
         int col2 = col1 + width - 1;
         int row2 = row1 + height - 1;
         populateArea(col1, row1, col2, row2, icons, fallbackIcon, clickHandler);
-    }
-
-    /**
-     * Deprecated to separate naming of pagination-supported methods (populate methods) from single-item methods (assign methods).
-     * @deprecated Use {@link #assignBorder(int, int, int, int, ItemStack)} instead.
-     */
-    @Deprecated(since = "0.0.17", forRemoval = true)
-    public void populateBorder(int col1, int row1, int col2, int row2, @Nullable ItemStack icon) {
-        assignBorder(col1, row1, col2, row2, icon);
     }
 
     /**

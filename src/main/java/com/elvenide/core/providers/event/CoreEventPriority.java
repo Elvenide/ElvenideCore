@@ -4,7 +4,7 @@ import com.elvenide.core.api.PublicAPI;
 
 /**
  * The priority of an event handler, used to determine the order in which handlers for a specific event are executed.
- * @author <a href="https://elvenide.com">Elvenide</a>
+ * @author <a href="https://github.com/Elvenide">Elvenide</a>
  * @since 0.0.15
  */
 @PublicAPI

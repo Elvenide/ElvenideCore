@@ -1,16 +1,19 @@
 package com.elvenide.core.providers.text;
 
-import org.jetbrains.annotations.ApiStatus;
+import com.elvenide.core.providers.map.CoreMap;
+import org.jetbrains.annotations.NotNull;
 
-class ColorAliasesPackage implements TextPackageSupplier {
-
-    @ApiStatus.Internal
+final class ColorAliasesPackage implements TextPackageSupplier {
     @Override
-    public void build(TextProvider textProvider) {
-        textProvider.addColorTag("pink", "#ff55ff");
-        textProvider.addColorTag("purple", "#aa00aa");
-        textProvider.addColorTag("cyan", "#00aaaa");
-        textProvider.addColorTag("light_blue", "#5555ff");
+    public @NotNull CoreMap<String, String> getColorTags() {
+        return CoreMap.of("pink", "#ff55ff")
+            .add("purple", "#aa00aa")
+            .add("cyan", "#00aaaa")
+            .add("light_blue", "#5555ff");
     }
 
+    @Override
+    public @NotNull CoreMap<String, String> getTextTags() {
+        return new CoreMap<>();
+    }
 }
