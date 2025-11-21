@@ -6,7 +6,7 @@
 
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.17-dev-4</version>
+    <version>0.0.18-1.21.4</version>
     <packaging>jar</packaging>
 
     <name>ElvenideCore</name>
@@ -67,6 +67,9 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
                     <tags>
                         <tag>
                             <name>apiNote</name>
@@ -94,7 +97,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.10-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
