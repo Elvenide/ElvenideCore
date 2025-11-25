@@ -39,7 +39,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>backport~0.0.18-1.21.4</version>
+    <version>backport~0.0.18-1.21.4-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
