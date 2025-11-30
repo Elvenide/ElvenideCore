@@ -2,6 +2,7 @@ package com.elvenide.core.providers.item;
 
 import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
+import com.elvenide.core.providers.key.CoreKey;
 import io.papermc.paper.datacomponent.DataComponentBuilder;
 import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -380,34 +381,8 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the model of the item, using a String key with your plugin's namespace.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.ITEM_MODEL, ...)</code>.
-     * @param modelKey Model key as a string
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder itemModel(@NotNull String modelKey) {
-        return itemModel(Core.keys.get(modelKey));
-    }
-
-    /**
-     * Sets the model of the item, using an Enum key with your plugin's namespace.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.ITEM_MODEL, ...)</code>.
-     * @param modelKey Model key as an enum
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder itemModel(@NotNull Enum<?> modelKey) {
-        return itemModel(Core.keys.get(modelKey));
-    }
-
-    /**
      * Sets the model of the item, using a NamespacedKey.
-     * Use {@link Core#keys} to easily generate a NamespacedKey.
+     * Use {@link CoreKey} to easily generate, store, and reference NamespacedKeys.
      * <p>
      * This method is a shortcut method for <code>component(DataComponentTypes.ITEM_MODEL, ...)</code>.
      * @param modelKey Model key as a NamespacedKey, or null to reset the component
@@ -474,32 +449,6 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the tooltip style of the item, using an Enum.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.TOOLTIP_STYLE, ...)</code>.
-     * @param key Tooltip style key as an enum
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder tooltipStyle(@NotNull Enum<?> key) {
-        return tooltipStyle(Core.keys.get(key));
-    }
-
-    /**
-     * Sets the tooltip style of the item, using a String key.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.TOOLTIP_STYLE, ...)</code>.
-     * @param key Tooltip style key as a string
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder tooltipStyle(@NotNull String key) {
-        return tooltipStyle(Core.keys.get(key));
-    }
-
-    /**
      * Attaches this item to a cooldown group, identified by a NamespacedKey.
      * When any item in a cooldown group is used, the cooldown is applied to all items in the group.
      * <p>
@@ -513,36 +462,6 @@ public class ItemBuilder {
     @SuppressWarnings("UnstableApiUsage")
     public ItemBuilder useCooldown(@NotNull NamespacedKey cooldownGroup, float secs) {
         return component(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(secs).cooldownGroup(cooldownGroup));
-    }
-
-    /**
-     * Attaches this item to a cooldown group, identified by an Enum.
-     * When any item in a cooldown group is used, the cooldown is applied to all items in the group.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.USE_COOLDOWN, ...)</code>.
-     * @param cooldownGroup Cooldown group key as an enum
-     * @param secs Cooldown in seconds
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder useCooldown(@NotNull Enum<?> cooldownGroup, float secs) {
-        return useCooldown(Core.keys.get(cooldownGroup), secs);
-    }
-
-    /**
-     * Attaches this item to a cooldown group, identified by a String.
-     * When any item in a cooldown group is used, the cooldown is applied to all items in the group.
-     * <p>
-     * This method is a shortcut method for <code>component(DataComponentTypes.USE_COOLDOWN, ...)</code>.
-     * @param cooldownGroup Cooldown group key as a string
-     * @param secs Cooldown in seconds
-     * @return This
-     * @since 0.0.17
-     */
-    @PublicAPI
-    public ItemBuilder useCooldown(@NotNull String cooldownGroup, float secs) {
-        return useCooldown(Core.keys.get(cooldownGroup), secs);
     }
 
     /**
@@ -667,34 +586,6 @@ public class ItemBuilder {
     @PublicAPI
     public <P, C> ItemBuilder data(NamespacedKey key, PersistentDataType<P, C> type, C value) {
         return meta(m -> m.getPersistentDataContainer().set(key, type, value));
-    }
-
-    /**
-     * Sets a persistent data value with the given key on the item.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param key Key (String)
-     * @param type Persistent data type
-     * @param value Value
-     * @return This
-     * @since 0.0.15
-     */
-    @PublicAPI
-    public <P, C> ItemBuilder data(String key, PersistentDataType<P, C> type, C value) {
-        return data(Core.keys.get(key), type, value);
-    }
-
-    /**
-     * Sets a persistent data value with the given key on the item.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param key Key (Enum)
-     * @param type Persistent data type
-     * @param value Value
-     * @return This
-     * @since 0.0.15
-     */
-    @PublicAPI
-    public <P, C> ItemBuilder data(Enum<?> key, PersistentDataType<P, C> type, C value) {
-        return data(Core.keys.get(key), type, value);
     }
 
     /**
