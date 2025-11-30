@@ -3,6 +3,7 @@ package com.elvenide.core.providers.lang;
 import com.elvenide.core.Core;
 import com.elvenide.core.api.PublicAPI;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 
 import java.util.HashMap;
 
@@ -18,6 +19,7 @@ import java.util.HashMap;
  * @since 0.0.17
  * @author <a href="https://github.com/Elvenide">Elvenide</a>
  */
+@PublicAPI
 public interface LangKey {
     /**
      * For INTERNAL USE ONLY.<br/>
@@ -33,6 +35,8 @@ public interface LangKey {
      * @return The lang key's value
      * @since 0.0.17
      */
+    @PublicAPI
+    @Contract(pure = true)
     default String get(Object... optionalPlaceholders) {
         return Core.text.format(LANG_KEY_VALUE_MAP_0X3693.get(this), optionalPlaceholders);
     }
@@ -42,6 +46,7 @@ public interface LangKey {
      * @param value The value
      * @since 0.0.17
      */
+    @PublicAPI
     default void set(String value) {
         LANG_KEY_VALUE_MAP_0X3693.put(this, value);
     }
@@ -53,6 +58,7 @@ public interface LangKey {
      * @since 0.0.17
      */
     @PublicAPI
+    @Contract("_ -> new")
     static LangKey of(String value) {
         LangKey key = new LangKey() {};
         key.set(value);
