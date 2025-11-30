@@ -39,12 +39,37 @@ public interface CoreKey {
     @PublicAPI
     @Contract(pure = true)
     default @NotNull NamespacedKey get() throws IllegalStateException {
+        return new NamespacedKey(
+            namespace(),
+            keyString()
+        );
+    }
+
+    /**
+     * Retrieves the core key's namespace.
+     * Override this method to set a custom namespace.
+     *
+     * @return The core key's namespace
+     * @since 0.0.19
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    default @NotNull String namespace() throws IllegalStateException {
         ensureInitialized();
+        return Core.plugin.get().namespace();
+    }
+
+    /**
+     * Retrieves the core key's key string.
+     *
+     * @return The core key's key string
+     * @since 0.0.19
+     */
+    @PublicAPI
+    @Contract(pure = true)
+    default @NotNull String keyString() throws IllegalStateException {
         if (this instanceof Enum<?> key)
-            return new NamespacedKey(
-                Core.plugin.get(),
-                key.getDeclaringClass().getSimpleName().toLowerCase() + "/" + key.name().toLowerCase()
-            );
+            return key.getDeclaringClass().getSimpleName().toLowerCase() + "/" + key.name().toLowerCase();
         else
             throw new IllegalStateException("CoreKeys must either be implemented on an Enum class or created using CoreKey.of().");
     }
@@ -63,9 +88,8 @@ public interface CoreKey {
     static CoreKey of(String key) {
         return new CoreKey() {
             @Override
-            public @NotNull NamespacedKey get() throws IllegalStateException {
-                CoreKey.ensureInitialized();
-                return new NamespacedKey(Core.plugin.get(), key);
+            public @NotNull String keyString() {
+                return key;
             }
         };
     }
@@ -82,8 +106,13 @@ public interface CoreKey {
     static CoreKey of(String namespace, String key) {
         return new CoreKey() {
             @Override
-            public @NotNull NamespacedKey get() {
-                return new NamespacedKey(namespace, key);
+            public @NotNull String namespace() {
+                return namespace;
+            }
+
+            @Override
+            public @NotNull String keyString() {
+                return key;
             }
         };
     }
