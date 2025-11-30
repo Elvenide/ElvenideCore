@@ -28,7 +28,7 @@ public class SubArgumentContext {
     private <T> T getRaw(String name, Class<T> type) {
         if (!isProvided(name)) {
             if (arg(name).required)
-                throw new InvalidArgumentException(Core.lang.MISSING_ARGUMENT.toString(), name);
+                throw new InvalidArgumentException(Core.lang.MISSING_ARGUMENT.get(), name);
             else
                 return null;
         }
@@ -37,7 +37,7 @@ public class SubArgumentContext {
             return sub.ctx.getArgument(name, type);
         }
         catch (IllegalArgumentException ignored) {
-            throw new InvalidArgumentException(Core.lang.INVALID_TYPE.toString(), name);
+            throw new InvalidArgumentException(Core.lang.INVALID_TYPE.get(), name);
         }
     }
 
@@ -182,7 +182,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(Core.lang.INVALID_PLAYER.toString(), name);
+            throw new InvalidArgumentException(Core.lang.INVALID_PLAYER.get(), name);
         }
     }
 
@@ -283,7 +283,7 @@ public class SubArgumentContext {
             return raw.resolve(sub.ctx.getSource());
         }
         catch (CommandSyntaxException e) {
-            throw new InvalidArgumentException(Core.lang.INVALID_PLAYER.toString(), name);
+            throw new InvalidArgumentException(Core.lang.INVALID_PLAYER.get(), name);
         }
     }
 

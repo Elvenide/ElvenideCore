@@ -110,7 +110,7 @@ class UsageGenerator {
             "<br>",
             generateUsages(self, executor)
                 .stream()
-                .map(line -> Core.lang.COMMAND_USAGE_PREFIX + line)
+                .map(line -> Core.lang.COMMAND_USAGE_PREFIX.get() + line)
                 .toList()
         );
     }
