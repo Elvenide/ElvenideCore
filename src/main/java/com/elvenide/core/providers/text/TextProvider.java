@@ -488,11 +488,12 @@ public class TextProvider extends Provider {
      * or the entire server.
      * @param audience The audience (e.g. player)
      * @param text String text
+     * @param optionalPlaceholders Optional placeholders
      * @since 0.0.17
      */
     @PublicAPI
-    public final void sendActionBar(@NotNull Audience audience, @NotNull Object text) {
-        audience.sendActionBar(from(text));
+    public final void sendActionBar(@NotNull Audience audience, @NotNull Object text, @Nullable Object... optionalPlaceholders) {
+        audience.sendActionBar(from(text, optionalPlaceholders));
     }
 
     /**
