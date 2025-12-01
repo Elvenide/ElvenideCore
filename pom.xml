@@ -6,7 +6,7 @@
 
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.17-dev-4</version>
+    <version>0.0.19</version>
     <packaging>jar</packaging>
 
     <name>ElvenideCore</name>
@@ -17,7 +17,7 @@
     </properties>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -67,6 +67,9 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
                     <tags>
                         <tag>
                             <name>apiNote</name>

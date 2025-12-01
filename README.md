@@ -5,16 +5,19 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.18](#installation) for Paper 1.21.10
+Latest: [v0.0.19](#installation) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
-- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#getting-started) for Paper 1.21.8 - 1.21.10
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started) for Paper 1.21.8
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#getting-started) for Paper 1.21.4
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#getting-started) for Paper 1.21.8
-- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#getting-started) for Paper 1.21.4
+- [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
+- [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
+- [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
+- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#installation) for Paper 1.21.8 - 1.21.10
+- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#installation) for Paper 1.21.8
+- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#installation) for Paper 1.21.4
+- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#installation) for Paper 1.21.8
+- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#installation) for Paper 1.21.4
 - v0.0.14 for Paper 1.21.4 (no documentation)
 - v0.0.13 for Paper 1.21.4 (no documentation)
 > Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
@@ -35,7 +38,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.18</version>
+    <version>0.0.19</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -82,7 +85,7 @@ You can now start using ElvenideCore.
 
 ### Initializing with Plugin Provider
 Initialize your plugin using the `Core.plugin.set(JavaPlugin)` method.
-This replaces the previous method of initializing via `CorePlugin`, which is now deprecated as of v0.0.17.
+This replaces the previous method of initializing via `CorePlugin`, which was removed in v0.0.18.
 
 ```java
 import com.elvenide.core.Core;
@@ -190,10 +193,9 @@ Features:
 - Core listeners that can be registered/unregistered without needing plugin instance
 
 ### Lang Provider
-(Completely reworked in v0.0.17!)
-
-Easily centralize your plugin's messaging, enabling you to allow end users to configure
-messages (e.g. through a config file like `lang.yml`) while maintaining simple in-code access.
+Easily centralize your plugin's messaging with the new v0.0.17 format, enabling you to allow 
+end users to configure messages (e.g. through a config file like `lang.yml`) while maintaining 
+simple in-code access.
 
 Features:
 - Create, get, and set lang messages using `LangKey`
@@ -270,35 +272,49 @@ Features:
   - Get guaranteed accurate information by using a dedicated permission plugin API instead
 
 ### Key Provider
-Easily manage your plugin's `NamespacedKey`s.
+Easily manage your plugin's `NamespacedKey`s with the new v0.0.19 format, 
+without needing to manually pass your plugin instance!
 
-Generate a `NamespacedKey` from a String:
+Define keys in your plugin's namespace with a simple `enum`:
 ```java
-NamespacedKey yourItemKey = Core.keys.get("your.keys.item");
+import com.elvenide.core.providers.key.CoreKey;
+
+public enum YourKeys implements CoreKey {
+  ITEM,
+  BLOCK,
+  HEROBRINE
+}
 ```
 
-Or easily define many keys at once using `enum`s:
+Then easily reference them in your code:
 ```java
-public enum YourKeys {
-    ITEM, 
-    BLOCK,
-    HEROBRINE
+NamespacedKey yourHerobrineKey = YourKeys.HEROBRINE.get();
+```
+
+Or define and reference keys without an `enum`:
+```java
+import com.elvenide.core.providers.key.CoreKey;
+import org.bukkit.NamespacedKey;
+
+public interface OtherKeys {
+  CoreKey ITEM = CoreKey.of("your_item_key");
+  CoreKey STEVE = CoreKey.of("custom_namespace", "your_steve_key"); // with custom non-plugin namespace
 }
 
-NamespacedKey yourItemKey = Core.keys.get(YourKeys.ITEM);
-NamespacedKey yourBlockKey = Core.keys.get(YourKeys.BLOCK);
-NamespacedKey yourHeroBrineKey = Core.keys.get(YourKeys.HEROBRINE);
+NamespacedKey yourItemKey = OtherKeys.ITEM.get();
+NamespacedKey yourSteveKey = OtherKeys.STEVE.get();
+NamespacedKey onTheFlyKey = CoreKey.of("some_key").get();
 ```
 
 Features:
-- Generate `NamespacedKey` from a String
-- Generate several `NamespacedKey`s from an `enum`
+- Generate `NamespacedKey` for your plugin namespace from Strings using `CoreKey.of(String)`
+- Generate `NamespacedKey` for a custom namespace from Strings using `CoreKey.of(String, String)`
+- Generate several `NamespacedKey`s for your plugin namespace from an `enum` by implementing the `CoreKey` interface
   - The generated key string is dependent on the name of the enum member and the enum itself
   - For example:
     - Renaming `YourKeys` to `OurKeys` in the above example will change the `ITEM`, `BLOCK`, and `HEROBRINE` keys
     - Renaming `HEROBRINE` to `HEROBRINES` in the above example will change the `HEROBRINE` key
-- Use plugin or custom string as namespace
-- Also supports creating `GoalKey`s using string and enum keys
+- Use `CoreKey#get()` to get a `NamespacedKey` instance from a `CoreKey` instance
 
 ### Item Provider
 Build, edit, and manipulate complex `ItemStack`s with ease.
@@ -324,7 +340,7 @@ Features:
     - Non-experimental API, but provides limited functionality
   - Directly set 1.21+ item components using Paper Component API
     - Experimental API, but provides full functionality
-  - Set persistent data using a String-based or Enum-based namespaced key
+  - Set persistent data using a namespaced key (see [Key Provider](#key-provider) for an easy way to get such keys)
   - Directly edit item meta via `ItemBuilder#meta()` for properties not covered by this builder
 - Use `Core.items.getData()` to access persistent data added to an item
 - Use `Core.items.hasData()` to check if an item has persistent data
@@ -336,6 +352,7 @@ Features:
 - ElvenideCore's config and config section instances can be a drop-in replacement for your existing config code, with no refactoring required
 - Get a `Config` instance using `Core.config.get(String)`
 - Get a `Config` instance with a default resource config using `Core.config.get(String, String)`
+- Get all `Config` in a directory using `Core.config.getDir(String, boolean)`
 - Delete a config file using `Core.config.deleteFile()`
 - `Config` extends `YamlConfiguration`
   - Supports all methods on Bukkit's `YamlConfiguration`
@@ -362,6 +379,7 @@ Features:
 - Create memory-only config sections using `Core.config.createOrphanedSection(Map)`
   - Great for creating mock configs or testing config code without needing real config files
   - Easily import values from any Map using the method's first parameter
+- `Reloadable` interface to make any of your custom classes reloadable by a `ConfigSupplier`
 
 ### Command Provider
 Easily create powerful commands that take advantage of Minecraft's brigadier command API, while avoiding the redundancy 

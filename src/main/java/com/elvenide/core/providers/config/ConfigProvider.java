@@ -12,10 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class should not be directly referenced by any plugin.
@@ -42,6 +39,45 @@ public class ConfigProvider extends Provider {
         }
     }
 
+    private String normalizePath(@NotNull String path) {
+        // Remove leading "./"
+        if (path.startsWith("./"))
+            path = path.substring(2);
+        return path;
+    }
+
+    private Config getConfigFile(@NotNull File parent, @NotNull String relativePath, @Nullable String resourcePath) {
+        relativePath = relativePath.replace("/", File.separator);
+
+        File file = new File(parent, relativePath);
+        Config config = resourcePath == null ? new Config(file) : new Config(file, resourcePath);
+        configs.put(relativePath, config);
+        return config;
+    }
+
+    private List<Reloadable> getConfigDir(@NotNull File parent, @NotNull String relativeDirPath, boolean deep) {
+        relativeDirPath = relativeDirPath.replace("/", File.separator);
+
+        File dir = new File(parent, relativeDirPath);
+        if (!dir.exists()) {
+            boolean ignored = dir.mkdirs();
+            if (!dir.isDirectory())
+                throw new IllegalArgumentException("The given config directory path is not a directory: " + relativeDirPath);
+        }
+
+        List<Reloadable> configs = new ArrayList<>();
+        File @NotNull [] files = Objects.requireNonNull(dir.listFiles());
+        String sep = File.separator;
+
+        for (File file : files) {
+            if (file.isDirectory() && deep)
+                configs.addAll(getConfigDir(parent, relativeDirPath + sep + file.getName(), true));
+            else if (!file.isDirectory() && file.getName().toLowerCase().endsWith(".yml"))
+                configs.add(getConfigFile(Core.plugin.get().getDataFolder(), relativeDirPath + sep + file.getName(), null));
+        }
+        return configs;
+    }
+
     /**
      * Gets a config in the provided path relative to your plugin's data folder.
      * <p>
@@ -52,14 +88,53 @@ public class ConfigProvider extends Provider {
     @PublicAPI
     public @NotNull Config get(@NotNull String relativePath) {
         ensureInitialized();
-
+        relativePath = normalizePath(relativePath);
         if (configs.containsKey(relativePath))
             return configs.get(relativePath);
 
-        File file = new File(Core.plugin.get().getDataFolder(), relativePath);
-        Config config = new Config(file);
-        configs.put(relativePath, config);
-        return config;
+        return getConfigFile(Core.plugin.get().getDataFolder(), relativePath, null);
+    }
+
+    /**
+     * Gets a config in the provided path relative to your plugin's data folder.
+     * The config must have a resource at the resource path in your plugin code's <code>resources</code> folder.
+     * If the config file does not exist, a new config will be created with the contents of the resource.
+     * <p>
+     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
+     * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
+     * @param resourcePath The path, relative to your code's resources folder (e.g. "./config.yml")
+     * @return The config
+     */
+    @PublicAPI
+    public Config get(@NotNull String relativePath, @NotNull String resourcePath) {
+        ensureInitialized();
+        relativePath = normalizePath(relativePath);
+        resourcePath = normalizePath(resourcePath);
+        if (configs.containsKey(relativePath))
+            return configs.get(relativePath);
+
+        return getConfigFile(Core.plugin.get().getDataFolder(), relativePath, resourcePath);
+    }
+
+    /**
+     * Gets all YAML configs in the provided directory path relative to your plugin's data folder.
+     * <p>
+     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
+     * @param relativeDirPath The directory path, relative to your plugin's data folder (e.g. "./folder")
+     * @param deep If true, all YAML configs in nested subdirectories will also be recursively included
+     * @return A supplier of all configs in the directory
+     * @since 0.0.19
+     * @apiNote
+     * Unlike {@link #get(String)}, this method does not cache the resulting Config objects
+     * and always returns new instances.
+     */
+    @PublicAPI
+    public ConfigSupplier getDir(@NotNull String relativeDirPath, boolean deep) {
+        ensureInitialized();
+        relativeDirPath = normalizePath(relativeDirPath);
+
+        final List<Reloadable> configs = getConfigDir(Core.plugin.get().getDataFolder(), relativeDirPath, deep);
+        return () -> configs;
     }
 
     /**
@@ -76,35 +151,6 @@ public class ConfigProvider extends Provider {
         File file = new File(Core.plugin.get().getDataFolder(), relativePath);
         boolean ignored = file.delete();
         configs.remove(relativePath);
-    }
-
-    /**
-     * Gets a config in the provided path relative to your plugin's data folder.
-     * The config must have a resource at the resource path in your plugin code's <code>resources</code> folder.
-     * If the config file does not exist, a new config will be created with the contents of the resource.
-     * <p>
-     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
-     * @param relativePath The path, relative to your plugin's data folder (e.g. "./config.yml")
-     * @param resourcePath The path, relative to your code's resources folder (e.g. "./config.yml")@
-     * @return The config
-     */
-    @PublicAPI
-    public Config get(@NotNull String relativePath, @NotNull String resourcePath) {
-        ensureInitialized();
-
-        // Remove leading "./"
-        if (resourcePath.startsWith("./"))
-            relativePath = relativePath.substring(2);
-
-        // Get any existing config
-        if (configs.containsKey(relativePath))
-            return configs.get(relativePath);
-
-        // Create config with resource
-        File file = new File(Core.plugin.get().getDataFolder(), relativePath);
-        Config config = new Config(file, resourcePath);
-        configs.put(relativePath, config);
-        return config;
     }
 
     /**
