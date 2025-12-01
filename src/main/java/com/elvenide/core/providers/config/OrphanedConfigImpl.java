@@ -31,4 +31,9 @@ class OrphanedConfigImpl extends Config {
     public void save() {
         throw new IllegalStateException("Orphaned config sections cannot be saved.");
     }
+
+    @Override
+    public String getFileName() {
+        throw new IllegalStateException("Orphaned config sections do not have a file name.");
+    }
 }
