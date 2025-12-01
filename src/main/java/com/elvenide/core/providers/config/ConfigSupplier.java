@@ -32,7 +32,8 @@ public interface ConfigSupplier extends Reloadable {
     @Override
     default void reload() {
         for (Reloadable configLike : configs())
-            configLike.reload();
+            if (configLike != this)
+                configLike.reload();
     }
 
 }
