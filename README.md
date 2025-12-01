@@ -10,6 +10,7 @@ Latest: [v0.0.19](#installation) for Paper 1.21.10
 <details>
 <summary>Older Versions</summary>
 
+- [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
 - [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
 - [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
 - [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#installation) for Paper 1.21.8 - 1.21.10
@@ -24,6 +25,10 @@ Latest: [v0.0.19](#installation) for Paper 1.21.10
 
 ## Installation
 
+> Note: This is a backport of ElvenideCore v0.0.19 to Paper 1.21.4.
+> Feature parity with v0.0.19, which was built for 1.21.10, is not possible
+> -- but the backport was kept as similar to the original as possible.
+
 If you are using Maven, add the following to your pom.xml:
 ```xml
 <repository>
@@ -37,7 +42,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.19</version>
+    <version>backport~0.0.19-1.21.4-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
