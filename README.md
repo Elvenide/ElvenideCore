@@ -5,16 +5,18 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.18](#installation) for Paper 1.21.10
+Latest: [v0.0.19](#installation) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
-- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#getting-started) for Paper 1.21.8 - 1.21.10
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#getting-started) for Paper 1.21.8
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#getting-started) for Paper 1.21.4
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#getting-started) for Paper 1.21.8
-- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#getting-started) for Paper 1.21.4
+- [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
+- [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
+- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#installation) for Paper 1.21.8 - 1.21.10
+- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#installation) for Paper 1.21.8
+- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#installation) for Paper 1.21.4
+- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#installation) for Paper 1.21.8
+- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#installation) for Paper 1.21.4
 - v0.0.14 for Paper 1.21.4 (no documentation)
 - v0.0.13 for Paper 1.21.4 (no documentation)
 > Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
@@ -35,7 +37,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.18</version>
+    <version>0.0.19</version>
     <scope>compile</scope>
 </dependency>
 ```
