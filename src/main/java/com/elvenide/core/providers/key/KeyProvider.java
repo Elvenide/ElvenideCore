@@ -3,11 +3,8 @@ package com.elvenide.core.providers.key;
 import com.destroystokyo.paper.entity.ai.GoalKey;
 import com.elvenide.core.Core;
 import com.elvenide.core.Provider;
-import com.elvenide.core.api.PublicAPI;
-import com.elvenide.core.providers.plugin.PluginProvider;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Mob;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * This class should not be directly referenced by any plugin.
- * Its methods should only be utilized through the {@link Core#keys} field.
  */
 public class KeyProvider extends Provider {
 
@@ -29,13 +25,11 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * Gets the NamespacedKey with the given key string.
-     * <p>
-     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
+     * @deprecated Use {@link CoreKey#get()} instead.
      * @param key The key string
      * @return The NamespacedKey
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull String key) {
         ensureInitialized();
@@ -43,28 +37,24 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * Gets the NamespacedKey with a key string generated from the given enum.
-     * <p>
-     * Note: The generated key string is dependent on the name of the enum and its declaring class.
-     * Changing the name of an enum or declaring class will produce a different key.
-     * <p>
-     * <b>To function, this feature requires initialization through {@link PluginProvider#set(JavaPlugin) Core.plugin.set()}.</b>
+     * @deprecated Use {@link CoreKey#get()} instead.
      * @param key The enum
      * @return The NamespacedKey
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull Enum<?> key) {
         return get(generateKeyStringFromEnum(key));
     }
 
     /**
-     * Gets the NamespacedKey with the given namespace and key string.
+     * This method is deprecated as it is unnecessary, since it is just a direct alias of the NamespacedKey constructor.
+     * @deprecated Use {@link CoreKey#get()} instead.
      * @param namespace The namespace
      * @param key The key string
      * @return The NamespacedKey
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull String namespace, @NotNull String key) {
         ensureInitialized();
@@ -72,41 +62,40 @@ public class KeyProvider extends Provider {
     }
 
     /**
-     * Gets the NamespacedKey with the given namespace and key string generated from the given enum.
-     * <p>
-     * Note: The generated key string is dependent on the name of the enum and its declaring class.
-     * Changing the name of an enum or declaring class will produce a different key.
+     * @deprecated Use {@link CoreKey#get()} instead.
      * @param namespace The namespace
      * @param key The enum
      * @return The NamespacedKey
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public @NotNull NamespacedKey get(@NotNull String namespace, @NotNull Enum<?> key) {
         return get(namespace, generateKeyStringFromEnum(key));
     }
 
     /**
-     * Gets a GoalKey with the given key string and mob type.
+     * This method is obsolete.
+     * @deprecated Use {@link CoreKey#get()} as the NamespacedKey parameter of {@link GoalKey#of(Class, NamespacedKey)} instead.
      * @param key String key
      * @param type Mob type
      * @return GoalKey
      * @since 0.0.17
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public <T extends Mob> @NotNull GoalKey<T> getGoal(@NotNull String key, @NotNull Class<T> type) {
         return GoalKey.of(type, get(key));
     }
 
     /**
-     * Gets a GoalKey with the given key enum and mob type.
+     * This method is obsolete.
+     * @deprecated Use {@link CoreKey#get()} as the NamespacedKey parameter of {@link GoalKey#of(Class, NamespacedKey)} instead.
      * @param key Enum key
      * @param type Mob type
      * @return GoalKey
      * @since 0.0.17
      */
-    @PublicAPI
+    @Deprecated(since = "0.0.19", forRemoval = true)
     @Contract(pure = true)
     public <T extends Mob> @NotNull GoalKey<T> getGoal(@NotNull Enum<?> key, @NotNull Class<T> type) {
         return GoalKey.of(type, get(key));

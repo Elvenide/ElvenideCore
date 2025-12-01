@@ -102,84 +102,6 @@ public class ItemProvider extends Provider {
     }
 
     /**
-     * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @param type Data type
-     * @return Your data
-     * @param <P> Underlying primitive type
-     * @param <C> Data return type
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type) {
-        if (!item.hasItemMeta())
-            throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().get(Core.keys.get(key), type);
-    }
-
-    /**
-     * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @param type Data type
-     * @param def Default value
-     * @return Your data, or the default value if no data was found
-     * @param <P> Underlying primitive type
-     * @param <C> Data return type
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public <P, C> C getData(ItemStack item, String key, PersistentDataType<P, C> type, C def) {
-        if (!item.hasItemMeta())
-            throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().getOrDefault(Core.keys.get(key), type, def);
-    }
-
-    /**
-     * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @param type Data type
-     * @return Your data
-     * @param <P> Underlying primitive type
-     * @param <C> Data return type
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type) {
-        if (!item.hasItemMeta())
-            throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().get(Core.keys.get(key), type);
-    }
-
-    /**
-     * Gets persistent data added to an item by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @param type Data type
-     * @param def Default value
-     * @return Your data, or the default value if no data was found
-     * @param <P> Underlying primitive type
-     * @param <C> Data return type
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public <P, C> C getData(ItemStack item, Enum<?> key, PersistentDataType<P, C> type, C def) {
-        if (!item.hasItemMeta())
-            throw new IllegalArgumentException("Cannot get data on ItemStack that does not have item meta.");
-        return item.getItemMeta().getPersistentDataContainer().getOrDefault(Core.keys.get(key), type, def);
-    }
-
-    /**
      * Checks if an item has persistent data added by your plugin.
      * @param item Item
      * @param key Data key
@@ -192,38 +114,6 @@ public class ItemProvider extends Provider {
         if (!item.hasItemMeta())
             return false;
         return item.getItemMeta().getPersistentDataContainer().has(key);
-    }
-
-    /**
-     * Checks if an item has persistent data added by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @return Whether the item has your data
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public boolean hasData(ItemStack item, String key) {
-        if (!item.hasItemMeta())
-            return false;
-        return item.getItemMeta().getPersistentDataContainer().has(Core.keys.get(key));
-    }
-
-    /**
-     * Checks if an item has persistent data added by your plugin.
-     * Automatically converts the key to a NamespacedKey using {@link Core#keys}.
-     * @param item Item
-     * @param key Data key
-     * @return Whether the item has your data
-     * @since 0.0.15
-     */
-    @Contract(pure = true)
-    @PublicAPI
-    public boolean hasData(ItemStack item, Enum<?> key) {
-        if (!item.hasItemMeta())
-            return false;
-        return item.getItemMeta().getPersistentDataContainer().has(Core.keys.get(key));
     }
 
 }

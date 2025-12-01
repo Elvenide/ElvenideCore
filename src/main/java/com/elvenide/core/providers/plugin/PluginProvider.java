@@ -53,6 +53,7 @@ public class PluginProvider extends Provider {
      * @return True if initialized; false otherwise
      * @since 0.0.17
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     @PublicAPI
     public boolean isSet() {
         return plugin != null;
