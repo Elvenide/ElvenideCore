@@ -84,7 +84,7 @@ You can now start using ElvenideCore.
 
 ### Initializing with Plugin Provider
 Initialize your plugin using the `Core.plugin.set(JavaPlugin)` method.
-This replaces the previous method of initializing via `CorePlugin`, which is now deprecated as of v0.0.17.
+This replaces the previous method of initializing via `CorePlugin`, which was removed in v0.0.18.
 
 ```java
 import com.elvenide.core.Core;
