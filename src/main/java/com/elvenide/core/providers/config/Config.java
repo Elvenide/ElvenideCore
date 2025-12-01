@@ -16,10 +16,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public class Config extends YamlConfiguration implements ConfigSection {
+public class Config extends YamlConfiguration implements ConfigSection, Reloadable {
 
     private final File file;
     private final @Nullable String resourcePath;
@@ -56,6 +55,7 @@ public class Config extends YamlConfiguration implements ConfigSection {
      * Creates the file and its parent folders if they don't exist.
      */
     @PublicAPI
+    @Override
     public void reload() {
         InputStream resource = resourcePath != null ? Core.plugin.get().getResource(resourcePath) : null;
         if (resourcePath != null && resource == null)
@@ -138,5 +138,17 @@ public class Config extends YamlConfiguration implements ConfigSection {
         if (isConfigurationSection(path))
             return new ConfigSectionImpl(Objects.requireNonNull(super.getConfigurationSection(path)), this, this);
         return null;
+    }
+
+    /**
+     * Gets the name of the config file, without the extension.
+     * @return String name of config file
+     * @since 0.0.19
+     */
+    @PublicAPI
+    public String getFileName() {
+        LinkedList<String> parts = new LinkedList<>(List.of(file.getName().split("\\.")));
+        parts.removeLast();
+        return String.join(".", parts);
     }
 }
