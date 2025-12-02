@@ -5,11 +5,13 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.19](#installation) for Paper 1.21.10
+Latest: [v0.0.20](https://github.com/Elvenide/ElvenideCore/blob/0.0.20/README.md#installation) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
+- [v0.0.20-1.21.4](#installation) backported to Paper 1.21.4
+- [v0.0.19](https://github.com/Elvenide/ElvenideCore/blob/0.0.19/README.md#installation) for Paper 1.21.10
 - [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
 - [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
 - [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
