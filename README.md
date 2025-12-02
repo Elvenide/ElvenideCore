@@ -5,11 +5,13 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.19](#installation) for Paper 1.21.10
+Latest: [v0.0.20](#installation) for Paper 1.21.10
 
 <details>
 <summary>Older Versions</summary>
 
+- [v0.0.20-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.20-1.21.4/README.md#installation) backported to Paper 1.21.4
+- [v0.0.19](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
 - [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
 - [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
 - [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
@@ -38,7 +40,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.19</version>
+    <version>0.0.20</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -310,10 +312,11 @@ Features:
 - Generate `NamespacedKey` for your plugin namespace from Strings using `CoreKey.of(String)`
 - Generate `NamespacedKey` for a custom namespace from Strings using `CoreKey.of(String, String)`
 - Generate several `NamespacedKey`s for your plugin namespace from an `enum` by implementing the `CoreKey` interface
-  - The generated key string is dependent on the name of the enum member and the enum itself
+  - As of v0.0.20, the generated key string is now simply the lowercase form of the enum member's name
   - For example:
-    - Renaming `YourKeys` to `OurKeys` in the above example will change the `ITEM`, `BLOCK`, and `HEROBRINE` keys
-    - Renaming `HEROBRINE` to `HEROBRINES` in the above example will change the `HEROBRINE` key
+    - As of v0.0.20, renaming `YourKeys` to `OurKeys` in the above example will no longer change any keys
+    - Renaming `HEROBRINE` to `HEROBRINE_2` in the above example will set the key string to `herobrine_2`
+    - `enum` based core keys in v0.0.20 are no longer equivalent to the exact same code in v0.0.19 or earlier
 - Use `CoreKey#get()` to get a `NamespacedKey` instance from a `CoreKey` instance
 
 ### Item Provider

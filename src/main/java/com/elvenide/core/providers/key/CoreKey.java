@@ -69,7 +69,7 @@ public interface CoreKey {
     @Contract(pure = true)
     default @NotNull String keyString() throws IllegalStateException {
         if (this instanceof Enum<?> key)
-            return key.getDeclaringClass().getSimpleName().toLowerCase() + "/" + key.name().toLowerCase();
+            return key.name().toLowerCase();
         else
             throw new IllegalStateException("CoreKeys must either be implemented on an Enum class or created using CoreKey.of().");
     }
