@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -228,8 +229,19 @@ public class TextProvider extends Provider {
      * @since 0.0.17
      */
     public final @NotNull String valueOf(@Nullable Object rawText) {
+        // Stringify lang keys
         if (rawText instanceof LangKey key)
             return key.get();
+
+        // Stringify arrays of any type
+        if (rawText != null && rawText.getClass().isArray()) {
+            // Convert char arrays into a String made up of those chars
+            if (rawText instanceof char[] chars)
+                return String.valueOf(chars);
+
+            String output = Arrays.deepToString(new Object[]{rawText});
+            return output.substring(1, output.length() - 1);
+        }
         return String.valueOf(rawText);
     }
 
