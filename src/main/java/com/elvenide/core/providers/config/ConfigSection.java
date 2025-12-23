@@ -25,14 +25,6 @@ import java.util.Set;
 @PublicAPI
 public interface ConfigSection extends ConfigurationSection {
 
-    private static @NotNull NamespacedKey asSanitizedKey(String input) {
-        String sanitizedInput = input.toLowerCase().replace(" ", "_").replace("-", "_");
-        NamespacedKey key = NamespacedKey.fromString(sanitizedInput);
-        if (key == null)
-            throw new IllegalArgumentException("Invalid namespaced key: " + input);
-        return key;
-    }
-
     private void assertExists(@NotNull String key) {
         if (!contains(key))
             throw new IllegalArgumentException("Key %s does not exist in this config.".formatted(key));
@@ -63,20 +55,41 @@ public interface ConfigSection extends ConfigurationSection {
     }
 
     /**
+     * Gets a NamespacedKey from the config.
+     * @param key String key
+     * @return NamespacedKey
+     * @throws IllegalArgumentException If key does not exist or value is invalid namespaced key
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull NamespacedKey getNamespacedKey(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        String input = getExistentString(key)
+            .toLowerCase()
+            .replace(" ", "_")
+            .replace("-", "_");
+        NamespacedKey output = NamespacedKey.fromString(input);
+        if (output == null)
+            throw new IllegalArgumentException("Invalid namespaced key: " + getExistentString(key));
+        return output;
+    }
+
+    /**
      * Gets a URI from the config.
      * @param key String key
      * @return URI
      * @since 0.0.2
+     * @throws IllegalArgumentException If key does not exist or value is invalid URI
      */
     @PublicAPI
-    default @NotNull URI getURI(@NotNull String key) {
+    default @NotNull URI getURI(@NotNull String key) throws IllegalArgumentException {
         assertExists(key);
         String value = getExistentString(key);
 
         try {
             return new URI(value);
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Failed to parse URI: " + value, e);
+            throw new IllegalArgumentException("Failed to parse URI: " + value, e);
         }
     }
 
@@ -85,16 +98,13 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return Sound
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid sound
      */
     @PublicAPI
-    default @NotNull Sound getSound(@NotNull String key) {
-        assertExists(key);
-        String value = getExistentString(key);
-
-        Sound output = Registry.SOUND_EVENT.get(asSanitizedKey(value));
+    default @NotNull Sound getSound(@NotNull String key) throws IllegalArgumentException {
+        Sound output = Registry.SOUND_EVENT.get(getNamespacedKey(key));
         if (output == null)
-            throw new RuntimeException("Failed to parse Sound: " + value);
-
+            throw new IllegalArgumentException("Failed to parse Sound: " + getExistentString(key));
         return output;
     }
 
@@ -103,16 +113,13 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return PotionEffectType
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid potion effect type
      */
     @PublicAPI
-    default @NotNull PotionEffectType getPotionEffectType(@NotNull String key) {
-        assertExists(key);
-        String value = getExistentString(key);
-
-        PotionEffectType type = Registry.MOB_EFFECT.get(asSanitizedKey(key));
+    default @NotNull PotionEffectType getPotionEffectType(@NotNull String key) throws IllegalArgumentException {
+        PotionEffectType type = Registry.MOB_EFFECT.get(getNamespacedKey(key));
         if (type == null)
-            throw new RuntimeException("Failed to parse PotionEffectType: " + value);
-
+            throw new IllegalArgumentException("Failed to parse PotionEffectType: " + getExistentString(key));
         return type;
     }
 
@@ -121,15 +128,16 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return Material
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid material
      */
     @PublicAPI
-    default @NotNull Material getMaterial(@NotNull String key) {
+    default @NotNull Material getMaterial(@NotNull String key) throws IllegalArgumentException {
         assertExists(key);
         String value = getExistentString(key);
 
         Material material = Material.matchMaterial(value);
         if (material == null)
-            throw new RuntimeException("Failed to parse Material: " + value);
+            throw new IllegalArgumentException("Failed to parse Material: " + value);
 
         return material;
     }
@@ -140,8 +148,11 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return Material
      * @since 0.0.15
+     * @deprecated
+     * Legacy material names are barely supported by Paper and should not be used.
+     * Use {@link #getMaterial(String)} with modern material names instead.
      */
-    @PublicAPI
+    @Deprecated(since = "25.1", forRemoval = true)
     default @NotNull Material getMaterialLegacy(@NotNull String key) {
         assertExists(key);
         String value = getExistentString(key);
@@ -150,7 +161,7 @@ public interface ConfigSection extends ConfigurationSection {
         Material material = Material.matchMaterial(value, true);
 
         if (currentMaterial == null && material == null)
-            throw new RuntimeException("Failed to parse Material: " + value);
+            throw new IllegalArgumentException("Failed to parse Material: " + value);
 
         if (material == null)
             return currentMaterial;
@@ -163,16 +174,13 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return EntityType
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid entity type
      */
     @PublicAPI
-    default @NotNull EntityType getEntityType(@NotNull String key) {
-        assertExists(key);
-        String value = getExistentString(key);
-
-        EntityType type = Registry.ENTITY_TYPE.get(asSanitizedKey(key));
+    default @NotNull EntityType getEntityType(@NotNull String key) throws IllegalArgumentException {
+        EntityType type = Registry.ENTITY_TYPE.get(getNamespacedKey(key));
         if (type == null)
-            throw new RuntimeException("Failed to parse EntityType: " + value);
-
+            throw new IllegalArgumentException("Failed to parse EntityType: " + getExistentString(key));
         return type;
     }
 
@@ -181,16 +189,13 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return Particle
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid particle type
      */
     @PublicAPI
-    default @NotNull Particle getParticle(@NotNull String key) {
-        assertExists(key);
-        String value = getExistentString(key);
-
-        Particle particle = RegistryAccess.registryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(asSanitizedKey(key));
+    default @NotNull Particle getParticle(@NotNull String key) throws IllegalArgumentException {
+        Particle particle = RegistryAccess.registryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(getNamespacedKey(key));
         if (particle == null)
-            throw new RuntimeException("Failed to parse Particle: " + value);
-
+            throw new IllegalArgumentException("Failed to parse Particle: " + getExistentString(key));
         return particle;
     }
 
