@@ -204,9 +204,10 @@ public interface ConfigSection extends ConfigurationSection {
      * @param key String key
      * @return Color
      * @since 0.0.15
+     * @throws IllegalArgumentException If key does not exist or value is invalid color format
      */
     @PublicAPI
-    default @NotNull Color getColorFromString(@NotNull String key) {
+    default @NotNull Color getColorFromString(@NotNull String key) throws IllegalArgumentException {
         assertExists(key);
         String value = getExistentString(key);
 
@@ -226,7 +227,7 @@ public interface ConfigSection extends ConfigurationSection {
                     Integer.parseInt(rgb[2].strip()));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse Color: '%s'; not in Hex (#rrggbb) or RGB (r,g,b) format.".formatted(value));
+            throw new IllegalArgumentException("Failed to parse Color: '%s'; not in Hex (#rrggbb) or RGB (r,g,b) format.".formatted(value));
         }
     }
 
@@ -255,6 +256,7 @@ public interface ConfigSection extends ConfigurationSection {
     /**
      * Gets a Component from a MiniMessage-formatted String in the config.
      * Supports custom tags/colors added by ElvenideCore.
+     * @param path String key
      * @return Component
      * @since 0.0.15
      */
@@ -267,6 +269,8 @@ public interface ConfigSection extends ConfigurationSection {
     /**
      * Gets a Component from a MiniMessage-formatted String in the config, or a fallback.
      * Supports custom tags/colors added by ElvenideCore.
+     * @param path String key
+     * @param fallback Component fallback
      * @return Component
      * @since 0.0.15
      */
@@ -280,6 +284,8 @@ public interface ConfigSection extends ConfigurationSection {
     /**
      * Sets a Component as a MiniMessage-formatted String in the config.
      * Supports custom tags/colors added by ElvenideCore.
+     * @param path String key
+     * @param value Component value
      * @since 0.0.15
      */
     @PublicAPI
@@ -384,4 +390,112 @@ public interface ConfigSection extends ConfigurationSection {
         return getConfigurationSection(path);
     }
 
+    /**
+     * Gets a String from the config, or throws if not found.
+     * @param key String key
+     * @return String
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull String getStringOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getString(key, "UNREACHABLE");
+    }
+
+    /**
+     * Gets an Integer from the config, or throws if not found.
+     * @param key String key
+     * @return Integer
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Integer getIntOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getInt(key, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Gets a Double from the config, or throws if not found.
+     * @param key String key
+     * @return Double
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Double getDoubleOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getDouble(key, Double.MAX_VALUE);
+    }
+
+    /**
+     * Gets a Float from the config, or throws if not found.
+     * @param key String key
+     * @return Float
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Float getFloatOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getFloat(key, Float.MAX_VALUE);
+    }
+
+    /**
+     * Gets a Boolean from the config, or throws if not found.
+     * @param key String key
+     * @return Boolean
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Boolean getBooleanOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getBoolean(key, false);
+    }
+
+    /**
+     * Gets a Long from the config, or throws if not found.
+     * @param key String key
+     * @return Long
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Long getLongOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        return getLong(key, Long.MAX_VALUE);
+    }
+
+    /**
+     * Gets a Component from a MiniMessage-formatted String in the config, or throws if not found.
+     * Supports custom tags/colors added by ElvenideCore.
+     * @param key String key
+     * @return Component
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull Component getRichMessageOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        Component output = getRichMessage(key, null);
+        assert output != null;
+        return output;
+    }
+
+    /**
+     * Gets a ConfigSection from the config, or throws if not found.
+     * @param key String key
+     * @return ConfigSection
+     * @throws IllegalArgumentException If key does not exist
+     * @since 25.1
+     */
+    @PublicAPI
+    default @NotNull ConfigSection getSectionOrThrow(@NotNull String key) throws IllegalArgumentException {
+        assertExists(key);
+        ConfigSection output = getSection(key);
+        assert output != null;
+        return output;
+    }
 }
