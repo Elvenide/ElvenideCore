@@ -25,8 +25,12 @@ import java.util.Set;
 @PublicAPI
 public interface ConfigSection extends ConfigurationSection {
 
-    private static NamespacedKey asMinecraftKey(String input) {
-        return NamespacedKey.minecraft(input.toLowerCase().replace(" ", "_").replace("-", "_"));
+    private static @NotNull NamespacedKey asSanitizedKey(String input) {
+        String sanitizedInput = input.toLowerCase().replace(" ", "_").replace("-", "_");
+        NamespacedKey key = NamespacedKey.fromString(sanitizedInput);
+        if (key == null)
+            throw new IllegalArgumentException("Invalid namespaced key: " + input);
+        return key;
     }
 
     private void assertExists(@NotNull String key) {
@@ -87,7 +91,7 @@ public interface ConfigSection extends ConfigurationSection {
         assertExists(key);
         String value = getExistentString(key);
 
-        Sound output = Registry.SOUND_EVENT.get(asMinecraftKey(value));
+        Sound output = Registry.SOUND_EVENT.get(asSanitizedKey(value));
         if (output == null)
             throw new RuntimeException("Failed to parse Sound: " + value);
 
@@ -105,7 +109,7 @@ public interface ConfigSection extends ConfigurationSection {
         assertExists(key);
         String value = getExistentString(key);
 
-        PotionEffectType type = Registry.MOB_EFFECT.get(asMinecraftKey(key));
+        PotionEffectType type = Registry.MOB_EFFECT.get(asSanitizedKey(key));
         if (type == null)
             throw new RuntimeException("Failed to parse PotionEffectType: " + value);
 
@@ -165,7 +169,7 @@ public interface ConfigSection extends ConfigurationSection {
         assertExists(key);
         String value = getExistentString(key);
 
-        EntityType type = Registry.ENTITY_TYPE.get(asMinecraftKey(key));
+        EntityType type = Registry.ENTITY_TYPE.get(asSanitizedKey(key));
         if (type == null)
             throw new RuntimeException("Failed to parse EntityType: " + value);
 
@@ -183,7 +187,7 @@ public interface ConfigSection extends ConfigurationSection {
         assertExists(key);
         String value = getExistentString(key);
 
-        Particle particle = RegistryAccess.registryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(asMinecraftKey(key));
+        Particle particle = RegistryAccess.registryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(asSanitizedKey(key));
         if (particle == null)
             throw new RuntimeException("Failed to parse Particle: " + value);
 
