@@ -5,24 +5,24 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.20](#installation) for Paper 1.21.10
+Latest: v25.1 for Paper 1.21.11
 
 <details>
 <summary>Older Versions</summary>
 
-- [v0.0.20-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.20-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.19](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
-- [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
-- [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#installation) for Paper 1.21.8 - 1.21.10
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#installation) for Paper 1.21.8
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#installation) for Paper 1.21.4
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#installation) for Paper 1.21.8
-- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#installation) for Paper 1.21.4
-- v0.0.14 for Paper 1.21.4 (no documentation)
-- v0.0.13 for Paper 1.21.4 (no documentation)
+Older versions are listed as dev or backport branches in the [branch list](https://github.com/Elvenide/ElvenideCore/branches/all).
+Ideally, you should use the latest version (in the `main` branch).
 > Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
+</details>
+
+<details>
+<summary>New Versioning Scheme</summary>
+
+ElvenideCore is switching to CalVer versioning, similar to Minecraft's new versioning.
+We were stuck in ZeroVer too long.
+- Standard format: `vYY.PATCH` (e.g. v25.1)
+- Backport format: `vYY.PATCH-<McVersion>` (e.g. v26.3-26.1.1)
+> Major updates and minor hotfixes are both treated the same: as an incremented PATCH number.
 </details>
 
 ## Installation
@@ -40,7 +40,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.20</version>
+    <version>25.1</version>
     <scope>compile</scope>
 </dependency>
 ```
