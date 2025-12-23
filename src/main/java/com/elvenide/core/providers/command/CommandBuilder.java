@@ -156,7 +156,7 @@ public class CommandBuilder {
                     @Override
                     public void setup(@NotNull SubCommandBuilder builder) {
                         try {
-                            setupMethod.invoke(builder);
+                            setupMethod.invoke(subGroup, builder);
                         } catch (IllegalAccessException | InvocationTargetException e) {
                             throw new RuntimeException(e);
                         }
@@ -165,7 +165,7 @@ public class CommandBuilder {
                     @Override
                     public void executes(@NotNull SubCommandContext context) {
                         try {
-                            handler.invoke(context);
+                            handler.invoke(subGroup, context);
                         } catch (IllegalAccessException | InvocationTargetException e) {
                             throw new RuntimeException(e);
                         }
