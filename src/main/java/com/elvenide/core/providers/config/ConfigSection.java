@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * Represents a section of an ElvenideCore config file.
- * @since 0.0.15
+ * @since 0.0.2
  */
 @PublicAPI
 public interface ConfigSection extends ConfigurationSection {
@@ -29,10 +29,6 @@ public interface ConfigSection extends ConfigurationSection {
     private void assertExists(@NotNull String key) {
         if (!contains(key))
             throw new IllegalArgumentException("Key %s does not exist in this config.".formatted(key));
-    }
-
-    private @NotNull String getExistentString(@NotNull String key) {
-        return getString(key, "");
     }
 
     /**
@@ -64,14 +60,13 @@ public interface ConfigSection extends ConfigurationSection {
      */
     @PublicAPI
     default @NotNull NamespacedKey getNamespacedKey(@NotNull String key) throws IllegalArgumentException {
-        assertExists(key);
-        String input = getExistentString(key)
+        String input = getStringOrThrow(key)
             .toLowerCase()
             .replace(" ", "_")
             .replace("-", "_");
         NamespacedKey output = NamespacedKey.fromString(input);
         if (output == null)
-            throw new IllegalArgumentException("Invalid namespaced key: " + getExistentString(key));
+            throw new IllegalArgumentException("Invalid namespaced key: " + getStringOrThrow(key));
         return output;
     }
 
@@ -84,8 +79,7 @@ public interface ConfigSection extends ConfigurationSection {
      */
     @PublicAPI
     default @NotNull URI getURI(@NotNull String key) throws IllegalArgumentException {
-        assertExists(key);
-        String value = getExistentString(key);
+        String value = getStringOrThrow(key);
 
         try {
             return new URI(value);
@@ -105,7 +99,7 @@ public interface ConfigSection extends ConfigurationSection {
     default @NotNull Sound getSound(@NotNull String key) throws IllegalArgumentException {
         Sound output = Registry.SOUND_EVENT.get(getNamespacedKey(key));
         if (output == null)
-            throw new IllegalArgumentException("Failed to parse Sound: " + getExistentString(key));
+            throw new IllegalArgumentException("Failed to parse Sound: " + getStringOrThrow(key));
         return output;
     }
 
@@ -120,7 +114,7 @@ public interface ConfigSection extends ConfigurationSection {
     default @NotNull PotionEffectType getPotionEffectType(@NotNull String key) throws IllegalArgumentException {
         PotionEffectType type = Registry.MOB_EFFECT.get(getNamespacedKey(key));
         if (type == null)
-            throw new IllegalArgumentException("Failed to parse PotionEffectType: " + getExistentString(key));
+            throw new IllegalArgumentException("Failed to parse PotionEffectType: " + getStringOrThrow(key));
         return type;
     }
 
@@ -133,8 +127,7 @@ public interface ConfigSection extends ConfigurationSection {
      */
     @PublicAPI
     default @NotNull Material getMaterial(@NotNull String key) throws IllegalArgumentException {
-        assertExists(key);
-        String value = getExistentString(key);
+        String value = getStringOrThrow(key);
 
         Material material = Material.matchMaterial(value);
         if (material == null)
@@ -155,8 +148,7 @@ public interface ConfigSection extends ConfigurationSection {
      */
     @Deprecated(since = "25.1", forRemoval = true)
     default @NotNull Material getMaterialLegacy(@NotNull String key) {
-        assertExists(key);
-        String value = getExistentString(key);
+        String value = getStringOrThrow(key);
 
         Material currentMaterial = Material.matchMaterial(value);
         Material material = Material.matchMaterial(value, true);
@@ -181,7 +173,7 @@ public interface ConfigSection extends ConfigurationSection {
     default @NotNull EntityType getEntityType(@NotNull String key) throws IllegalArgumentException {
         EntityType type = Registry.ENTITY_TYPE.get(getNamespacedKey(key));
         if (type == null)
-            throw new IllegalArgumentException("Failed to parse EntityType: " + getExistentString(key));
+            throw new IllegalArgumentException("Failed to parse EntityType: " + getStringOrThrow(key));
         return type;
     }
 
@@ -196,7 +188,7 @@ public interface ConfigSection extends ConfigurationSection {
     default @NotNull Particle getParticle(@NotNull String key) throws IllegalArgumentException {
         Particle particle = RegistryAccess.registryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(getNamespacedKey(key));
         if (particle == null)
-            throw new IllegalArgumentException("Failed to parse Particle: " + getExistentString(key));
+            throw new IllegalArgumentException("Failed to parse Particle: " + getStringOrThrow(key));
         return particle;
     }
 
@@ -209,8 +201,7 @@ public interface ConfigSection extends ConfigurationSection {
      */
     @PublicAPI
     default @NotNull Color getColorFromString(@NotNull String key) throws IllegalArgumentException {
-        assertExists(key);
-        String value = getExistentString(key);
+        String value = getStringOrThrow(key);
 
         try {
             if (value.startsWith("#")) {
@@ -492,7 +483,7 @@ public interface ConfigSection extends ConfigurationSection {
     @PublicAPI
     default @NotNull Component getRichMessageOrThrow(@NotNull String key) throws IllegalArgumentException {
         assertExists(key);
-        Component output = getRichMessage(key, null);
+        Component output = getRichMessage(key);
         assert output != null;
         return output;
     }
