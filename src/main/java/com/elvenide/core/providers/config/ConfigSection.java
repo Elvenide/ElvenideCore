@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -200,7 +201,7 @@ public interface ConfigSection extends ConfigurationSection {
     }
 
     /**
-     * Gets a Color from hex/rgb format in the config.
+     * Gets a Color in hex/rgb format from the config.
      * @param key String key
      * @return Color
      * @since 0.0.15
@@ -229,6 +230,18 @@ public interface ConfigSection extends ConfigurationSection {
         } catch (Exception e) {
             throw new IllegalArgumentException("Failed to parse Color: '%s'; not in Hex (#rrggbb) or RGB (r,g,b) format.".formatted(value));
         }
+    }
+
+    /**
+     * Gets an ItemStack in 1.21+ component string format (as seen in /give command) from the config.
+     * @param key String key
+     * @return ItemStack
+     * @since 25.1
+     * @throws IllegalArgumentException If key does not exist or value is invalid item string format
+     */
+    @PublicAPI
+    default @NotNull ItemStack getItemFromString(@NotNull String key) throws IllegalArgumentException {
+        return Bukkit.getItemFactory().createItemStack(getStringOrThrow(key));
     }
 
     /**
