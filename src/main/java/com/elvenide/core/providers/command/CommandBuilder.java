@@ -13,6 +13,10 @@ import io.papermc.paper.command.brigadier.MessageComponentSerializer;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -108,8 +112,76 @@ public class CommandBuilder {
     }
 
     /**
+     * Adds a subgroup to the command. Subgroups can contain subcommands or other subgroups.
+     * <p>
+     * Annotated methods in the subgroup instance represent the subcommands for this subgroup.
+     * @param subGroup SubGroup instance
+     * @return This
+     * @since 25.1
+     */
+    @PublicAPI
+    public CommandBuilder addSubGroup(@NotNull SubGroup subGroup) {
+        LinkedList<SubCommand> subCommands = new LinkedList<>();
+        HashMap<String, Method> subCommandHandlers = new HashMap<>();
+
+        // Get all methods annotated with SubCommandHandler in subGroup
+        Arrays.stream(subGroup.getClass().getDeclaredMethods())
+            .filter(method -> method.isAnnotationPresent(SubCommandHandler.class))
+            .forEach(method -> {
+                SubCommandHandler handler = method.getAnnotation(SubCommandHandler.class);
+                subCommandHandlers.put(handler.name(), method);
+                if (method.getParameterCount() != 1 || method.getParameterTypes()[0] != SubCommandContext.class)
+                    throw new IllegalStateException("SubCommandHandler method " + method.getName() + " must have exactly one SubCommandContext parameter.");
+            });
+
+        // Get all methods annotated with SubCommandSetup in subGroup
+        Arrays.stream(subGroup.getClass().getDeclaredMethods())
+            .filter(method -> method.isAnnotationPresent(SubCommandSetup.class))
+            .forEach(setupMethod -> {
+                SubCommandSetup setup = setupMethod.getAnnotation(SubCommandSetup.class);
+                if (setupMethod.getParameterCount() != 1 || setupMethod.getParameterTypes()[0] != SubCommandBuilder.class)
+                    throw new IllegalStateException("SubCommandSetup method " + setupMethod.getName() + " must have exactly one SubCommandBuilder parameter.");
+
+                Method handler = subCommandHandlers.get(setup.name());
+                if (handler == null)
+                    throw new IllegalStateException("SubCommandHandler method for " + setup.name() + " not found for SubGroup " + subGroup.label());
+
+                // Dynamically create subcommand from setup and handler
+                subCommands.add(new SubCommand() {
+                    @Override
+                    public @NotNull String label() {
+                        return setup.name();
+                    }
+
+                    @Override
+                    public void setup(@NotNull SubCommandBuilder builder) {
+                        try {
+                            setupMethod.invoke(builder);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    @Override
+                    public void executes(@NotNull SubCommandContext context) {
+                        try {
+                            handler.invoke(context);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            });
+
+        return addSubGroup(subGroup.label(), b -> {
+            for (SubCommand subCommand : subCommands)
+                b.addSubCommand(subCommand);
+        });
+    }
+
+    /**
      * Adds a subcommand to the command. Subcommands can have arguments and execution.
-     * @param subCommand Name of the subcommand
+     * @param subCommand SubCommand instance
      * @return This
      */
     @PublicAPI

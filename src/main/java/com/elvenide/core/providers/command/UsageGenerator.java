@@ -41,7 +41,7 @@ class UsageGenerator {
         return String.join(" ", path);
     }
 
-    private String displaySubGroup(SubGroup group) {
+    private String displaySubGroup(InternalSubGroup group) {
         return Core.lang.SUBGROUP_HELP_FORMATTING.get(group.label());
     }
 

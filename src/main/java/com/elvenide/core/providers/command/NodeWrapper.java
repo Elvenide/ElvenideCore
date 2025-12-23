@@ -51,8 +51,8 @@ public class NodeWrapper {
     }
 
     @Contract(pure = true)
-    SubGroup asSubGroup() {
-        return (SubGroup) subNode;
+    InternalSubGroup asSubGroup() {
+        return (InternalSubGroup) subNode;
     }
 
     @Contract(pure = true)
@@ -62,7 +62,7 @@ public class NodeWrapper {
 
     @Contract(pure = true)
     boolean isSubGroup() {
-        return subNode instanceof SubGroup;
+        return subNode instanceof InternalSubGroup;
     }
 
     /**
