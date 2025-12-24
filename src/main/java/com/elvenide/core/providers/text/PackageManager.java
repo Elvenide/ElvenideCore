@@ -78,16 +78,4 @@ public class PackageManager {
             textPackage.getTextTags().forEach(Core.text::addTextTag);
         }
     }
-
-    /**
-     * Installs a provided third-party package.
-     * @param textPackage The package
-     * @deprecated Use {@link #install(TextPackageSupplier...)} instead.
-     */
-    @Deprecated(since = "0.0.18", forRemoval = true)
-    public void installExternal(TextPackageSupplier textPackage) {
-        install(textPackage);
-
-        Core.text.packages.install();
-    }
 }

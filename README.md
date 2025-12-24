@@ -5,24 +5,24 @@ It is not a standalone plugin, and must be shaded into your own plugin.
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
-Latest: [v0.0.20](#installation) for Paper 1.21.10
+Latest: v25.1 for Paper 1.21.11
 
 <details>
 <summary>Older Versions</summary>
 
-- [v0.0.20-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.20-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.19](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
-- [v0.0.19-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.19-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.18](https://github.com/Elvenide/ElvenideCore/blob/0.0.18/README.md#installation) for Paper 1.21.10
-- [v0.0.18-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/backport/0.0.18-1.21.4/README.md#installation) backported to Paper 1.21.4
-- [v0.0.17](https://github.com/Elvenide/ElvenideCore/blob/0.0.17/README.md#installation) for Paper 1.21.8 - 1.21.10
-- [v0.0.16](https://github.com/Elvenide/ElvenideCore/blob/0.0.16/README.md#installation) for Paper 1.21.8
-- [v0.0.16-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.16-1.21.4#installation) for Paper 1.21.4
-- [v0.0.15](https://github.com/Elvenide/ElvenideCore/blob/0.0.15/README.md#installation) for Paper 1.21.8
-- [v0.0.15-1.21.4](https://github.com/Elvenide/ElvenideCore/blob/0.0.15-1.21.4/README.md#installation) for Paper 1.21.4
-- v0.0.14 for Paper 1.21.4 (no documentation)
-- v0.0.13 for Paper 1.21.4 (no documentation)
+Older versions are listed as dev or backport branches in the [branch list](https://github.com/Elvenide/ElvenideCore/branches/all).
+Ideally, you should use the latest version (in the `main` branch).
 > Note: Only the latest version of Paper at the time of the latest ElvenideCore release is guaranteed to be supported.
+</details>
+
+<details>
+<summary>New Versioning Scheme</summary>
+
+ElvenideCore is switching to CalVer versioning, similar to Minecraft's new versioning.
+We were stuck in ZeroVer too long.
+- Standard format: `vYY.PATCH` (e.g. v25.1)
+- Backport format: `vYY.PATCH-<McVersion>` (e.g. v26.3-26.1.1)
+> Major updates and minor hotfixes are both treated the same: as an incremented PATCH number.
 </details>
 
 ## Installation
@@ -40,7 +40,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>0.0.20</version>
+    <version>25.1</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -370,11 +370,14 @@ Features:
     - `URI`
     - `Sound`
     - `PotionEffectType`
-    - `Material` (modern and legacy)
+    - `Material`
     - `EntityType`
     - `Particle`
     - `Color` (from hex/rgb format)
+    - `NamespacedKey`
+    - `ItemStack` (from 1.21+ component string as used in /give command)
     - `Component` (using ElvenideCore's text provider)
+  - Has additional `get{TYPE}OrThrow()` methods for various types, with guaranteed non-null return values
 - `registerSuppliers(ConfigSupplier...)` method to register Core configs
   - Implement the `ConfigSupplier` interface and register it with the config provider
   - Each supplier can contain any number of Core configs
@@ -390,6 +393,49 @@ and non-object-oriented approach of the brigadier API.
 
 In-depth documentation is a work in progress.
 For now, simply view the in-code documentation on `SubCommand` and `Core.commands.create(String)` and `Core.commands.register()`.
+
+<details>
+<summary>Commands vs Subcommands vs Subgroups</summary>
+
+When making a single command, the arguments of the command often follow patterns like so:
+- `/yourplugin reload`
+- `/yourplugin users add <player>`
+- `/yourplugin users remove <player>`
+
+In that example:
+- `yourplugin` is the command
+- `reload` is a subcommand of the command
+- `users` is a subgroup, which can contain subgroups or subcommands of its own
+- `add` and `remove` are subcommands of the `users` subgroup
+- `<player>` is an argument of the `add` and `remove` subcommands
+
+Each subcommand tends to have its own distinct functionality, so the ElvenideCore command system
+allows you to define separate handlers/perms/autocomplete for each subcommand, rather than a single handler for the
+entire command.
+
+Subgroups are simply logical groupings of subcommands or other subgroups. Think of them as a container
+to help keep your command structure organized, without having any functionality of their own.
+
+Arguments are dynamic values that can be provided by the user of a subcommand, and then used in your
+subcommand handler to customize/personalize the behavior. For example: adding a specified player
+to your plugin's users list via `/yourplugin users add <player>`.
+
+Arguments can be displayed in the help command with a bit more advanced format. Here is the format:
+- `<name: type>` for required arguments
+- `[name: type]` for optional arguments
+
+If an argument's name and type are the same (as in the above example, where the `player` argument is of type `Player`),
+then the type will be omitted and the argument will be displayed as just `<name>` or `[name]`.
+</details>
+
+Features:
+- Create subcommands by extending `SubCommand`
+- Create subcommands as part of a subgroup by:
+  - Implementing the `SubGroup` interface
+  - Creating methods annotated by `@SubCommandSetup` and `@SubCommandHandler`
+- Create commands using `Core.commands.create(String)`
+  - Add subcommands/subgroups to the command using `#addSubCommand(SubCommand)` or `#addSubGroup(SubGroup)`
+- Register commands using `Core.commands.register()`
 
 ### CoreMenu
 Create and manage GUI menus with less boilerplate and no need for slot/index/pagination math.

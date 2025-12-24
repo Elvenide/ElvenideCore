@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 
 public class SubGroupBuilder {
 
-    private final SubGroup group;
+    private final InternalSubGroup group;
     private final NodeWrapper hashedGroup;
 
     SubGroupBuilder(String label, NodeWrapper parent) {
-        this.group = new SubGroup() {
+        this.group = new InternalSubGroup() {
             @Override
             public @NotNull String label() {
                 return label;
