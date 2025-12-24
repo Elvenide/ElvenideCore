@@ -5,8 +5,6 @@ import com.elvenide.core.providers.command.CommandProvider;
 import com.elvenide.core.providers.config.ConfigProvider;
 import com.elvenide.core.providers.config.ConfigSection;
 import com.elvenide.core.providers.item.ItemProvider;
-import com.elvenide.core.providers.key.CoreKey;
-import com.elvenide.core.providers.key.KeyProvider;
 import com.elvenide.core.providers.lang.LangKey;
 import com.elvenide.core.providers.log.LogProvider;
 import com.elvenide.core.providers.perm.PermProvider;
@@ -62,16 +60,6 @@ public class Core {
      */
     @PublicAPI
     public static final CommandProvider commands = new CommandProvider(INSTANCE);
-
-    /**
-     * Easily manage your plugin's NamespacedKeys and GoalKeys.
-     * <p>
-     * Replaced by the much simpler {@link CoreKey} interface, which works similarly to {@link LangKey}.
-     * @since 0.0.14
-     * @deprecated Use {@link CoreKey} instead.
-     */
-    @Deprecated(since = "0.0.19", forRemoval = true)
-    public static final KeyProvider keys = new KeyProvider(INSTANCE);
 
     /**
      * Easily create and manipulate items.
