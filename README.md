@@ -370,11 +370,14 @@ Features:
     - `URI`
     - `Sound`
     - `PotionEffectType`
-    - `Material` (modern and legacy)
+    - `Material`
     - `EntityType`
     - `Particle`
     - `Color` (from hex/rgb format)
+    - `NamespacedKey`
+    - `ItemStack` (from 1.21+ component string as used in /give command)
     - `Component` (using ElvenideCore's text provider)
+  - Has additional `get{TYPE}OrThrow()` methods for various types, with guaranteed non-null return values
 - `registerSuppliers(ConfigSupplier...)` method to register Core configs
   - Implement the `ConfigSupplier` interface and register it with the config provider
   - Each supplier can contain any number of Core configs
@@ -390,6 +393,49 @@ and non-object-oriented approach of the brigadier API.
 
 In-depth documentation is a work in progress.
 For now, simply view the in-code documentation on `SubCommand` and `Core.commands.create(String)` and `Core.commands.register()`.
+
+<details>
+<summary>Commands vs Subcommands vs Subgroups</summary>
+
+When making a single command, the arguments of the command often follow patterns like so:
+- `/yourplugin reload`
+- `/yourplugin users add <player>`
+- `/yourplugin users remove <player>`
+
+In that example:
+- `yourplugin` is the command
+- `reload` is a subcommand of the command
+- `users` is a subgroup, which can contain subgroups or subcommands of its own
+- `add` and `remove` are subcommands of the `users` subgroup
+- `<player>` is an argument of the `add` and `remove` subcommands
+
+Each subcommand tends to have its own distinct functionality, so the ElvenideCore command system
+allows you to define separate handlers/perms/autocomplete for each subcommand, rather than a single handler for the
+entire command.
+
+Subgroups are simply logical groupings of subcommands or other subgroups. Think of them as a container
+to help keep your command structure organized, without having any functionality of their own.
+
+Arguments are dynamic values that can be provided by the user of a subcommand, and then used in your
+subcommand handler to customize/personalize the behavior. For example: adding a specified player
+to your plugin's users list via `/yourplugin users add <player>`.
+
+Arguments can be displayed in the help command with a bit more advanced format. Here is the format:
+- `<name: type>` for required arguments
+- `[name: type]` for optional arguments
+
+If an argument's name and type are the same (as in the above example, where the `player` argument is of type `Player`),
+then the type will be omitted and the argument will be displayed as just `<name>` or `[name]`.
+</details>
+
+Features:
+- Create subcommands by extending `SubCommand`
+- Create subcommands as part of a subgroup by:
+  - Implementing the `SubGroup` interface
+  - Creating methods annotated by `@SubCommandSetup` and `@SubCommandHandler`
+- Create commands using `Core.commands.create(String)`
+  - Add subcommands/subgroups to the command using `#addSubCommand(SubCommand)` or `#addSubGroup(SubGroup)`
+- Register commands using `Core.commands.register()`
 
 ### CoreMenu
 Create and manage GUI menus with less boilerplate and no need for slot/index/pagination math.
