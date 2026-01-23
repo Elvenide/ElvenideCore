@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
  * Represents a core key in ElvenideCore.
  * Core keys are used to easily define and retrieve namespaced keys.
@@ -56,7 +58,7 @@ public interface CoreKey {
     @Contract(pure = true)
     default @NotNull String namespace() throws IllegalStateException {
         ensureInitialized();
-        return Core.plugin.get().namespace();
+        return Core.plugin.get().getName().toLowerCase(Locale.ROOT);
     }
 
     /**
