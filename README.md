@@ -2,6 +2,9 @@
 ElvenideCore is a powerful library for PaperMC plugins, primarily used in many of my own plugins.
 It is not a standalone plugin, and must be shaded into your own plugin.
 
+> Note: This is a backport of ElvenideCore v25.1 to Paper 1.21.4.
+> Feature parity with v25.1, which was built for 1.21.11, is not guaranteed.
+
 ## Versions
 Select the version of ElvenideCore you would like to view the documentation for.
 
@@ -40,7 +43,7 @@ Then add the following dependency:
 <dependency>
     <groupId>com.elvenide</groupId>
     <artifactId>ElvenideCore</artifactId>
-    <version>25.1</version>
+    <version>backport~25.1-1.21.4-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -62,6 +65,7 @@ And add the following to your pom.xml to shade ElvenideCore into your plugin jar
                 </execution>
             </executions>
             <configuration>
+                <minimizeJar>true</minimizeJar>
                 <relocations>
                     <relocation>
                         <pattern>com.elvenide.core</pattern>

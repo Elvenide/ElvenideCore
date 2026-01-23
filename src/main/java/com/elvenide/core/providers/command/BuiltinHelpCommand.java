@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+@SuppressWarnings("UnstableApiUsage")
 class BuiltinHelpCommand implements SubCommand {
     private final NodeWrapper commandNode;
     private final String commandDescription;

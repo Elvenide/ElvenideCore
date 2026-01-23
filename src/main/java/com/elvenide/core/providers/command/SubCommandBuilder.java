@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class SubCommandBuilder {
 
     final LinkedList<SubArgumentBuilder> subArgs;
