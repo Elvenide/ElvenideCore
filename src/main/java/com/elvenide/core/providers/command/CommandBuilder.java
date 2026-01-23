@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class CommandBuilder {
 
     private final String name;

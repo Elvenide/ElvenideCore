@@ -13,6 +13,7 @@ import java.util.List;
  * To register your own commands, use {@link CommandProvider#register() Core.commands.register()}.
  * @see Core#commands
  */
+@SuppressWarnings("UnstableApiUsage")
 @ApiStatus.Internal
 final class CommandRegistry {
     private CommandRegistry() {}
